@@ -65,6 +65,11 @@
     src: url("fonts/SF-UI-Display-Ultralight.otf");
 }
 
+.sf-ui-display {
+    font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+}
+
 /*---------------------------------------------------------------------------*
  * SF UI Text
  *---------------------------------------------------------------------------*/
@@ -174,6 +179,11 @@
     src: url("fonts/SF-UI-Text-UltrathinItalic.otf");
 }
 
+.sf-ui-text {
+    font-family: "SF Text", -apple-system, system-ui, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+}
+
 /*---------------------------------------------------------------------------*
  * SF Mono
  *---------------------------------------------------------------------------*/
@@ -268,3 +278,7 @@
     src: url("fonts/SFMono-SemiboldItalic.otf");
 }
 
+.sf-mono {
+    font-family: "SF Mono", -apple-system, system-ui, BlinkMacSystemFont,
+    "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+}
