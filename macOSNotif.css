@@ -1,0 +1,88 @@
+.macOSNotif_Outer {
+    width: 430px;
+    height: 92px;
+    position: fixed;
+    right: 0;
+    top: 5px;
+    padding: 10px 0;
+    overflow: hidden;
+    z-index: 9999;
+}
+.macOSNotif_Container {
+    width: 400px;
+    height: 72px;
+    position: absolute;
+    right: -400px;
+    top: 10px;
+    opacity: 0.1;
+    background: #f2f2f2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    border: none;
+    transition: all .8s ease-in-out;
+
+    font-weight: 300;
+    color: #444;
+    font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+}
+.macOSNotif_Text {
+    float: left;
+    width: 300px;
+    padding: 10px;
+    border: none;
+    border-right: 1px #ddd solid;
+}
+.macOSNotif_Title {
+    display: block;
+    padding: 5px;
+    margin: 0;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    vertical-align: baseline;
+    text-shadow: none;
+    text-overflow: ellipsis;
+    border: none;
+
+    font-size: 16px;
+    line-height: 16px;
+    font-weight: 400;
+}
+.macOSNotif_Subtitle {
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: 300;
+}
+.macOSNotif_Buttons {
+    float: right;
+    /*          Outer - Padd - Inner - Padd - Bord */
+    width: calc(400px - 10px - 300px - 10px - 1px);
+    height: 100%;
+    min-height: 100%;
+    padding: 0;
+    border: none;
+}
+.macOSNotif_Button {
+    display: block;
+    cursor: pointer;
+    text-align: center;
+    padding: 5px 10px;
+    margin: 0;
+    text-decoration: none;
+    line-height: calc((72px - 10px - 10px) / 2 - 1px);
+    border: none;
+    border-top: 1px transparent solid;
+    max-width: 100%;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    text-shadow: none;
+
+    font-size: 13px;
+    font-weight: 400;
+    color: #666;
+}
+
+.macOSNotif_Button + .macOSNotif_Button {
+    border-top: 1px #ddd solid;
+}
