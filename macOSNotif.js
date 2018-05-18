@@ -1,5 +1,4 @@
-// Interact for dismissal
-class Interact {
+class macOSNotifJS_Interact {
     constructor(element) {
         this.element = typeof(element) === 'string' ? document.querySelector(element) : element;
 
@@ -97,11 +96,9 @@ class Interact {
     }
 }
 
-// macOSNotifJS
 let macOSNotifJS_template = null;
 let macOSNotifJS_notifs = {};
-let macOSNotifJS_src = document.currentScript.src;
-macOSNotifJS_src = macOSNotifJS_src.substr(0, macOSNotifJS_src.lastIndexOf('/'));
+const macOSNotifJS_src = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf('/'));
 
 function macOSNotifJS_loadCSS() {
     if (document.getElementById("macOSNotifJS_CSS")) return;
@@ -124,6 +121,10 @@ async function macOSNotifJS_loadTemplate() {
     // Get the template
     const response = await fetch(src);
     macOSNotifJS_template = await response.text();
+}
+
+function macOSNotifJS_fullId(id) {
+    return "macOSNotifJS_n" + id.toString();
 }
 
 async function macOSNotifJS_generateTemplate() {
@@ -162,10 +163,6 @@ function macOSNotifJS_handleGo(link) {
     setTimeout(function () {
         window.location.href = link;
     }, 800);
-}
-
-function macOSNotifJS_fullId(id) {
-    return "macOSNotifJS_n" + id.toString();
 }
 
 async function macOSNotifJS(options) {
@@ -214,7 +211,7 @@ async function macOSNotifJS(options) {
 
     // Interact dismiss
     if (options.interactDismiss) {
-        let interacter = new Interact(container);
+        let interacter = new macOSNotifJS_Interact(container);
         interacter.onDismiss(function () {
             macOSNotifJS_hideNotif(container)
         });

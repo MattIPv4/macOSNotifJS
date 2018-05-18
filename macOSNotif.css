@@ -14,6 +14,7 @@
     -khtml-user-select: none;
     user-select: none;
 }
+
 .macOSNotif_Container {
     width: 400px;
     height: 72px;
@@ -31,6 +32,7 @@
     color: #444;
     font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
 }
+
 .macOSNotif_Text {
     float: left;
     width: 300px;
@@ -38,6 +40,7 @@
     border: none;
     border-right: 1px #ddd solid;
 }
+
 .macOSNotif_Title {
     display: block;
     padding: 5px;
@@ -54,11 +57,13 @@
     line-height: 16px;
     font-weight: 400;
 }
+
 .macOSNotif_Subtitle {
     font-size: 13px;
     line-height: 16px;
     font-weight: 300;
 }
+
 .macOSNotif_Buttons {
     float: right;
     /*          Outer - Padd - Inner - Padd - Bord */
@@ -68,6 +73,7 @@
     padding: 0;
     border: none;
 }
+
 .macOSNotif_Button {
     display: block;
     cursor: pointer;
