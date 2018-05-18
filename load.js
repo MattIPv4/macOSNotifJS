@@ -1,45 +1,23 @@
 let macOSNotifJS_template = null;
 let macOSNotifJS_AutoDismiss = null;
-let macOSNotifJS_templateAttempts = 0;
 let macOSNotifJS_lastTemplate = -1;
+let macOSNotifJS_src = document.currentScript.src;
 
-function macOSNotifJS_loadTemplate() {
+async function macOSNotifJS_loadTemplate() {
+    if (macOSNotifJS_template) return;
+
     // Generate template url
-    let src = document.currentScript.src;
-    src = src.substr(0, src.lastIndexOf('/'));
+    let src = macOSNotifJS_src.substr(0, macOSNotifJS_src.lastIndexOf('/'));
     src += "/template.html";
 
-    // IE < 8
-    if (!window.XMLHttpRequest && 'ActiveXObject' in window) {
-        window.XMLHttpRequest = function () {
-            return new ActiveXObject('MSXML2.XMLHttp');
-        };
-    }
-
-    // Get the template (will attempt 5 times)
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', src, true);
-    xhr.onreadystatechange = function () {
-        if (this.readyState !== 4) return;
-        if (this.status !== 200) {
-            // Try again
-            macOSNotifJS_templateAttempts++;
-            if (macOSNotifJS_templateAttempts < 5) {
-                setTimeout(__loadTemplate, 250);
-            } else {
-                macOSNotifJS_templateAttempts = 0;
-            }
-        }
-        macOSNotifJS_template = this.responseText;
-    };
-    xhr.send();
+    // Get the template
+    const response = await fetch(src);
+    macOSNotifJS_template = await response.text();
 }
 
-function macOSNotifJS_generateTemplate() {
-    // Load our template
-    while (macOSNotifJS_template == null) {
-        macOSNotifJS_loadTemplate();
-    }
+async function macOSNotifJS_generateTemplate() {
+    // Ensure we have the template
+    await macOSNotifJS_loadTemplate();
 
     // Get the template and insert the id
     let template = macOSNotifJS_template;
@@ -51,7 +29,7 @@ function macOSNotifJS_generateTemplate() {
     return [template, templateID];
 }
 
-function macOSNotifJS(options) {
+async function macOSNotifJS(options) {
     /*
     options = {
         delay: .5,                              // Delay before Display - Seconds
@@ -65,10 +43,11 @@ function macOSNotifJS(options) {
     */
 
     // Put out template into the body
-    templateData = macOSNotifJS_generateTemplate();
+    const templateData = await macOSNotifJS_generateTemplate();
     document.body.innerHTML += "\n\n" + templateData[0];
 
     // Load our options
+    if (typeof(options) === 'undefined') options = {};
     if (typeof(options.delay) === 'undefined') options.delay = .5;
     if (typeof(options.autoDismiss) === 'undefined') options.autoDismiss = 0;
     if (typeof(options.title) === 'undefined') options.title = "macOSNotifJS";
@@ -78,15 +57,15 @@ function macOSNotifJS(options) {
     if (typeof(options.closeText) === 'undefined') options.closeText = "Dismiss";
 
     // Set our options
-    let container = document.getElementById(templateData[1] + "_Container");
-    container.getElementById(templateData[1] + "_ContainerTitle").innerHTML = options.title;
-    container.getElementById(templateData[1] + "_ContainerSubTitle").innerHTML = options.subtitle;
-    container.getElementById(templateData[1] + "_ContainerGo").innerHTML = options.goText;
-    container.getElementById(templateData[1] + "_ContainerGo").href = options.goLink;
-    container.getElementById(templateData[1] + "_ContainerClose").innerHTML = options.closeText;
+    document.getElementById(templateData[1] + "_ContainerTitle").innerHTML = options.title;
+    document.getElementById(templateData[1] + "_ContainerSubTitle").innerHTML = options.subtitle;
+    document.getElementById(templateData[1] + "_ContainerGo").innerHTML = options.goText;
+    document.getElementById(templateData[1] + "_ContainerGo").href = options.goLink;
+    document.getElementById(templateData[1] + "_ContainerClose").innerHTML = options.closeText;
 
     // Handle show + autodismiss
     setTimeout(function () {
+        let container = document.getElementById(templateData[1] + "_Container");
         container.style.right = '15px';
         container.style.opacity = '1';
         if (options.autoDismiss != 0) {

@@ -76,7 +76,7 @@
                 let elm = this.parentElement.parentElement;
                 elm.style.right = '-400px';
                 elm.style.opacity = '0.1';
-                clearTimeout(macOSNotifJS_AutoDismiss);
+                if(window.macOSNotifJS_AutoDismiss) clearTimeout(window.macOSNotifJS_AutoDismiss);
                 setTimeout(function(){elm.remove()},800);
             " style="
                 display: block;
