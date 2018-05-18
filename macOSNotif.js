@@ -8,7 +8,7 @@ async function macOSNotifJS_loadTemplate() {
 
     // Generate template url
     let src = macOSNotifJS_src.substr(0, macOSNotifJS_src.lastIndexOf('/'));
-    src += "/template.html";
+    src += "/macOSNotif.html";
 
     // Get the template
     const response = await fetch(src);
@@ -22,7 +22,7 @@ async function macOSNotifJS_generateTemplate() {
     // Get the template and insert the id
     let template = macOSNotifJS_template;
     macOSNotifJS_lastTemplate++;
-    let templateID = "macOSNotifJS_n" + macOSNotifJS_lastTemplate.toString();
+    const templateID = "macOSNotifJS_n" + macOSNotifJS_lastTemplate.toString();
     template = template.replace(/macOSNotifJS_/g, templateID + "_");
 
     // Return template and the ID of it
