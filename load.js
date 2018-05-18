@@ -16,7 +16,7 @@ function macOSNotifJS_loadTemplate() {
         };
     }
 
-    // Get the template
+    // Get the template (will attempt 5 times)
     let xhr = new XMLHttpRequest();
     xhr.open('GET', src, true);
     xhr.onreadystatechange = function () {
@@ -71,29 +71,30 @@ function macOSNotifJS(options) {
     // Load our options
     if (typeof(options.delay) === 'undefined') options.delay = .5;
     if (typeof(options.autoDismiss) === 'undefined') options.autoDismiss = 0;
-    if (typeof(options.title) === 'undefined') options.title = "Please Define title";
-    if (typeof(options.subtitle) === 'undefined') options.subtitle = "Please Define subtitle";
+    if (typeof(options.title) === 'undefined') options.title = "macOSNotifJS";
+    if (typeof(options.subtitle) === 'undefined') options.subtitle = "Default notification text";
     if (typeof(options.goText) === 'undefined') options.goText = "Go";
     if (typeof(options.goLink) === 'undefined') options.goLink = "#";
     if (typeof(options.closeText) === 'undefined') options.closeText = "Dismiss";
 
     // Set our options
-    document.getElementById(templateData[1] + "_ContainerTitle").innerHTML = options.title;
-    document.getElementById(templateData[1] + "_ContainerSubTitle").innerHTML = options.subtitle;
-    document.getElementById(templateData[1] + "_ContainerGo").innerHTML = options.goText;
-    document.getElementById(templateData[1] + "_ContainerGo").href = options.goLink;
-    document.getElementById(templateData[1] + "_ContainerClose").innerHTML = options.closeText;
+    let container = document.getElementById(templateData[1] + "_Container");
+    container.getElementById(templateData[1] + "_ContainerTitle").innerHTML = options.title;
+    container.getElementById(templateData[1] + "_ContainerSubTitle").innerHTML = options.subtitle;
+    container.getElementById(templateData[1] + "_ContainerGo").innerHTML = options.goText;
+    container.getElementById(templateData[1] + "_ContainerGo").href = options.goLink;
+    container.getElementById(templateData[1] + "_ContainerClose").innerHTML = options.closeText;
 
     // Handle show + autodismiss
     setTimeout(function () {
-        document.getElementById(templateData[1] + "_Container").style.right = '15px';
-        document.getElementById(templateData[1] + "_Container").style.opacity = '1';
+        container.style.right = '15px';
+        container.style.opacity = '1';
         if (options.autoDismiss != 0) {
             window[templateData[1]+"_AutoDismiss"] = setTimeout(function () {
-                document.getElementById(templateData[1] + "_Container").style.right = '-400px';
-                document.getElementById(templateData[1] + "_Container").style.opacity = '0.1';
+                container.style.right = '-400px';
+                container.style.opacity = '0.1';
                 setTimeout(function () {
-                    document.getElementById(templateData[1] + "_Outer").remove();
+                    container.parentElement.remove();
                 }, 800);
             }, options.autoDismiss * 1000);
         }
