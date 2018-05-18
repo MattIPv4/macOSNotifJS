@@ -6,7 +6,13 @@
     top: 5px;
     padding: 10px 0;
     overflow: hidden;
-    z-index: 9999;
+    z-index: 5000;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -o-user-select: none;
+    -ms-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
 }
 .macOSNotif_Container {
     width: 400px;

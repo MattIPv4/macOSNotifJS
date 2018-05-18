@@ -1,104 +1,105 @@
-// Swipe for dismissal
-class Swipe {
+// Interact for dismissal
+class Interact {
     constructor(element) {
-        this.xDown = null;
-        this.yDown = null;
         this.element = typeof(element) === 'string' ? document.querySelector(element) : element;
 
-        this.element.addEventListener('touchstart', function (evt) {
-            this.xDown = evt.touches[0].clientX;
-            this.yDown = evt.touches[0].clientY;
-        }.bind(this), false);
-
+        this.drag_acting = false;
+        this.drag_xOrg = 0;
+        this.drag_xOffset = 0;
     }
 
-    onLeft(callback) {
-        this.onLeft = callback;
-
+    onDismiss(callback) {
+        this.onDismiss = callback;
         return this;
     }
 
-    onRight(callback) {
-        this.onRight = callback;
-
-        return this;
+    scroll_move(evt) {
+        if (!evt.deltaX) return;
+        if (evt.deltaX < 0) this.onDismiss();
     }
 
-    onUp(callback) {
-        this.onUp = callback;
-
-        return this;
+    scroll_run() {
+        this.element.addEventListener('wheel', (evt) => this.scroll_move(evt), true);
     }
 
-    onDown(callback) {
-        this.onDown = callback;
+    drag_move(evt) {
+        if (!this.drag_acting) return;
+        evt.preventDefault();
+        evt.stopPropagation();
 
-        return this;
+        let position = this.drag_xOffset + this.drag_xOrg;
+        if (evt.type === "mousemove") {
+            position -= evt.clientX;
+        } else if (evt.type === "touchmove") {
+            position -= evt.targetTouches[0].clientX;
+        }
+        if (position > this.drag_xOrg) position = this.drag_xOrg;
+
+        this.element.style.transition = "unset";
+        this.element.style.right = position + "px";
     }
 
-    handleTouchMove(evt) {
-        if (!this.xDown || !this.yDown) {
-            return;
+    drag_rightOffset() {
+        let thisRect = this.element.getBoundingClientRect();
+        let parentRect = this.element.parentElement.getBoundingClientRect();
+        return parentRect.right - thisRect.right;
+    }
+
+    drag_start(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+
+        if (evt.type === "mousedown") {
+            this.drag_xOffset = evt.clientX;
+        } else if (evt.type === "touchstart") {
+            this.drag_xOffset = evt.targetTouches[0].clientX;
         }
 
-        const xUp = evt.touches[0].clientX;
-        const yUp = evt.touches[0].clientY;
+        this.drag_xOrg = this.drag_rightOffset();
+        this.drag_acting = true;
+    }
 
-        this.xDiff = this.xDown - xUp;
-        this.yDiff = this.yDown - yUp;
+    drag_stop(evt) {
+        evt.preventDefault();
+        evt.stopPropagation();
+        if (!this.drag_acting) return;
 
-        if (Math.abs(this.xDiff) > Math.abs(this.yDiff)) { // Most significant.
-            if (this.xDiff > 0) {
-                if (this.onLeft) this.onLeft();
-            } else {
-                if (this.onRight) this.onRight();
-            }
+        // Reset transition and stop dragging
+        this.element.style.transition = "";
+        this.drag_acting = false;
+
+        // Check if we should dismiss
+        let offset = Math.abs(this.drag_rightOffset());
+        let threshold = this.element.offsetWidth / 4;
+        if (offset >= threshold) {
+            this.onDismiss();
         } else {
-            if (this.yDiff > 0) {
-                if (this.onUp) this.onUp();
-            } else {
-                if (this.onDown) this.onDown();
-            }
+            this.element.style.right = this.drag_xOrg + "px";
         }
-
-        // Reset values.
-        this.xDown = null;
-        this.yDown = null;
     }
 
-    handleScrollMove(evt) {
-        if (!evt.deltaX || !evt.deltaY) {
-            return;
-        }
+    drag_run() {
+        this.element.addEventListener("mousedown", (evt) => this.drag_start(evt), true);
+        this.element.addEventListener("touchstart", (evt) => this.drag_start(evt), true);
 
-        if (Math.abs(evt.deltaX) > Math.abs(evt.deltaY)) { // Most significant.
-            if (evt.deltaX > 0) {
-                if (this.onLeft) this.onLeft();
-            } else {
-                if (this.onRight) this.onRight();
-            }
-            if (evt.deltaY > 0) {
-                if (this.onUp) this.onUp();
-            } else {
-                if (this.onDown) this.onDown();
-            }
-        }
+        window.addEventListener('mousemove', (evt) => this.drag_move(evt), true);
+        window.addEventListener('touchmove', (evt) => this.drag_move(evt), true);
+
+        window.addEventListener("mouseup", (evt) => this.drag_stop(evt), true);
+        window.addEventListener("touchend", (evt) => this.drag_stop(evt), true);
     }
 
     run() {
-        this.element.addEventListener('touchmove', function (evt) {
-            this.handleTouchMove(evt).bind(this);
-        }.bind(this), false);
+        this.drag_run();
 
-        this.element.addEventListener('wheel', function (evt) {
-            this.handleScrollMove(evt).bind(this);
-        }.bind(this), false);
+        // TODO: this
+        this.scroll_run();
     }
 }
 
 // macOSNotifJS
 let macOSNotifJS_template = null;
-let macOSNotifJS_last = -1;
+let macOSNotifJS_notifs = {};
 let macOSNotifJS_src = document.currentScript.src;
 macOSNotifJS_src = macOSNotifJS_src.substr(0, macOSNotifJS_src.lastIndexOf('/'));
 
@@ -131,33 +132,40 @@ async function macOSNotifJS_generateTemplate() {
 
     // Get the template and insert the id
     let template = macOSNotifJS_template;
-    macOSNotifJS_last++;
-    const templateID = "macOSNotifJS_n" + macOSNotifJS_last.toString();
-    template = template.replace(/macOSNotifJS_/g, templateID + "_");
+    let id = 0;
+    if (macOSNotifJS_notifs) while (id in macOSNotifJS_notifs) id++;
+    macOSNotifJS_notifs[id] = null;
+    template = template.replace(/macOSNotifJS_/g, macOSNotifJS_fullId(id) + "_");
 
     // Return template and the ID of it
-    return [template, templateID];
+    return [template, id];
 }
 
 function macOSNotifJS_hideNotif(elm) {
     while (!elm.id.endsWith("_Container")) {
         elm = elm.parentElement;
     }
-    id = elm.getAttribute("data-id");
-    elm.style.right = '-400px';
+    const id = elm.getAttribute("data-id");
+    const fullId = macOSNotifJS_fullId(id);
+    elm.style.right = -elm.parentElement.offsetWidth + "px";
     elm.style.opacity = '0.1';
-    if (window[id + "_AutoDismiss"]) clearTimeout(window[id + "_AutoDismiss"]);
+    if (window[fullId + "_AutoDismiss"]) clearTimeout(window[fullId + "_AutoDismiss"]);
     setTimeout(function () {
-        elm.remove()
+        elm.parentElement.remove();
+        delete macOSNotifJS_notifs[id];
     }, 800);
 }
 
 function macOSNotifJS_handleGo(link) {
-    if (link == null || link == "#") return;
+    if (link === null || link === "#") return;
 
     setTimeout(function () {
         window.location.href = link;
     }, 800);
+}
+
+function macOSNotifJS_fullId(id) {
+    return "macOSNotifJS_n" + id.toString();
 }
 
 async function macOSNotifJS(options) {
@@ -165,7 +173,8 @@ async function macOSNotifJS(options) {
     options = {
         delay: .5,                              // Delay before display (in seconds)
         autoDismiss: 0,                         // Delay till automatic dismiss (0 = Never, in seconds)
-        swipeDismiss: true,                     // Toggle swipe to dismiss
+        interactDismiss: true,                  // Toggle swipe/drag to dismiss
+        zIndex: 5000,                           // The css z-index value of the notification
         title: "Please Define title",           // Main Notif Title
         subtitle: "Please Define subtitle",     // Main Notif Sub Title
         btn1Text: "Go",                         // Text for Button 1
@@ -184,7 +193,8 @@ async function macOSNotifJS(options) {
     if (typeof(options) === 'undefined') options = {};
     if (typeof(options.delay) === 'undefined') options.delay = .5;
     if (typeof(options.autoDismiss) === 'undefined') options.autoDismiss = 0;
-    if (typeof(options.swipeDismiss) === 'undefined') options.swipeDismiss = true;
+    if (typeof(options.interactDismiss) === 'undefined') options.interactDismiss = true;
+    if (typeof(options.zIndex) === 'undefined') options.zIndex = 5000;
     if (typeof(options.title) === 'undefined') options.title = "macOSNotifJS";
     if (typeof(options.subtitle) === 'undefined') options.subtitle = "Default notification text";
     if (typeof(options.btn1Text) === 'undefined') options.btn1Text = "Go";
@@ -193,29 +203,30 @@ async function macOSNotifJS(options) {
     if (typeof(options.btn2Link) === 'undefined') options.btn2Link = null;
 
     // Set our options
-    let container = document.getElementById(templateData[1] + "_Container");
+    const fullId = macOSNotifJS_fullId(templateData[1]);
+    let container = document.getElementById(fullId + "_Container");
     container.setAttribute("data-id", templateData[1]);
-    document.getElementById(templateData[1] + "_Title").innerHTML = options.title;
-    document.getElementById(templateData[1] + "_Subtitle").innerHTML = options.subtitle;
-    document.getElementById(templateData[1] + "_Button1").innerHTML = options.btn1Text;
-    document.getElementById(templateData[1] + "_Button2").innerHTML = options.btn2Text;
+    container.parentElement.style.zIndex = options.zIndex;
+    document.getElementById(fullId + "_Title").innerHTML = options.title;
+    document.getElementById(fullId + "_Subtitle").innerHTML = options.subtitle;
+    document.getElementById(fullId + "_Button1").innerHTML = options.btn1Text;
+    document.getElementById(fullId + "_Button2").innerHTML = options.btn2Text;
 
-    // Swipe dismiss
-    // TODO: Fix this
-    if (options.swipeDismiss) {
-        let swiper = new Swipe(container);
-        swiper.onRight(function () {
+    // Interact dismiss
+    if (options.interactDismiss) {
+        let interacter = new Interact(container);
+        interacter.onDismiss(function () {
             macOSNotifJS_hideNotif(container)
         });
-        swiper.run();
+        interacter.run();
     }
 
     // Set the actions
-    window[templateData[1] + "_Button1"] = function (elm) {
+    window[fullId + "_Button1"] = function (elm) {
         macOSNotifJS_handleGo(options.btn1Link);
         macOSNotifJS_hideNotif(elm);
     };
-    window[templateData[1] + "_Button2"] = function (elm) {
+    window[fullId + "_Button2"] = function (elm) {
         macOSNotifJS_handleGo(options.btn2Link);
         macOSNotifJS_hideNotif(elm);
     };
@@ -224,8 +235,8 @@ async function macOSNotifJS(options) {
     setTimeout(function () {
         container.style.right = '15px';
         container.style.opacity = '1';
-        if (options.autoDismiss != 0) {
-            window[templateData[1] + "_AutoDismiss"] = setTimeout(function () {
+        if (options.autoDismiss !== 0) {
+            window[fullId + "_AutoDismiss"] = setTimeout(function () {
                 container.style.right = '-400px';
                 container.style.opacity = '0.1';
                 setTimeout(function () {
@@ -234,4 +245,7 @@ async function macOSNotifJS(options) {
             }, options.autoDismiss * 1000);
         }
     }, options.delay * 1000);
+
+    // Save
+    macOSNotifJS_notifs[templateData[1]] = container;
 }
