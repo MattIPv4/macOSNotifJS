@@ -1,4 +1,4 @@
-class macOSNotifJS_Interact {
+class __macOSNotifJS_Interact {
     constructor(element) {
         this.element = typeof(element) === 'string' ? document.querySelector(element) : element;
 
@@ -96,68 +96,68 @@ class macOSNotifJS_Interact {
     }
 }
 
-let macOSNotifJS_template = null;
-let macOSNotifJS_notifs = {};
-const macOSNotifJS_src = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf('/'));
+let __macOSNotifJS_template = null;
+let __macOSNotifJS_notifs = {};
+const __macOSNotifJS_src = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf('/'));
 
-function macOSNotifJS_loadCSS() {
+function __macOSNotifJS_loadCSS() {
     if (document.getElementById("macOSNotifJS_CSS")) return;
 
     let css = document.createElement("link");
     css.id = "macOSNotifJS_CSS";
     css.rel = "stylesheet";
     css.type = "text/css";
-    css.href = macOSNotifJS_src + "/macOSNotif.css";
+    css.href = __macOSNotifJS_src + "/res/macOSNotif.css";
 
     document.getElementsByTagName("head")[0].appendChild(css);
 }
 
-async function macOSNotifJS_loadTemplate() {
-    if (macOSNotifJS_template) return;
+async function __macOSNotifJS_loadTemplate() {
+    if (__macOSNotifJS_template) return;
 
     // Generate template url
-    let src = macOSNotifJS_src + "/macOSNotif.html";
+    let src = __macOSNotifJS_src + "/res/macOSNotif.html";
 
     // Get the template
     const response = await fetch(src);
-    macOSNotifJS_template = await response.text();
+    __macOSNotifJS_template = await response.text();
 }
 
-function macOSNotifJS_fullId(id) {
+function __macOSNotifJS_fullId(id) {
     return "macOSNotifJS_n" + id.toString();
 }
 
-async function macOSNotifJS_generateTemplate() {
+async function __macOSNotifJS_generateTemplate() {
     // Ensure we have the template
-    await macOSNotifJS_loadTemplate();
+    await __macOSNotifJS_loadTemplate();
 
     // Get the template and insert the id
-    let template = macOSNotifJS_template;
+    let template = __macOSNotifJS_template;
     let id = 0;
-    if (macOSNotifJS_notifs) while (id in macOSNotifJS_notifs) id++;
-    macOSNotifJS_notifs[id] = null;
-    template = template.replace(/macOSNotifJS_/g, macOSNotifJS_fullId(id) + "_");
+    if (__macOSNotifJS_notifs) while (id in __macOSNotifJS_notifs) id++;
+    __macOSNotifJS_notifs[id] = null;
+    template = template.replace(/macOSNotifJS_/g, __macOSNotifJS_fullId(id) + "_");
 
     // Return template and the ID of it
     return [template, id];
 }
 
-function macOSNotifJS_hideNotif(elm) {
+function __macOSNotifJS_hideNotif(elm) {
     while (!elm.id.endsWith("_Container")) {
         elm = elm.parentElement;
     }
     const id = elm.getAttribute("data-id");
-    const fullId = macOSNotifJS_fullId(id);
+    const fullId = __macOSNotifJS_fullId(id);
     elm.style.right = -elm.parentElement.offsetWidth + "px";
     elm.style.opacity = '0.1';
     if (window[fullId + "_AutoDismiss"]) clearTimeout(window[fullId + "_AutoDismiss"]);
     setTimeout(function () {
         elm.parentElement.remove();
-        delete macOSNotifJS_notifs[id];
+        delete __macOSNotifJS_notifs[id];
     }, 800);
 }
 
-function macOSNotifJS_handleGo(link) {
+function __macOSNotifJS_handleGo(link) {
     if (link === null || link === "#") return;
 
     setTimeout(function () {
@@ -182,8 +182,8 @@ async function macOSNotifJS(options) {
     */
 
     // Put out template into the body
-    macOSNotifJS_loadCSS();
-    const templateData = await macOSNotifJS_generateTemplate();
+    __macOSNotifJS_loadCSS();
+    const templateData = await __macOSNotifJS_generateTemplate();
     document.body.innerHTML += "\n\n" + templateData[0];
 
     // Load our options
@@ -200,7 +200,7 @@ async function macOSNotifJS(options) {
     if (typeof(options.btn2Link) === 'undefined') options.btn2Link = null;
 
     // Set our options
-    const fullId = macOSNotifJS_fullId(templateData[1]);
+    const fullId = __macOSNotifJS_fullId(templateData[1]);
     let container = document.getElementById(fullId + "_Container");
     container.setAttribute("data-id", templateData[1]);
     container.parentElement.style.zIndex = options.zIndex;
@@ -211,21 +211,21 @@ async function macOSNotifJS(options) {
 
     // Interact dismiss
     if (options.interactDismiss) {
-        let interacter = new macOSNotifJS_Interact(container);
+        let interacter = new __macOSNotifJS_Interact(container);
         interacter.onDismiss(function () {
-            macOSNotifJS_hideNotif(container)
+            __macOSNotifJS_hideNotif(container)
         });
         interacter.run();
     }
 
     // Set the actions
     window[fullId + "_Button1"] = function (elm) {
-        macOSNotifJS_handleGo(options.btn1Link);
-        macOSNotifJS_hideNotif(elm);
+        __macOSNotifJS_handleGo(options.btn1Link);
+        __macOSNotifJS_hideNotif(elm);
     };
     window[fullId + "_Button2"] = function (elm) {
-        macOSNotifJS_handleGo(options.btn2Link);
-        macOSNotifJS_hideNotif(elm);
+        __macOSNotifJS_handleGo(options.btn2Link);
+        __macOSNotifJS_hideNotif(elm);
     };
 
     // Handle show + autodismiss
@@ -234,15 +234,11 @@ async function macOSNotifJS(options) {
         container.style.opacity = '1';
         if (options.autoDismiss !== 0) {
             window[fullId + "_AutoDismiss"] = setTimeout(function () {
-                container.style.right = '-400px';
-                container.style.opacity = '0.1';
-                setTimeout(function () {
-                    container.parentElement.remove();
-                }, 800);
+                __macOSNotifJS_hideNotif(container);
             }, options.autoDismiss * 1000);
         }
     }, options.delay * 1000);
 
     // Save
-    macOSNotifJS_notifs[templateData[1]] = container;
+    __macOSNotifJS_notifs[templateData[1]] = container;
 }
