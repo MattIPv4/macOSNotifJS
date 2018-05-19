@@ -132,12 +132,12 @@ class macOSNotifJS {
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
             imageName: "",                          // Alt/Title text of the icon
             imageLink: null,                        // Link for icon click (null for no link, '#' for dismiss)
-            title: "Please Define title",           // Main Notif Title
-            subtitle: "Please Define subtitle",     // Main Notif Sub Title
+            title: "macOSNotifJS",                  // Main Notif Title
+            subtitle: "Default notification text",  // Main Notif Sub Title
             mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
-            btn1Text: "Go",                         // Text for Button 1 (null to hide all buttons)
+            btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
             btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
-            btn2Text: "Dismiss",                    // Text for Button 2 (null to hide second button)
+            btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
             btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
         }
         */
@@ -155,9 +155,9 @@ class macOSNotifJS {
         if (typeof(options.title) === 'undefined') options.title = "macOSNotifJS";
         if (typeof(options.subtitle) === 'undefined') options.subtitle = "Default notification text";
         if (typeof(options.mainLink) === 'undefined') options.mainLink = null;
-        if (typeof(options.btn1Text) === 'undefined') options.btn1Text = "Go";
+        if (typeof(options.btn1Text) === 'undefined') options.btn1Text = "Close";
         if (typeof(options.btn1Link) === 'undefined') options.btn1Link = null;
-        if (typeof(options.btn2Text) === 'undefined') options.btn2Text = "Dismiss";
+        if (typeof(options.btn2Text) === 'undefined') options.btn2Text = "Go";
         if (typeof(options.btn2Link) === 'undefined') options.btn2Link = null;
 
         // Save
