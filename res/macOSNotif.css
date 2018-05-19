@@ -61,6 +61,10 @@
     padding: 10px;
     border: none;
     border-right: 1px #ddd solid;
+    display: block;
+}
+.macOSNotif_TextClickable {
+    cursor: pointer;
 }
 
 .macOSNotif_Title {
@@ -115,6 +119,11 @@
     font-size: 13px;
     font-weight: 400;
     color: #666;
+}
+.macOSNotif_ButtonFull {
+    border: none;
+    line-height: calc(72px - 5px - 5px);
+    font-size: 15px;
 }
 
 .macOSNotif_Button + .macOSNotif_Button {

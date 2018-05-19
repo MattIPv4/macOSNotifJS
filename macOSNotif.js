@@ -21,7 +21,7 @@ class __macOSNotifJS_Interact {
         this.element = typeof(element) === 'string' ? document.querySelector(element) : element;
 
         this.drag_acting = false;
-        this.drag_xOrg = 0;
+        this.drag_xOrg = null;
         this.drag_xOffset = 0;
     }
 
@@ -72,7 +72,7 @@ class __macOSNotifJS_Interact {
             this.drag_xOffset = evt.targetTouches[0].clientX;
         }
 
-        this.drag_xOrg = this.drag_rightOffset();
+        if (this.drag_xOrg === null) this.drag_xOrg = this.drag_rightOffset();
         this.drag_acting = true;
     }
 
@@ -129,9 +129,10 @@ class macOSNotifJS {
             zIndex: 5000,                           // The css z-index value of the notification
             title: "Please Define title",           // Main Notif Title
             subtitle: "Please Define subtitle",     // Main Notif Sub Title
+            mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
             btn1Text: "Go",                         // Text for Button 1
             btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
-            btn2Text: "Dismiss",                    // Text for Button 2
+            btn2Text: "Dismiss",                    // Text for Button 2 (null to hide second button)
             btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
         }
         */
@@ -144,6 +145,7 @@ class macOSNotifJS {
         if (typeof(options.zIndex) === 'undefined') options.zIndex = 5000;
         if (typeof(options.title) === 'undefined') options.title = "macOSNotifJS";
         if (typeof(options.subtitle) === 'undefined') options.subtitle = "Default notification text";
+        if (typeof(options.mainLink) === 'undefined') options.mainLink = null;
         if (typeof(options.btn1Text) === 'undefined') options.btn1Text = "Go";
         if (typeof(options.btn1Link) === 'undefined') options.btn1Link = null;
         if (typeof(options.btn2Text) === 'undefined') options.btn2Text = "Dismiss";
@@ -210,8 +212,11 @@ class macOSNotifJS {
         }, 800);
     }
 
-    static __macOSNotifJS_handleGo(link) {
-        if (link === null || link === "#") return;
+    static __macOSNotifJS_handleGo(link, elm, nullNoDismiss) {
+        if (typeof(nullNoDismiss) === 'undefined') nullNoDismiss = false;
+
+        if (link === '#' || (link === null && !nullNoDismiss)) macOSNotifJS.__macOSNotifJS_hideNotif(elm);
+        if (link === '#' || link === null) return;
 
         setTimeout(() => {
             window.location.href = link;
@@ -228,29 +233,40 @@ class macOSNotifJS {
         const fullId = macOSNotifJS.__macOSNotifJS_fullId(templateData[1]);
         let container = document.getElementById(fullId + "_Container");
         container.setAttribute("data-id", templateData[1]);
-        container.parentElement.style.zIndex = this.options.zIndex.toString();
+        container.parentElement.style.zIndex = (this.options.zIndex + templateData[1]).toString();
         document.getElementById(fullId + "_Title").innerHTML = this.options.title;
         document.getElementById(fullId + "_Subtitle").innerHTML = this.options.subtitle;
+        if (this.options.mainLink !== null) {
+            document.getElementById(fullId + "_Text").classList.add("macOSNotif_TextClickable");
+        }
         document.getElementById(fullId + "_Button1").innerHTML = this.options.btn1Text;
-        document.getElementById(fullId + "_Button2").innerHTML = this.options.btn2Text;
+        if (this.options.btn2Text !== null) {
+            document.getElementById(fullId + "_Button2").innerHTML = this.options.btn2Text;
+        } else {
+            document.getElementById(fullId + "_Button1").classList.add("macOSNotif_ButtonFull");
+            document.getElementById(fullId + "_Button2").remove();
+        }
 
         // Interact dismiss
         if (this.options.interactDismiss) {
-            let interact = new __macOSNotifJS_Interact(container);
-            interact.onDismiss(() => {
+            this.interact = new __macOSNotifJS_Interact(container);
+            this.interact.onDismiss(() => {
                 macOSNotifJS.__macOSNotifJS_hideNotif(container)
             }).run();
         }
 
         // Set the actions
+        window[fullId + "_ButtonMain"] = (elm) => {
+            macOSNotifJS.__macOSNotifJS_handleGo(this.options.mainLink, elm, true);
+        };
         window[fullId + "_Button1"] = (elm) => {
-            macOSNotifJS.__macOSNotifJS_handleGo(this.options.btn1Link);
-            macOSNotifJS.__macOSNotifJS_hideNotif(elm);
+            macOSNotifJS.__macOSNotifJS_handleGo(this.options.btn1Link, elm);
         };
-        window[fullId + "_Button2"] = (elm) => {
-            macOSNotifJS.__macOSNotifJS_handleGo(this.options.btn2Link);
-            macOSNotifJS.__macOSNotifJS_hideNotif(elm);
-        };
+        if (this.options.btn2Text !== null) {
+            window[fullId + "_Button2"] = (elm) => {
+                macOSNotifJS.__macOSNotifJS_handleGo(this.options.btn2Link, elm);
+            };
+        }
 
         // Handle show + autodismiss
         setTimeout(() => {
@@ -264,7 +280,7 @@ class macOSNotifJS {
         }, this.options.delay * 1000);
 
         // Save
-        __macOSNotifJS_notifs[templateData[1]] = container;
+        __macOSNotifJS_notifs[templateData[1]] = [container, this];
     }
 }
 
