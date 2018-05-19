@@ -55,9 +55,35 @@
     "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
 }
 
+.macOSNotif_Img {
+    float: left;
+    width: 45px;
+    height: 100%;
+    line-height: 72px;
+    padding-left: 10px;
+    border: none;
+    display: block;
+}
+
+.macOSNotif_Image {
+    width: 100%;
+    vertical-align: middle;
+}
+
+.macOSNotif_Img + .macOSNotif_Text {
+    width: 250px;
+    padding-left: 5px;
+}
+
+.macOSNotif_Img + .macOSNotif_TextFull {
+    width: 330px;
+    padding-left: 5px;
+}
+
 .macOSNotif_Text {
     float: left;
     width: 300px;
+    height: calc(100% - 10px - 10px);
     padding: 10px;
     border: none;
     display: block;

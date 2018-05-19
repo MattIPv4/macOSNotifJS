@@ -128,6 +128,8 @@ class macOSNotifJS {
             autoDismiss: 0,                         // Delay till automatic dismiss (0 = Never, in seconds)
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
             zIndex: 5000,                           // The css z-index value of the notification
+            imageSrc: null,                         // Link of the icon to display (null to hide icon)
+            imageName: "",                          // Alt/Title text of the icon
             title: "Please Define title",           // Main Notif Title
             subtitle: "Please Define subtitle",     // Main Notif Sub Title
             mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
@@ -144,6 +146,8 @@ class macOSNotifJS {
         if (typeof(options.autoDismiss) === 'undefined') options.autoDismiss = 0;
         if (typeof(options.interactDismiss) === 'undefined') options.interactDismiss = true;
         if (typeof(options.zIndex) === 'undefined') options.zIndex = 5000;
+        if (typeof(options.imageSrc) === 'undefined') options.imageSrc = null;
+        if (typeof(options.imageName) === 'undefined') options.imageName = "";
         if (typeof(options.title) === 'undefined') options.title = "macOSNotifJS";
         if (typeof(options.subtitle) === 'undefined') options.subtitle = "Default notification text";
         if (typeof(options.mainLink) === 'undefined') options.mainLink = null;
@@ -332,6 +336,13 @@ class macOSNotifJS {
 
         // Apply user defined options
         this.container.parentElement.style.zIndex = (this.options.zIndex + this.id).toString();
+        if (this.options.imageSrc !== null) {
+            document.getElementById(fullId + "_Image").src = this.options.imageSrc;
+            document.getElementById(fullId + "_Image").alt = this.options.imageName;
+            document.getElementById(fullId + "_Image").title = this.options.imageName;
+        } else {
+            document.getElementById(fullId + "_Img").remove();
+        }
         document.getElementById(fullId + "_Title").innerHTML = this.options.title;
         document.getElementById(fullId + "_Subtitle").innerHTML = this.options.subtitle;
         if (this.options.mainLink !== null) {
@@ -346,7 +357,7 @@ class macOSNotifJS {
                 document.getElementById(fullId + "_Button2").remove();
             }
         } else {
-            document.getElementById(fullId + "_Text").classList.add("macOSNotif_TextFul");
+            document.getElementById(fullId + "_Text").classList.add("macOSNotif_TextFull");
             document.getElementById(fullId + "_Buttons").remove();
         }
 
