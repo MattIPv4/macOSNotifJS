@@ -153,6 +153,9 @@ class macOSNotifJS {
 
         // Save
         this.options = options;
+
+        // For up/down shift
+        this.yOffset = null;
     }
 
     static __loadCSS() {
@@ -205,20 +208,46 @@ class macOSNotifJS {
         return [template, id];
     }
 
-    static __hideNotif(elm) {
-        // Find the container from any elm in container
-        while (!elm.id.endsWith("_Container")) {
-            elm = elm.parentElement;
+    static __shiftAfter(id, callback) {
+        for (const key in __macOSNotifJS_notifs) {
+            if (!__macOSNotifJS_notifs.hasOwnProperty(key)) continue;
+            if (parseInt(key) < id) __macOSNotifJS_notifs[key][callback]();
         }
+    }
+
+    static __shiftDownAfter(id) {
+        macOSNotifJS.__shiftAfter(id, "__shiftDown");
+    }
+
+    static __shiftUpAfter(id) {
+        macOSNotifJS.__shiftAfter(id, "__shiftUp");
+    }
+
+    __shift(type) {
+        const outer = this.container.parentElement;
+        const newPos = outer.getBoundingClientRect().top + (outer.offsetHeight * type);
+        outer.style.top = newPos + "px";
+    }
+
+    __shiftDown() {
+        this.__shift(1);
+    }
+
+    __shiftUp() {
+        this.__shift(-1);
+    }
+
+    __dismiss() {
 
         // Get our ids
-        const id = elm.getAttribute("data-id");
+        const id = this.container.getAttribute("data-id");
         const fullId = macOSNotifJS.__fullId(id);
 
         // Animate dismissal
-        elm.parentElement.style.pointerEvents = "none";
-        elm.style.right = -elm.parentElement.offsetWidth + "px";
-        elm.style.opacity = '0.1';
+        this.container.parentElement.style.pointerEvents = "none";
+        this.container.style.right = -this.container.parentElement.offsetWidth + "px";
+        this.container.style.opacity = '0.1';
+        macOSNotifJS.__shiftUpAfter(parseInt(id));
 
         // Clear the autodismiss if applicable
         if (window[fullId + "_AutoDismiss"]) {
@@ -233,20 +262,21 @@ class macOSNotifJS {
 
         // Remove fully once animation completed
         setTimeout(() => {
-            elm.parentElement.remove();
+            this.container.parentElement.remove();
             delete __macOSNotifJS_notifs[id];
         }, 800);
     }
 
-    static __handleGo(link, elm, nullNoDismiss) {
+    __handleGo(link, nullNoDismiss) {
         if (typeof(nullNoDismiss) === 'undefined') nullNoDismiss = false;
 
-        if (link === '#' || (link === null && !nullNoDismiss)) macOSNotifJS.__hideNotif(elm);
+        if (link === '#' || (link === null && !nullNoDismiss)) this.__dismiss();
         if (link === '#' || link === null) return;
 
         setTimeout(() => {
             window.location.href = link;
         }, 800);
+        this.__dismiss();
     }
 
     async run() {
@@ -259,11 +289,11 @@ class macOSNotifJS {
 
         // Find the container
         const fullId = macOSNotifJS.__fullId(templateData[1]);
-        let container = document.getElementById(fullId + "_Container");
-        container.setAttribute("data-id", templateData[1]);
+        this.container = document.getElementById(fullId + "_Container");
+        this.container.setAttribute("data-id", templateData[1]);
 
         // Apply user defined options
-        container.parentElement.style.zIndex = (this.options.zIndex + templateData[1]).toString();
+        this.container.parentElement.style.zIndex = (this.options.zIndex + templateData[1]).toString();
         document.getElementById(fullId + "_Title").innerHTML = this.options.title;
         document.getElementById(fullId + "_Subtitle").innerHTML = this.options.subtitle;
         if (this.options.mainLink !== null) {
@@ -284,36 +314,39 @@ class macOSNotifJS {
 
         // Interact dismiss
         if (this.options.interactDismiss) {
-            this.interact = new __macOSNotifJS_Interact(container);
+            this.interact = new __macOSNotifJS_Interact(this.container);
             this.interact.onDismiss(() => {
-                macOSNotifJS.__hideNotif(container)
+                this.__dismiss();
             }).run();
         }
 
         // Set the actions
-        window[fullId + "_ButtonMain"] = (elm) => {
-            macOSNotifJS.__handleGo(this.options.mainLink, elm, true);
+        window[fullId + "_ButtonMain"] = () => {
+            this.__handleGo(this.options.mainLink, true);
         };
-        window[fullId + "_Button1"] = (elm) => {
-            macOSNotifJS.__handleGo(this.options.btn1Link, elm);
+        window[fullId + "_Button1"] = () => {
+            this.__handleGo(this.options.btn1Link);
         };
-        window[fullId + "_Button2"] = (elm) => {
-            macOSNotifJS.__handleGo(this.options.btn2Link, elm);
+        window[fullId + "_Button2"] = () => {
+            this.__handleGo(this.options.btn2Link);
         };
 
-        // Handle show + autodismiss
+        // Set autodismiss
+        if (this.options.autoDismiss !== 0) {
+            window[fullId + "_AutoDismiss"] = setTimeout(() => {
+                this.__dismiss();
+            }, (this.options.autoDismiss * 1000) + (this.options.delay * 1000));
+        }
+
+        // Handle show
         setTimeout(() => {
-            container.style.right = '15px';
-            container.style.opacity = '1';
-            if (this.options.autoDismiss !== 0) {
-                window[fullId + "_AutoDismiss"] = setTimeout(() => {
-                    macOSNotifJS.__hideNotif(container);
-                }, this.options.autoDismiss * 1000);
-            }
+            macOSNotifJS.__shiftDownAfter(templateData[1]);
+            this.container.style.right = '15px';
+            this.container.style.opacity = '1';
         }, this.options.delay * 1000);
 
         // Save
-        __macOSNotifJS_notifs[templateData[1]] = [container, this];
+        __macOSNotifJS_notifs[templateData[1]] = this;
     }
 }
 
