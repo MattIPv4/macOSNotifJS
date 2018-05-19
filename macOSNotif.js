@@ -127,6 +127,7 @@ class macOSNotifJS {
             delay: .5,                              // Delay before display (in seconds)
             autoDismiss: 0,                         // Delay till automatic dismiss (0 = Never, in seconds)
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
+            sounds: false,                          // Play sounds for notification
             zIndex: 5000,                           // The css z-index value of the notification
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
             imageName: "",                          // Alt/Title text of the icon
@@ -146,6 +147,7 @@ class macOSNotifJS {
         if (typeof(options.delay) === 'undefined') options.delay = .5;
         if (typeof(options.autoDismiss) === 'undefined') options.autoDismiss = 0;
         if (typeof(options.interactDismiss) === 'undefined') options.interactDismiss = true;
+        if (typeof(options.sounds) === 'undefined') options.sounds = false;
         if (typeof(options.zIndex) === 'undefined') options.zIndex = 5000;
         if (typeof(options.imageSrc) === 'undefined') options.imageSrc = null;
         if (typeof(options.imageName) === 'undefined') options.imageName = "";
@@ -216,6 +218,34 @@ class macOSNotifJS {
 
         // Return template and the ID of it
         return [template, id];
+    }
+
+    static __generateAudio() {
+        // If already exists, return it
+        let element = document.getElementById("macOSNotifJS_Audio");
+        if (element) return element;
+
+        // Create new audio
+        let audio = document.createElement("audio");
+        audio.id = "macOSNotifJS_Audio";
+        audio.autoplay = false;
+        audio.volume = 1;
+        audio.controls = false;
+        audio.preload = "auto";
+
+        // Create sources
+        let sourceMp3 = document.createElement("source");
+        sourceMp3.src = __macOSNotifJS_src + "/res/audio/macOSNotif.mp3";
+        sourceMp3.type = "audio/mpeg";
+        audio.appendChild(sourceMp3);
+        let sourceOgg = document.createElement("source");
+        sourceOgg.src = __macOSNotifJS_src + "/res/audio/macOSNotif.ogg";
+        sourceOgg.type = "audio/ogg";
+        audio.appendChild(sourceOgg);
+
+        // Add to DOM and return
+        document.body.appendChild(audio);
+        return audio;
     }
 
     static __dismissAll() {
@@ -397,7 +427,13 @@ class macOSNotifJS {
 
         // Handle show
         setTimeout(() => {
+            // Stop overlapping
             macOSNotifJS.__shiftDownAfter(this.id);
+
+            // Do sound
+            if (this.options.sounds) macOSNotifJS.__generateAudio().play();
+
+            // Show
             this.container.style.right = '15px';
             this.container.style.opacity = '1';
         }, this.options.delay * 1000);
