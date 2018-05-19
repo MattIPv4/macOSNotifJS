@@ -77,9 +77,9 @@ class __macOSNotifJS_Interact {
     }
 
     drag_stop(evt) {
+        if (!this.drag_acting) return;
         evt.preventDefault();
         evt.stopPropagation();
-        if (!this.drag_acting) return;
 
         // Reset transition and stop dragging
         this.element.style.transition = "";
@@ -224,15 +224,19 @@ class macOSNotifJS {
     }
 
     async run() {
-        // Put out template into the body
+        // Generate the base template
         macOSNotifJS.__macOSNotifJS_loadCSS();
         const templateData = await macOSNotifJS.__macOSNotifJS_generateTemplate();
-        document.body.innerHTML += "\n\n" + templateData[0];
 
-        // Set our options
+        // Add the notification to DOM
+        document.body.insertAdjacentHTML('beforeend', templateData[0]);
+
+        // Find the container
         const fullId = macOSNotifJS.__macOSNotifJS_fullId(templateData[1]);
         let container = document.getElementById(fullId + "_Container");
         container.setAttribute("data-id", templateData[1]);
+
+        // Apply user defined options
         container.parentElement.style.zIndex = (this.options.zIndex + templateData[1]).toString();
         document.getElementById(fullId + "_Title").innerHTML = this.options.title;
         document.getElementById(fullId + "_Subtitle").innerHTML = this.options.subtitle;
