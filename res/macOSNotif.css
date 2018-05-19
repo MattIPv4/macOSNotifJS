@@ -55,6 +55,10 @@
     "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
 }
 
+.macOSNotif_Clickable {
+    cursor: pointer;
+}
+
 .macOSNotif_Img {
     float: left;
     width: 45px;
@@ -87,10 +91,6 @@
     padding: 10px;
     border: none;
     display: block;
-}
-
-.macOSNotif_TextClickable {
-    cursor: pointer;
 }
 
 .macOSNotif_TextFull {
