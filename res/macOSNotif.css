@@ -60,11 +60,13 @@
     width: 300px;
     padding: 10px;
     border: none;
-    border-right: 1px #ddd solid;
     display: block;
 }
 .macOSNotif_TextClickable {
     cursor: pointer;
+}
+.macOSNotif_TextFull {
+    width: 400px;
 }
 
 .macOSNotif_Title {
@@ -94,10 +96,11 @@
     float: right;
     /*          Outer - Padd - Inner - Padd - Bord */
     width: calc(400px - 10px - 300px - 10px - 1px);
+    border: none;
+    border-left: 1px #ddd solid;
     height: 100%;
     min-height: 100%;
     padding: 0;
-    border: none;
 }
 
 .macOSNotif_Button {

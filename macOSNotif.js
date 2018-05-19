@@ -130,7 +130,7 @@ class macOSNotifJS {
             title: "Please Define title",           // Main Notif Title
             subtitle: "Please Define subtitle",     // Main Notif Sub Title
             mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
-            btn1Text: "Go",                         // Text for Button 1
+            btn1Text: "Go",                         // Text for Button 1 (null to hide all buttons)
             btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
             btn2Text: "Dismiss",                    // Text for Button 2 (null to hide second button)
             btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
@@ -198,14 +198,32 @@ class macOSNotifJS {
     }
 
     static __macOSNotifJS_hideNotif(elm) {
+        // Find the container from any elm in container
         while (!elm.id.endsWith("_Container")) {
             elm = elm.parentElement;
         }
+
+        // Get our ids
         const id = elm.getAttribute("data-id");
         const fullId = macOSNotifJS.__macOSNotifJS_fullId(id);
+
+        // Animate dismissal
+        elm.parentElement.style.pointerEvents = "none";
         elm.style.right = -elm.parentElement.offsetWidth + "px";
         elm.style.opacity = '0.1';
-        if (window[fullId + "_AutoDismiss"]) clearTimeout(window[fullId + "_AutoDismiss"]);
+
+        // Clear the autodismiss if applicable
+        if (window[fullId + "_AutoDismiss"]) {
+            clearTimeout(window[fullId + "_AutoDismiss"]);
+            delete window[fullId + "_AutoDismiss"];
+        }
+
+        // Clear the onclick handlers
+        if (window[fullId + "_ButtonMain"]) delete window[fullId + "_ButtonMain"];
+        if (window[fullId + "_Button1"]) delete window[fullId + "_Button1"];
+        if (window[fullId + "_Button2"]) delete window[fullId + "_Button2"];
+
+        // Remove fully once animation completed
         setTimeout(() => {
             elm.parentElement.remove();
             delete __macOSNotifJS_notifs[id];
@@ -243,12 +261,17 @@ class macOSNotifJS {
         if (this.options.mainLink !== null) {
             document.getElementById(fullId + "_Text").classList.add("macOSNotif_TextClickable");
         }
-        document.getElementById(fullId + "_Button1").innerHTML = this.options.btn1Text;
-        if (this.options.btn2Text !== null) {
-            document.getElementById(fullId + "_Button2").innerHTML = this.options.btn2Text;
+        if (this.options.btn1Text !== null) {
+            document.getElementById(fullId + "_Button1").innerHTML = this.options.btn1Text;
+            if (this.options.btn2Text !== null) {
+                document.getElementById(fullId + "_Button2").innerHTML = this.options.btn2Text;
+            } else {
+                document.getElementById(fullId + "_Button1").classList.add("macOSNotif_ButtonFull");
+                document.getElementById(fullId + "_Button2").remove();
+            }
         } else {
-            document.getElementById(fullId + "_Button1").classList.add("macOSNotif_ButtonFull");
-            document.getElementById(fullId + "_Button2").remove();
+            document.getElementById(fullId + "_Text").classList.add("macOSNotif_TextFul");
+            document.getElementById(fullId + "_Buttons").remove();
         }
 
         // Interact dismiss
@@ -266,11 +289,9 @@ class macOSNotifJS {
         window[fullId + "_Button1"] = (elm) => {
             macOSNotifJS.__macOSNotifJS_handleGo(this.options.btn1Link, elm);
         };
-        if (this.options.btn2Text !== null) {
-            window[fullId + "_Button2"] = (elm) => {
-                macOSNotifJS.__macOSNotifJS_handleGo(this.options.btn2Link, elm);
-            };
-        }
+        window[fullId + "_Button2"] = (elm) => {
+            macOSNotifJS.__macOSNotifJS_handleGo(this.options.btn2Link, elm);
+        };
 
         // Handle show + autodismiss
         setTimeout(() => {
