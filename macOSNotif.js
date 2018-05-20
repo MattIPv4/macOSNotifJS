@@ -184,7 +184,7 @@ class macOSNotifJS {
 
         // Get max
         const keys = Object.keys(__macOSNotifJS_notifs).map(Number);
-        return Math.max(...keys) + 1
+        return Math.max(...keys) + 1;
     }
 
     static async __generateTemplate() {
@@ -251,7 +251,7 @@ class macOSNotifJS {
 
     static __dismissAll() {
         Object.values(__macOSNotifJS_notifs).forEach(
-            value => value.__dismiss()
+            value => value.__dismiss(),
         );
     }
 
@@ -446,5 +446,5 @@ class macOSNotifJS {
 // eslint-disable-next-line no-unused-vars
 async function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
-    return (new macOSNotifJS(options)).run()
+    return (new macOSNotifJS(options)).run();
 }

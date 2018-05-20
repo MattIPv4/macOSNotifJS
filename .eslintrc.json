@@ -15,6 +15,11 @@
       "error",
       "always"
     ],
+    "curly": [
+      "error",
+      "multi-line",
+      "consistent"
+    ],
     "comma-dangle": [
       "error",
       "always-multiline"
