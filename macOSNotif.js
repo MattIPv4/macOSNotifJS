@@ -116,7 +116,7 @@ class __macOSNotifJS_Interact {
 }
 
 let __macOSNotifJS_template = null;
-let __macOSNotifJS_notifs = {};
+const __macOSNotifJS_notifs = {};
 const __macOSNotifJS_src = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf("/"));
 const __macOSNotifJS_fadeThreshold = 4;
 
@@ -142,7 +142,7 @@ class macOSNotifJS {
         };
 
         // Load our options
-        this.options = {...defaultOptions, ...options};
+        this.options = { ...defaultOptions, ...options };
 
         // Other properties
         this.container = null;
@@ -154,7 +154,7 @@ class macOSNotifJS {
     static __loadCSS() {
         if (document.getElementById("macOSNotifJS_CSS")) return;
 
-        let css = document.createElement("link");
+        const css = document.createElement("link");
         css.id = "macOSNotifJS_CSS";
         css.rel = "stylesheet";
         css.type = "text/css";
@@ -198,7 +198,7 @@ class macOSNotifJS {
         template = template.replace(/macOSNotifJS_/g, macOSNotifJS.__fullId(id) + "_");
 
         // Return template and the ID of it
-        return {template, id};
+        return { template, id };
     }
 
     static __generateAudio() {
@@ -207,7 +207,7 @@ class macOSNotifJS {
         if (element) return element;
 
         // Create new audio
-        let audio = document.createElement("audio");
+        const audio = document.createElement("audio");
         audio.id = "macOSNotifJS_Audio";
         audio.autoplay = false;
         audio.volume = 1;
@@ -215,11 +215,11 @@ class macOSNotifJS {
         audio.preload = "auto";
 
         // Create sources
-        let sourceMp3 = document.createElement("source");
+        const sourceMp3 = document.createElement("source");
         sourceMp3.src = __macOSNotifJS_src + "/res/audio/macOSNotif.mp3";
         sourceMp3.type = "audio/mpeg";
         audio.appendChild(sourceMp3);
-        let sourceOgg = document.createElement("source");
+        const sourceOgg = document.createElement("source");
         sourceOgg.src = __macOSNotifJS_src + "/res/audio/macOSNotif.ogg";
         sourceOgg.type = "audio/ogg";
         audio.appendChild(sourceOgg);
@@ -246,7 +246,7 @@ class macOSNotifJS {
         const Button2 = document.getElementById(fullId + "Button2");
 
         // Return
-        return {Outer, Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2};
+        return { Outer, Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2 };
     }
 
     static __dismissAll() {
@@ -282,7 +282,7 @@ class macOSNotifJS {
 
         // Calculate notifications above
         const elmsAbove = Object.entries(__macOSNotifJS_notifs)
-            .reduce((elmsAboveSoFar, [key, {dismissing}]) => (
+            .reduce((elmsAboveSoFar, [key, { dismissing }]) => (
                 elmsAboveSoFar + Number(Number(key) > this.id && dismissing)
             ), 0);
 
@@ -361,7 +361,7 @@ class macOSNotifJS {
         document.body.insertAdjacentHTML("beforeend", templateData.template);
 
         // Find the container
-        const {Outer, Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2} = macOSNotifJS.__getElements(this.id);
+        const { Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
         this.container = Container;
         this.container.setAttribute("data-id", this.id);
 
@@ -443,6 +443,7 @@ class macOSNotifJS {
     }
 }
 
+// eslint-disable-next-line no-unused-vars
 async function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
     return (new macOSNotifJS(options)).run()
