@@ -158,7 +158,7 @@ class macOSNotifJS {
         css.id = "macOSNotifJS_CSS";
         css.rel = "stylesheet";
         css.type = "text/css";
-        css.href = __macOSNotifJS_src + "/res/macOSNotif.css";
+        css.href = __macOSNotifJS_src + "/res/macOSNotif.min.css";
 
         document.head.appendChild(css);
     }
@@ -167,7 +167,7 @@ class macOSNotifJS {
         if (__macOSNotifJS_template) return;
 
         // Generate template url
-        const src = __macOSNotifJS_src + "/res/macOSNotif.html";
+        const src = __macOSNotifJS_src + "/res/macOSNotif.min.html";
 
         // Get the template
         const response = await fetch(src);
