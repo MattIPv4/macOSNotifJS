@@ -47,7 +47,9 @@
     border-radius: 10px;
     border: none;
     transition: all .8s ease-in-out;
+}
 
+.macOSNotif_Container * {
     font-weight: 300;
     color: #444;
     text-align: left;
