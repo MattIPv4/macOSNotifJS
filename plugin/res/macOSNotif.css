@@ -17,6 +17,10 @@
  */
 @import "macOSNotif.fonts.min.css";
 
+.macOSNotif_Outer, .macOSNotif_Outer * {
+    box-sizing: content-box;
+}
+
 .macOSNotif_Outer {
     width: 430px;
     height: 72px;
