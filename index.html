@@ -17,13 +17,64 @@
 -->
 
 <!DOCTYPE html>
-<html lang="en" style="margin:0;padding:0;background:#666;color:#ddd">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>macOSNotifJS</title>
     <link href="plugin/res/macOSNotif.fonts.min.css" rel="stylesheet" type="text/css"/>
+    <style>
+        html, body {
+            margin: 0;
+            background: #fff;
+            color: #000
+        }
+
+        html {
+            padding: 0;
+        }
+
+        body {
+            padding: 3em 5em;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        h1 small {
+            font-weight: normal;
+            font-size: 50%;
+        }
+
+        code, pre {
+            color: rgb(255, 59, 48);
+        }
+
+        button {
+            background: rgb(0, 122, 255);
+            border: none;
+            border-radius: 10px;
+            font-weight: normal;
+            color: #fff;
+            font-size: 1.2em;
+            line-height: 1.5em;
+            margin-bottom: 0.5em;
+        }
+
+        button:hover {
+            background: rgb(0, 111, 230);
+        }
+
+        button:active {
+            background: rgb(0, 99, 204);
+        }
+
+        button + code {
+            margin-left: 0.5em;
+        }
+    </style>
 </head>
-<body class="sf-ui-display" style="margin:0;padding:3em 5em;background:transparent">
+<body class="sf-ui-display">
 <a href="https://github.com/MattIPv4/macOSNotifJS">
     <img style="position:absolute;top:0;left:0;border:0" alt="Fork me on GitHub"
          src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"/>
@@ -32,7 +83,9 @@
 <h1>
     macOSNotifJS
     <br/>
-    <small>A simple Javascript plugin to create simulated macOS notifications on your website.</small>
+    <small>A simple Javascript plugin to create simulated macOS notifications
+        on your website.
+    </small>
 </h1>
 
 <h3>Usage:</h3>
@@ -61,38 +114,53 @@ options = {
 </pre>
 
 <h3>Demos:</h3>
-<button style="font-size:1.5em" onclick="macOSNotif()">
-    Trigger Notification (Two buttons)
+<button onclick="macOSNotif({subtitle:'Dual button notification'})">
+    Dual button notification
 </button>
-<p>Basic call: <code>macOSNotif()</code></p><br/>
+<code>macOSNotif()</code><br/>
 
-<button style="font-size:1.5em" onclick="macOSNotif({btn2Text:null})">
-    Trigger Notification (One button)
+<button onclick="macOSNotif({subtitle:'Single button notification', btn2Text:null})">
+    Single button notification
 </button>
-<p>Basic call: <code>macOSNotif({btn2Text:null})</code></p><br/>
+<code>macOSNotif({btn2Text:null})</code><br/>
 
-<button style="font-size:1.5em" onclick="macOSNotif({mainLink:'#'})">
-    Trigger Notification (Main body clickable)
+<button onclick="macOSNotif({subtitle:'Main body link notification', mainLink:'#'})">
+    Main body link notification
 </button>
-<p>Basic call: <code>macOSNotif({mainLink:'#'})</code></p><br/>
+<code>macOSNotif({mainLink:'#'})</code><br/>
 
-<button style="font-size:1.5em" onclick="macOSNotif({mainLink:'#', btn1Text:null})">
-    Trigger Notification (No buttons)
+<button onclick="macOSNotif({subtitle:'No button notification', mainLink:'#', btn1Text:null})">
+    No button notification
 </button>
-<p>Basic call: <code>macOSNotif({mainLink:'#', btn1Text:null})</code></p><br/>
+<code>macOSNotif({mainLink:'#', btn1Text:null})</code><br/>
 
-<button style="font-size:1.5em" onclick="macOSNotif({imageSrc: 'https://mattcowley.co.uk/me.png'})">
-    Trigger Notification (Image)
+<button onclick="macOSNotif({subtitle:'Image (icon) notification', imageSrc: 'https://mattcowley.co.uk/me.png'})">
+    Image (icon) notification
 </button>
-<p>Basic call: <code>macOSNotif({imageSrc: 'https://mattcowley.co.uk/me.png'})</code></p><br/>
+<code>macOSNotif({imageSrc: 'https://mattcowley.co.uk/me.png'})</code><br/>
 
-<button style="font-size:1.5em" onclick="macOSNotif({sounds:true})">
-    Trigger Notification (Sounds)
+<button onclick="macOSNotif({subtitle:'Sound (alert) notification', sounds:true})">
+    Sound (alert) notification
 </button>
-<p>Basic call: <code>macOSNotif({sounds:true})</code></p><br/>
+<code>macOSNotif({sounds:true})</code><br/>
 
 <script src="plugin/macOSNotif.js"></script>
-<script>macOSNotif();</script>
+<script>
+    const buttons = document.getElementsByTagName("button");
+    const delay = 750;
+
+    function click(i) {
+        if (i < buttons.length) {
+            buttons[i].click();
+            i++;
+            setTimeout(function () {
+                click(i);
+            }, delay);
+        }
+    }
+
+    click(0);
+</script>
 
 </body>
 </html>
