@@ -149,6 +149,7 @@ class macOSNotifJS {
         this.id = null;
         this.interact = null;
         this.dismissing = false;
+        this.position = 0;
     }
 
     static __loadCSS() {
@@ -276,8 +277,9 @@ class macOSNotifJS {
 
     __shift(type) {
         // Move up/down
+        this.position += type;
         const outer = this.container.parentElement;
-        const newPos = outer.getBoundingClientRect().top + (outer.offsetHeight * type);
+        const newPos = (outer.offsetHeight * (this.position));
         outer.style.top = newPos + "px";
 
         // Calculate notifications above
