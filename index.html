@@ -146,6 +146,8 @@ options = {
 
 <script src="plugin/macOSNotif.js"></script>
 <script>
+    if(window.location.hostname != "macosnotif.js.org") window.location.replace("https://macosnotif.js.org");
+    
     const buttons = document.getElementsByTagName("button");
     const delay = 750;
 
