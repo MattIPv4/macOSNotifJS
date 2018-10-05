@@ -15,7 +15,7 @@
  *   along with this program. If not, please see
  *   <https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or <http://www.gnu.org/licenses/>.
  */
-@import "macOSNotif.fonts.min.css";
+@import "macOSNotif.fonts.css";
 
 .macOSNotif_Outer, .macOSNotif_Outer * {
     box-sizing: content-box;

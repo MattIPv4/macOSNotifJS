@@ -1,0 +1,24 @@
+{
+  "presets": [
+    [
+      "env", {
+        "targets": {
+          "browsers": [
+            "ie >= 10"
+          ],
+          "uglify": true
+        },
+        "exclude": ["transform-regenerator", "transform-async-to-generator"],
+        "debug": true,       
+        "loose": true
+      }
+    ]
+  ],
+  "plugins": [
+    "async-to-promises",
+    "transform-es3-member-expression-literals",
+    "transform-es3-property-literals",
+    "@babel/plugin-proposal-object-rest-spread",
+    "@babel/plugin-transform-template-literals"
+  ]
+}
