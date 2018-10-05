@@ -20,6 +20,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="<%= htmlWebpackPlugin.options.meta.viewport %>"/>
     <title>macOSNotifJS</title>
     <style>
         html, body {
@@ -72,15 +73,20 @@
             margin-left: 0.5em;
         }
     </style>
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><link href="macOSNotif.css" rel="stylesheet"><script type="text/javascript" src="macOSNotif.min.js"></script></head>
+
+    <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/>
+    <% } %>
+</head>
 <body class="sf-ui-display">
 <a href="https://github.com/MattIPv4/macOSNotifJS">
-    <img style="position:absolute;top:0;left:0;border:0" alt="Fork me on GitHub" src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png">
+    <img style="position:absolute;top:0;left:0;border:0" alt="Fork me on GitHub"
+         src="https://s3.amazonaws.com/github/ribbons/forkme_left_darkblue_121621.png"/>
 </a>
 
 <h1>
     macOSNotifJS
-    <br>
+    <br/>
     <small>A simple Javascript plugin to create simulated macOS notifications
         on your website.
     </small>
@@ -89,7 +95,7 @@
 <h3>Usage:</h3>
 <p>
     To get started call the function <code>macOSNotif</code>.
-    <br>To make proper use of the fucntion, you can supply an object of options as listed below.
+    <br/>To make proper use of the fucntion, you can supply an object of options as listed below.
 </p>
 <pre>
 options = {
@@ -111,36 +117,40 @@ options = {
 }
 </pre>
 
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+<script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+<% } %>
+
 <h3>Demos:</h3>
 <button onclick="macOSNotif({subtitle:'Dual button notification'})">
     Dual button notification
 </button>
-<code>macOSNotif()</code><br>
+<code>macOSNotif()</code><br/>
 
 <button onclick="macOSNotif({subtitle:'Single button notification', btn2Text:null})">
     Single button notification
 </button>
-<code>macOSNotif({btn2Text:null})</code><br>
+<code>macOSNotif({btn2Text:null})</code><br/>
 
 <button onclick="macOSNotif({subtitle:'Main body link notification', mainLink:'#'})">
     Main body link notification
 </button>
-<code>macOSNotif({mainLink:'#'})</code><br>
+<code>macOSNotif({mainLink:'#'})</code><br/>
 
 <button onclick="macOSNotif({subtitle:'No button notification', mainLink:'#', btn1Text:null})">
     No button notification
 </button>
-<code>macOSNotif({mainLink:'#', btn1Text:null})</code><br>
+<code>macOSNotif({mainLink:'#', btn1Text:null})</code><br/>
 
 <button onclick="macOSNotif({subtitle:'Image (icon) notification', imageSrc: 'https://mattcowley.co.uk/me.png'})">
     Image (icon) notification
 </button>
-<code>macOSNotif({imageSrc: 'https://mattcowley.co.uk/me.png'})</code><br>
+<code>macOSNotif({imageSrc: 'https://mattcowley.co.uk/me.png'})</code><br/>
 
 <button onclick="macOSNotif({subtitle:'Sound (alert) notification', sounds:true})">
     Sound (alert) notification
 </button>
-<code>macOSNotif({sounds:true})</code><br>
+<code>macOSNotif({sounds:true})</code><br/>
 
 <script>
     // if(window.location.hostname != "macosnotif.js.org") window.location.replace("https://macosnotif.js.org");

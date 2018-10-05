@@ -48,17 +48,14 @@ module.exports = {
             },
             {
                 test: /\.html$/,
-                use: [ {
+                use: [{
                     loader: "html-loader",
                 }],
             },
             {
-                test: /\.(ogg|mp3|wav|mpe?g)$/i,
+                test: /\.(ogg|mp3|caf|wav|mpe?g)$/i,
                 use: {
-                    loader: "file-loader",
-                    options: {
-                        name: "./audio/[name].[ext]",
-                    },
+                    loader: "url-loader",
                 },
             },
         ],
@@ -74,8 +71,10 @@ module.exports = {
                 viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
             },
             minify: false,
-            inject: "head",
-            template: "index.html",
+            inject: false,
+            xhtml: true,
+            filename: path.join(__dirname, "index.html"),
+            template: "index.tpl",
         }),
     ],
 };

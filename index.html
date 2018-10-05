@@ -20,6 +20,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
     <title>macOSNotifJS</title>
     <style>
         html, body {
@@ -72,6 +73,10 @@
             margin-left: 0.5em;
         }
     </style>
+
+    
+    <link href="dist/macOSNotif.css" rel="stylesheet"/>
+    
 </head>
 <body class="sf-ui-display">
 <a href="https://github.com/MattIPv4/macOSNotifJS">
@@ -111,6 +116,10 @@ options = {
     btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
 }
 </pre>
+
+
+<script src="dist/macOSNotif.min.js"></script>
+
 
 <h3>Demos:</h3>
 <button onclick="macOSNotif({subtitle:'Dual button notification'})">
