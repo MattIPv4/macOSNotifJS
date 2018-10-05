@@ -13,7 +13,7 @@
   },
   "keywords": [],
   "author": "MattIPv4",
-  "license": "ISC",
+  "license": "AGPL-3.0-only",
   "bugs": {
     "url": "https://github.com/MattIPv4/macOSNotifJS/issues"
   },

@@ -310,7 +310,7 @@ class macOSNotifJS {
 
         // Remove fully once animation completed
         setTimeout(() => {
-            this.container.parentElement.removeChild(this.container);
+            this.container.parentElement.parentElement.removeChild(this.container.parentElement);
             delete __macOSNotifJS_notifs[this.id];
         }, 800);
     }
