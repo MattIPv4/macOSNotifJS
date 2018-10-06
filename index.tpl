@@ -122,27 +122,27 @@ options = {
 <% } %>
 
 <h3>Demos:</h3>
-<button onclick="macOSNotif({subtitle:'Dual button notification'})">
+<button data-demo-load onclick="macOSNotif({subtitle:'Dual button notification'})">
     Dual button notification
 </button>
 <code>macOSNotif()</code><br/>
 
-<button onclick="macOSNotif({subtitle:'Single button notification', btn2Text:null})">
+<button data-demo-load onclick="macOSNotif({subtitle:'Single button notification', btn2Text:null})">
     Single button notification
 </button>
 <code>macOSNotif({btn2Text:null})</code><br/>
 
-<button onclick="macOSNotif({subtitle:'Main body link notification', mainLink:'#'})">
+<button data-demo-load onclick="macOSNotif({subtitle:'Main body link notification', mainLink:'#'})">
     Main body link notification
 </button>
 <code>macOSNotif({mainLink:'#'})</code><br/>
 
-<button onclick="macOSNotif({subtitle:'No button notification', mainLink:'#', btn1Text:null})">
+<button data-demo-load onclick="macOSNotif({subtitle:'No button notification', mainLink:'#', btn1Text:null})">
     No button notification
 </button>
 <code>macOSNotif({mainLink:'#', btn1Text:null})</code><br/>
 
-<button onclick="macOSNotif({subtitle:'Image (icon) notification', imageSrc: 'https://mattcowley.co.uk/me.png'})">
+<button data-demo-load onclick="macOSNotif({subtitle:'Image (icon) notification', imageSrc: 'https://mattcowley.co.uk/me.png'})">
     Image (icon) notification
 </button>
 <code>macOSNotif({imageSrc: 'https://mattcowley.co.uk/me.png'})</code><br/>
@@ -154,8 +154,8 @@ options = {
 
 <script>
     if(window.location.hostname != "macosnotif.js.org") window.location.replace("https://macosnotif.js.org");
-    
-    const buttons = document.getElementsByTagName("button");
+
+    const buttons = document.querySelectorAll("button[data-demo-load]");
     const delay = 750;
 
     function click(i) {

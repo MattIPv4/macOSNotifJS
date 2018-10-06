@@ -4,6 +4,8 @@
 
 To use the package, copy the contents of the `dist` folder and serve it on your website.
 
+Huge thanks to [@Spring3](https://github.com/Spring3) for refactoring this whole project from my original mess into a functional, distributable plugin.
+
 ## Discussion, Support and Issues
 For general support and discussion of this project, please join the Discord server: https://discord.gg/qyXqA7y \
 [![Discord Server](https://discordapp.com/api/guilds/204663881799303168/widget.png?style=banner2)](https://discord.gg/qyXqA7y)
