@@ -24,63 +24,63 @@
 @font-face {
     font-family: "SF Display";
     font-weight: 900;
-    src: url("fonts/SF-UI-Display-Black.otf");
+    src: url("../fonts/SF-UI-Display-Black.otf");
 }
 
 /** Bold */
 @font-face {
     font-family: "SF Display";
     font-weight: 700;
-    src: url("fonts/SF-UI-Display-Bold.otf");
+    src: url("../fonts/SF-UI-Display-Bold.otf");
 }
 
 /** Heavy */
 @font-face {
     font-family: "SF Display";
     font-weight: 800;
-    src: url("fonts/SF-UI-Display-Heavy.otf");
+    src: url("../fonts/SF-UI-Display-Heavy.otf");
 }
 
 /** Light */
 @font-face {
     font-family: "SF Display";
     font-weight: 200;
-    src: url("fonts/SF-UI-Display-Light.otf");
+    src: url("../fonts/SF-UI-Display-Light.otf");
 }
 
 /** Medium */
 @font-face {
     font-family: "SF Display";
     font-weight: 500;
-    src: url("fonts/SF-UI-Display-Medium.otf");
+    src: url("../fonts/SF-UI-Display-Medium.otf");
 }
 
 /** Regular */
 @font-face {
     font-family: "SF Display";
     font-weight: 400;
-    src: url("fonts/SF-UI-Display-Regular.otf");
+    src: url("../fonts/SF-UI-Display-Regular.otf");
 }
 
 /** Semibold */
 @font-face {
     font-family: "SF Display";
     font-weight: 600;
-    src: url("fonts/SF-UI-Display-Semibold.otf");
+    src: url("../fonts/SF-UI-Display-Semibold.otf");
 }
 
 /** Thin */
 @font-face {
     font-family: "SF Display";
     font-weight: 300;
-    src: url("fonts/SF-UI-Display-Thin.otf");
+    src: url("../fonts/SF-UI-Display-Thin.otf");
 }
 
 /** Ultralight */
 @font-face {
     font-family: "SF Display";
     font-weight: 100;
-    src: url("fonts/SF-UI-Display-Ultralight.otf");
+    src: url("../fonts/SF-UI-Display-Ultralight.otf");
 }
 
 .sf-ui-display {
@@ -96,7 +96,7 @@
 @font-face {
     font-family: "SF Text";
     font-weight: 700;
-    src: url("fonts/SF-UI-Text-Bold.otf");
+    src: url("../fonts/SF-UI-Text-Bold.otf");
 }
 
 /** Bold Italic */
@@ -104,14 +104,14 @@
     font-family: "SF Text";
     font-weight: 700;
     font-style: italic;
-    src: url("fonts/SF-UI-Text-BoldItalic.otf");
+    src: url("../fonts/SF-UI-Text-BoldItalic.otf");
 }
 
 /** Heavy */
 @font-face {
     font-family: "SF Text";
     font-weight: 800;
-    src: url("fonts/SF-UI-Text-Heavy.otf");
+    src: url("../fonts/SF-UI-Text-Heavy.otf");
 }
 
 /** Heavy Italic */
@@ -119,14 +119,14 @@
     font-family: "SF Text";
     font-weight: 800;
     font-style: italic;
-    src: url("fonts/SF-UI-Text-HeavyItalic.otf");
+    src: url("../fonts/SF-UI-Text-HeavyItalic.otf");
 }
 
 /** Light */
 @font-face {
     font-family: "SF Text";
     font-weight: 200;
-    src: url("fonts/SF-UI-Text-Light.otf");
+    src: url("../fonts/SF-UI-Text-Light.otf");
 }
 
 /** Light Italic */
@@ -134,14 +134,14 @@
     font-family: "SF Text";
     font-weight: 200;
     font-style: italic;
-    src: url("fonts/SF-UI-Text-HeavyItalic.otf");
+    src: url("../fonts/SF-UI-Text-HeavyItalic.otf");
 }
 
 /** Medium */
 @font-face {
     font-family: "SF Text";
     font-weight: 500;
-    src: url("fonts/SF-UI-Text-Medium.otf");
+    src: url("../fonts/SF-UI-Text-Medium.otf");
 }
 
 /** Medium Italic */
@@ -149,14 +149,14 @@
     font-family: "SF Text";
     font-weight: 500;
     font-style: italic;
-    src: url("fonts/SF-UI-Text-MediumItalic.otf");
+    src: url("../fonts/SF-UI-Text-MediumItalic.otf");
 }
 
 /** Regular */
 @font-face {
     font-family: "SF Text";
     font-weight: 400;
-    src: url("fonts/SF-UI-Text-Regular.otf");
+    src: url("../fonts/SF-UI-Text-Regular.otf");
 }
 
 /** Regular Italic */
@@ -164,14 +164,14 @@
     font-family: "SF Text";
     font-weight: 400;
     font-style: italic;
-    src: url("fonts/SF-UI-Text-RegularItalic.otf");
+    src: url("../fonts/SF-UI-Text-RegularItalic.otf");
 }
 
 /** Semibold */
 @font-face {
     font-family: "SF Text";
     font-weight: 600;
-    src: url("fonts/SF-UI-Text-Semibold.otf");
+    src: url("../fonts/SF-UI-Text-Semibold.otf");
 }
 
 /** Semibold Italic */
@@ -179,14 +179,14 @@
     font-family: "SF Text";
     font-weight: 600;
     font-style: italic;
-    src: url("fonts/SF-UI-Text-SemiboldItalic.otf");
+    src: url("../fonts/SF-UI-Text-SemiboldItalic.otf");
 }
 
 /** Ultrathin */
 @font-face {
     font-family: "SF Text";
     font-weight: 100;
-    src: url("fonts/SF-UI-Text-Ultrathin.otf");
+    src: url("../fonts/SF-UI-Text-Ultrathin.otf");
 }
 
 /** Ultrathin Italic */
@@ -194,7 +194,7 @@
     font-family: "SF Text";
     font-weight: 100;
     font-style: italic;
-    src: url("fonts/SF-UI-Text-UltrathinItalic.otf");
+    src: url("../fonts/SF-UI-Text-UltrathinItalic.otf");
 }
 
 .sf-ui-text {
@@ -210,7 +210,7 @@
 @font-face {
     font-family: "SF Mono";
     font-weight: 700;
-    src: url("fonts/SFMono-Bold.otf");
+    src: url("../fonts/SFMono-Bold.otf");
 }
 
 /** Bold Italic */
@@ -218,14 +218,14 @@
     font-family: "SF Mono";
     font-weight: 700;
     font-style: italic;
-    src: url("fonts/SFMono-BoldItalic.otf");
+    src: url("../fonts/SFMono-BoldItalic.otf");
 }
 
 /** Heavy */
 @font-face {
     font-family: "SF Mono";
     font-weight: 800;
-    src: url("fonts/SFMono-Heavy.otf");
+    src: url("../fonts/SFMono-Heavy.otf");
 }
 
 /** Heavy Italic */
@@ -233,14 +233,14 @@
     font-family: "SF Mono";
     font-weight: 800;
     font-style: italic;
-    src: url("fonts/SFMono-HeavyItalic.otf");
+    src: url("../fonts/SFMono-HeavyItalic.otf");
 }
 
 /** Light */
 @font-face {
     font-family: "SF Mono";
     font-weight: 200;
-    src: url("fonts/SFMono-Light.otf");
+    src: url("../fonts/SFMono-Light.otf");
 }
 
 /** Light Italic */
@@ -248,14 +248,14 @@
     font-family: "SF Mono";
     font-weight: 200;
     font-style: italic;
-    src: url("fonts/SFMono-HeavyItalic.otf");
+    src: url("../fonts/SFMono-HeavyItalic.otf");
 }
 
 /** Medium */
 @font-face {
     font-family: "SF Mono";
     font-weight: 500;
-    src: url("fonts/SFMono-Medium.otf");
+    src: url("../fonts/SFMono-Medium.otf");
 }
 
 /** Medium Italic */
@@ -263,14 +263,14 @@
     font-family: "SF Mono";
     font-weight: 500;
     font-style: italic;
-    src: url("fonts/SFMono-MediumItalic.otf");
+    src: url("../fonts/SFMono-MediumItalic.otf");
 }
 
 /** Regular */
 @font-face {
     font-family: "SF Mono";
     font-weight: 400;
-    src: url("fonts/SFMono-Regular.otf");
+    src: url("../fonts/SFMono-Regular.otf");
 }
 
 /** Regular Italic */
@@ -278,14 +278,14 @@
     font-family: "SF Mono";
     font-weight: 400;
     font-style: italic;
-    src: url("fonts/SFMono-RegularItalic.otf");
+    src: url("../fonts/SFMono-RegularItalic.otf");
 }
 
 /** Semibold */
 @font-face {
     font-family: "SF Mono";
     font-weight: 600;
-    src: url("fonts/SFMono-Semibold.otf");
+    src: url("../fonts/SFMono-Semibold.otf");
 }
 
 /** Semibold Italic */
@@ -293,7 +293,7 @@
     font-family: "SF Mono";
     font-weight: 600;
     font-style: italic;
-    src: url("fonts/SFMono-SemiboldItalic.otf");
+    src: url("../fonts/SFMono-SemiboldItalic.otf");
 }
 
 .sf-mono {

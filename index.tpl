@@ -20,7 +20,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <meta name="viewport" content="<%= htmlWebpackPlugin.options.meta.viewport %>"/>
     <title>macOSNotifJS</title>
     <style>
         html, body {
@@ -74,9 +74,9 @@
         }
     </style>
 
-    
-    <link href="dist/macOSNotif.min.css" rel="stylesheet"/>
-    
+    <% for (var css in htmlWebpackPlugin.files.css) { %>
+    <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/>
+    <% } %>
 </head>
 <body class="sf-ui-display">
 <a href="https://github.com/MattIPv4/macOSNotifJS">
@@ -117,9 +117,9 @@ options = {
 }
 </pre>
 
-
-<script src="dist/macOSNotif.min.js"></script>
-
+<% for (var chunk in htmlWebpackPlugin.files.chunks) { %>
+<script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"></script>
+<% } %>
 
 <h3>Demos:</h3>
 <button onclick="macOSNotif({subtitle:'Dual button notification'})">

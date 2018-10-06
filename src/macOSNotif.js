@@ -1,3 +1,4 @@
+require("./css/macOSNotif.css");
 /**
  *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
  *  <https://github.com/MattIPv4/macOSNotifJS/>
@@ -115,9 +116,8 @@ class __macOSNotifJS_Interact {
     }
 }
 
-let __macOSNotifJS_template = null;
+const __macOSNotifJS_template = require("./html/macOSNotif.html");
 const __macOSNotifJS_notifs = {};
-const __macOSNotifJS_src = document.currentScript.src.substr(0, document.currentScript.src.lastIndexOf("/"));
 const __macOSNotifJS_fadeThreshold = 4;
 
 class macOSNotifJS {
@@ -152,29 +152,6 @@ class macOSNotifJS {
         this.position = 0;
     }
 
-    static __loadCSS() {
-        if (document.getElementById("macOSNotifJS_CSS")) return;
-
-        const css = document.createElement("link");
-        css.id = "macOSNotifJS_CSS";
-        css.rel = "stylesheet";
-        css.type = "text/css";
-        css.href = __macOSNotifJS_src + "/res/macOSNotif.min.css";
-
-        document.head.appendChild(css);
-    }
-
-    static async __loadTemplate() {
-        if (__macOSNotifJS_template) return;
-
-        // Generate template url
-        const src = __macOSNotifJS_src + "/res/macOSNotif.min.html";
-
-        // Get the template
-        const response = await fetch(src);
-        __macOSNotifJS_template = (await response.text()).replace(/<!--[\s\S]*?(?:-->)/g, "");
-    }
-
     static __fullId(id) {
         return "macOSNotifJS_n" + id.toString();
     }
@@ -188,12 +165,9 @@ class macOSNotifJS {
         return Math.max(...keys) + 1;
     }
 
-    static async __generateTemplate() {
-        // Ensure we have the template
-        await macOSNotifJS.__loadTemplate();
-
+    static __generateTemplate() {
         // Get the template and insert the id
-        let template = __macOSNotifJS_template;
+        let template = __macOSNotifJS_template.default;
         const id = macOSNotifJS.__nextId();
         __macOSNotifJS_notifs[id] = null;
         template = template.replace(/macOSNotifJS_/g, macOSNotifJS.__fullId(id) + "_");
@@ -217,11 +191,11 @@ class macOSNotifJS {
 
         // Create sources
         const sourceMp3 = document.createElement("source");
-        sourceMp3.src = __macOSNotifJS_src + "/res/audio/macOSNotif.mp3";
+        sourceMp3.src = require("./audio/macOSNotif.mp3");
         sourceMp3.type = "audio/mpeg";
         audio.appendChild(sourceMp3);
         const sourceOgg = document.createElement("source");
-        sourceOgg.src = __macOSNotifJS_src + "/res/audio/macOSNotif.ogg";
+        sourceOgg.src = require("./audio/macOSNotif.ogg");
         sourceOgg.type = "audio/ogg";
         audio.appendChild(sourceOgg);
 
@@ -336,7 +310,7 @@ class macOSNotifJS {
 
         // Remove fully once animation completed
         setTimeout(() => {
-            this.container.parentElement.remove();
+            this.container.parentElement.parentElement.removeChild(this.container.parentElement);
             delete __macOSNotifJS_notifs[this.id];
         }, 800);
     }
@@ -353,10 +327,9 @@ class macOSNotifJS {
         this.__dismiss();
     }
 
-    async run() {
+    run() {
         // Generate the base template
-        macOSNotifJS.__loadCSS();
-        const templateData = await macOSNotifJS.__generateTemplate();
+        const templateData = macOSNotifJS.__generateTemplate();
         this.id = templateData.id;
 
         // Add the notification to DOM
@@ -377,7 +350,7 @@ class macOSNotifJS {
             Image.alt = this.options.imageName;
             Image.title = this.options.imageName;
         } else {
-            Img.remove();
+            Img.parentElement.removeChild(Img);
         }
         Title.textContent = this.options.title;
         Subtitle.textContent = this.options.subtitle;
@@ -390,11 +363,11 @@ class macOSNotifJS {
                 Button2.textContent = this.options.btn2Text;
             } else {
                 Button1.classList.add("macOSNotif_ButtonFull");
-                Button2.remove();
+                Button2.parentElement.removeChild(Button2);
             }
         } else {
             Text.classList.add("macOSNotif_TextFull");
-            Buttons.remove();
+            Buttons.parentElement.removeChild(Buttons);
         }
 
         // Interact dismiss
@@ -445,8 +418,7 @@ class macOSNotifJS {
     }
 }
 
-// eslint-disable-next-line no-unused-vars
-async function macOSNotif(options) {
+window.macOSNotif = function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
     return (new macOSNotifJS(options)).run();
 }
