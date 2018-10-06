@@ -418,7 +418,6 @@ class macOSNotifJS {
     }
 }
 
-// eslint-disable-next-line no-unused-vars
 window.macOSNotif = function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
     return (new macOSNotifJS(options)).run();

@@ -3,7 +3,8 @@ const path = require("path").posix;
 const webpack = require("webpack");
 const os = require("os");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin")
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 // YYYY-MM-DD format
 const dateOfBuild = new Date().toISOString().slice(0, 10);
@@ -32,10 +33,11 @@ module.exports = {
             },
             {
                 test: /\.css$/,
-                use: [
-                    MiniCssExtractPlugin.loader,
-                    "css-loader",
-                ],
+                use: [{
+                    loader: MiniCssExtractPlugin.loader,
+                }, {
+                    loader: "css-loader",
+                }],
             },
             {
                 test: /\.(ttf|eot|otf|woff(2)?)(\?[a-z0-9=&.]+)?$/,
@@ -62,9 +64,10 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin({
-            filename: "macOSNotif.css",
+            filename: "macOSNotif.min.css",
             allChunks: true,
         }),
+        new OptimizeCssAssetsPlugin({}),
         new webpack.BannerPlugin(`${name} - v${version} - ${dateOfBuild}${os.EOL}${copyrights}${os.EOL}`),
         new HtmlWebpackPlugin({
             meta: {
