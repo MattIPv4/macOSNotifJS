@@ -19,7 +19,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <meta name="viewport" content="<%= htmlWebpackPlugin.options.meta.viewport %>"/>
     <title>macOSNotifJS</title>
     <style>
@@ -37,13 +37,31 @@
             padding: 3em 5em;
         }
 
-        h1 {
+        h1, h2 {
+            margin: 1rem -5rem 0;
+            padding: .5rem 2.5rem;
+            background: #f2f2f2;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+            font-weight: 300;
+            color: #444;
             text-align: center;
+            font-family: SF Display, -apple-system, system-ui, BlinkMacSystemFont, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Segoe UI, Roboto, Ubuntu, Lucida Grande, sans-serif;
+            line-height: 1;
         }
 
         h1 small {
-            font-weight: normal;
+            font-weight: inherit;
             font-size: 50%;
+        }
+
+        h2 {
+            font-size: 1.6em;
+            text-align: left;
+        }
+
+        h2 small {
+            font-weight: inherit;
+            font-size: 70%;
         }
 
         code, pre {
@@ -74,9 +92,9 @@
         }
     </style>
 
-    <% for (var css in htmlWebpackPlugin.files.css) { %>
+<% for (var css in htmlWebpackPlugin.files.css) { %>
     <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/>
-    <% } %>
+<% } %>
 </head>
 <body class="sf-ui-display">
 <a href="https://github.com/MattIPv4/macOSNotifJS">
@@ -87,8 +105,9 @@
 <h1>
     macOSNotifJS
     <br/>
-    <small>A simple Javascript plugin to create simulated macOS notifications
-        on your website.
+    <small>
+        A simple Javascript plugin to create simulated macOS notifications on your website.
+        <br/>macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
     </small>
 </h1>
 
@@ -142,7 +161,8 @@ options = {
 </button>
 <code>macOSNotif({mainLink:'#', btn1Text:null})</code><br/>
 
-<button data-demo-load onclick="macOSNotif({subtitle:'Image (icon) notification', imageSrc: 'https://mattcowley.co.uk/me.png'})">
+<button data-demo-load
+        onclick="macOSNotif({subtitle:'Image (icon) notification', imageSrc: 'https://mattcowley.co.uk/me.png'})">
     Image (icon) notification
 </button>
 <code>macOSNotif({imageSrc: 'https://mattcowley.co.uk/me.png'})</code><br/>
@@ -151,6 +171,15 @@ options = {
     Sound (alert) notification
 </button>
 <code>macOSNotif({sounds:true})</code><br/>
+
+<h2>
+    macOSNotifJS
+    <br/>
+    <small>
+        A simple Javascript plugin to create simulated macOS notifications on your website.
+        <br/>macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
+    </small>
+</h2>
 
 <script>
     if(window.location.hostname != "macosnotif.js.org") window.location.replace("https://macosnotif.js.org");
