@@ -20,8 +20,77 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8"/>
-    <meta name="viewport" content="<%= htmlWebpackPlugin.options.meta.viewport %>"/>
+
     <title>macOSNotifJS</title>
+
+    <meta name="viewport" content="<%= htmlWebpackPlugin.options.meta.viewport %>"/>
+
+    <meta name="title"
+          content="macOSNotifJS"/>
+
+    <meta name="description"
+          content="macOSNotifJS - A simple Javascript plugin to create simulated macOS notifications on your website."/>
+
+    <meta name="keywords"
+          content="javascript, javascript-plugin, notifications, notification, macos, javascript-tools, javascript-utility, javascript-audio, notification-system, simulated-macos-notifications, macosx, osx, osx-notifications, javascript-library, javascript-framework, notification-service, notification-api"/>
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1"/>
+
+    <link rel="image_src"
+          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+
+    <link rel="canonical"
+          href="https://macosnotif.js.org/"/>
+
+    <meta name="canonicalURL"
+          content="https://macosnotif.js.org/"/>
+
+    <meta name="twitter:card"
+          content="summary_large_image">
+
+    <meta name="twitter:site"
+          content="https://macosnotif.js.org/"/>
+
+    <meta name="twitter:creator"
+          content="@MattIPv4"/>
+
+    <meta name="twitter:title"
+          content="macOSNotifJS"/>
+
+    <meta name="twitter:description"
+          content="macOSNotifJS - A simple Javascript plugin to create simulated macOS notifications on your website."/>
+
+    <meta name="twitter:image"
+          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+
+    <meta name="twitter:url"
+          content="https://macosnotif.js.org/"/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:title"
+          content="macOSNotifJS"/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:type"
+          content="website"/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:locale"
+          content="en_GB"/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:site_name"
+          content="macOSNotifJS"/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:description"
+          content="macOSNotifJS - A simple Javascript plugin to create simulated macOS notifications on your website."/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:url"
+          content="https://macosnotif.js.org/"/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:image"
+          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+
+    <meta prefix="og: http://ogp.me/ns#" property="og:image:url"
+          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+
     <style>
         html, body {
             margin: 0;
@@ -294,7 +363,7 @@ options = {
 <% } %>
 
 <script>
-    if(window.location.hostname === "macosnotifjs.mattcowley.co.uk") window.location.replace("https://macosnotif.js.org");
+    if (window.location.hostname === "macosnotifjs.mattcowley.co.uk") window.location.replace("https://macosnotif.js.org");
 
     const buttons = document.querySelectorAll("button[data-demo-load]");
     const delay = 750;
