@@ -147,15 +147,31 @@
     line-height: calc((72px - 10px - 10px) / 2 - 1px);
     border: none;
     border-top: 1px transparent solid;
+    background: transparent;
     max-width: 100%;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
     text-shadow: none;
-
     font-size: 13px;
     font-weight: 400;
     color: #666;
+    transition: background .1s, color .1s;
+}
+
+.macOSNotif_Button:first-of-type {
+    border-top-right-radius: 10px;
+}
+
+.macOSNotif_Button:last-of-type {
+    border-bottom-right-radius: 10px;
+}
+
+.macOSNotif_Button:active,
+.macOSNotif_Button:focus {
+    outline: none;
+    background: #0a84ff;
+    color: #fff;
 }
 
 .macOSNotif_ButtonFull {
