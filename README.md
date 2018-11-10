@@ -1,10 +1,10 @@
-# macOSNotifJS
+# [macOSNotifJS](https://macosnotif.js.org/)
 [![macOsNotifJS](brand/macOSNotifJS-408x80.png)](https://macosnotif.js.org/)\
 **A simple Javascript plugin to create simulated macOS notifications on your website.**
 
-To use the package, copy the contents of the `dist` folder and serve it on your website.
+## Installation, Usage and About
 
-View the demo at [macosnotif.js.org](https://macosnotif.js.org/).
+Please see the full information about how to use the plugin and what it does on the website: **[macosnotif.js.org](https://macosnotif.js.org/).**
 
 Huge thanks to [@Spring3](https://github.com/Spring3) for refactoring this whole project from my original mess into a functional, distributable plugin.
 

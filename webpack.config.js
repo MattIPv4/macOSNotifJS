@@ -8,11 +8,12 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 // YYYY-MM-DD format
 const dateOfBuild = new Date().toISOString().slice(0, 10);
+const versionInfo = `${name} - v${version} - ${dateOfBuild}`;
 const copyrights = `/**
  *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
  *  <https://github.com/MattIPv4/macOSNotifJS/>
  *  Copyright (C) 2018 Matt Cowley (MattIPv4) (me@mattcowley.co.uk)
- */`
+ */`;
 
 module.exports = {
     mode: "production",
@@ -68,9 +69,10 @@ module.exports = {
             allChunks: true,
         }),
         new OptimizeCssAssetsPlugin({}),
-        new webpack.BannerPlugin(`${name} - v${version} - ${dateOfBuild}${os.EOL}${copyrights}${os.EOL}`),
+        new webpack.BannerPlugin(`${versionInfo}${os.EOL}${copyrights}${os.EOL}`),
         new HtmlWebpackPlugin({
             meta: {
+                version: versionInfo,
                 viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
             },
             minify: false,

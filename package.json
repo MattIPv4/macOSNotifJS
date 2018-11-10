@@ -1,7 +1,7 @@
 {
   "name": "macOSNotifJS",
-  "version": "0.0.2",
-  "description": "![macOsNotifJS](brand/macOSNotifJS-408x80.png)\\ **A simple Javascript plugin to create simulated macOS notifications on your website.**",
+  "version": "0.0.3",
+  "description": "A simple Javascript plugin to create simulated macOS notifications on your website.",
   "main": "src/macOSNotif.js",
   "scripts": {
     "build": "webpack"
@@ -16,7 +16,7 @@
   "bugs": {
     "url": "https://github.com/MattIPv4/macOSNotifJS/issues"
   },
-  "homepage": "https://github.com/MattIPv4/macOSNotifJS#readme",
+  "homepage": "https://macosnotif.js.org",
   "devDependencies": {
     "@babel/core": "^7.1.2",
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",

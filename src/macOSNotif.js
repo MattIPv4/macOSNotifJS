@@ -1,4 +1,5 @@
 require("./css/macOSNotif.css");
+
 /**
  *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
  *  <https://github.com/MattIPv4/macOSNotifJS/>
@@ -116,7 +117,7 @@ class __macOSNotifJS_Interact {
     }
 }
 
-const __macOSNotifJS_template = require("./html/macOSNotif.html");
+const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ''); // Strip HTML comments
 const __macOSNotifJS_notifs = {};
 const __macOSNotifJS_fadeThreshold = 4;
 
@@ -127,18 +128,28 @@ class macOSNotifJS {
             delay: 0.5,                             // Delay before display (in seconds)
             autoDismiss: 0,                         // Delay till automatic dismiss (0 = Never, in seconds)
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
+
             sounds: false,                          // Play sounds for notification
-            zIndex: 5000,                           // The css z-index value of the notification
+            zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
+
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
             imageName: "",                          // Alt/Title text of the icon
             imageLink: null,                        // Link for icon click (null for no link, '#' for dismiss)
+            imageLinkNewTab: false,                 // Open Image Link in New Tab (ignored if link is set to dismiss)
+
             title: "macOSNotifJS",                  // Main Notif Title
             subtitle: "Default notification text",  // Main Notif Sub Title
+
             mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
+            mainLinkNewTab: false,                  // Open Main Link in New Tab (ignored if link is set to dismiss)
+
             btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
             btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
+            btn1NewTab: false,                      // Open Button 1 Link in New Tab (ignored if link is set to dismiss)
+
             btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
             btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
+            btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
         };
 
         // Load our options
@@ -167,7 +178,7 @@ class macOSNotifJS {
 
     static __generateTemplate() {
         // Get the template and insert the id
-        let template = __macOSNotifJS_template.default;
+        let template = __macOSNotifJS_template;
         const id = macOSNotifJS.__nextId();
         __macOSNotifJS_notifs[id] = null;
         template = template.replace(/macOSNotifJS_/g, macOSNotifJS.__fullId(id) + "_");
@@ -315,14 +326,19 @@ class macOSNotifJS {
         }, 800);
     }
 
-    __handleGo(link, nullNoDismiss) {
+    __handleGo(link, newTab, nullNoDismiss) {
         if (typeof(nullNoDismiss) === "undefined") nullNoDismiss = false;
 
         if (link === "#" || (link === null && !nullNoDismiss)) this.__dismiss();
         if (link === "#" || link === null) return;
 
         setTimeout(() => {
-            window.location.href = link;
+            if (newTab) {
+                const win = window.open(link, "_blank");
+                win.focus();
+            } else {
+                window.location.href = link;
+            }
         }, 800);
         this.__dismiss();
     }
@@ -381,16 +397,16 @@ class macOSNotifJS {
         // Set the actions
         const fullId = macOSNotifJS.__fullId(this.id);
         window[fullId + "_ButtonImg"] = () => {
-            this.__handleGo(this.options.imageLink, true);
+            this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true);
         };
         window[fullId + "_ButtonMain"] = () => {
-            this.__handleGo(this.options.mainLink, true);
+            this.__handleGo(this.options.mainLink, this.options.mainLinkNewTab, true);
         };
         window[fullId + "_Button1"] = () => {
-            this.__handleGo(this.options.btn1Link);
+            this.__handleGo(this.options.btn1Link, this.options.btn1NewTab);
         };
         window[fullId + "_Button2"] = () => {
-            this.__handleGo(this.options.btn2Link);
+            this.__handleGo(this.options.btn2Link, this.options.btn2NewTab);
         };
 
         // Set autodismiss
@@ -421,4 +437,4 @@ class macOSNotifJS {
 window.macOSNotif = function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
     return (new macOSNotifJS(options)).run();
-}
+};
