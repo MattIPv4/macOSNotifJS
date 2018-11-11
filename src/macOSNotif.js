@@ -117,7 +117,7 @@ class __macOSNotifJS_Interact {
     }
 }
 
-const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ''); // Strip HTML comments
+const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJS_notifs = {};
 const __macOSNotifJS_fadeThreshold = 4;
 
@@ -324,6 +324,7 @@ class macOSNotifJS {
         setTimeout(() => {
             this.container.parentElement.parentElement.removeChild(this.container.parentElement);
             delete __macOSNotifJS_notifs[this.id];
+            delete window[fullId];
         }, 800);
     }
 
@@ -344,7 +345,36 @@ class macOSNotifJS {
         this.__dismiss();
     }
 
+    dark() {
+        // Set the notification to dark mode
+        const { Outer } = macOSNotifJS.__getElements(this.id);
+        if (!Outer.classList.contains("macOSNotif_Dark")) Outer.classList.add("macOSNotif_Dark");
+    }
+
+    light() {
+        // Set the notification to light mode
+        const { Outer } = macOSNotifJS.__getElements(this.id);
+        if (Outer.classList.contains("macOSNotif_Dark")) Outer.classList.remove("macOSNotif_Dark");
+    }
+
+    setTitle(text) {
+        // Set the title for the notification
+        this.options.title = text;
+        const { Title } = macOSNotifJS.__getElements(this.id);
+        Title.textContent = text;
+    }
+
+    setSubtitle(text) {
+        // Set the subtitle for the notification
+        this.options.subtitle = text;
+        const { Subtitle } = macOSNotifJS.__getElements(this.id);
+        Subtitle.textContent = text;
+    }
+
     run() {
+        // Only ever run once
+        if (this.id !== null) return;
+
         // Generate the base template
         const templateData = macOSNotifJS.__generateTemplate();
         this.id = templateData.id;
@@ -353,14 +383,14 @@ class macOSNotifJS {
         document.body.insertAdjacentHTML("beforeend", templateData.template);
 
         // Find the container
-        const { Outer, Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
+        const { Container, Img, Image, Text, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
         this.container = Container;
         this.container.setAttribute("data-id", this.id);
 
         // Apply user defined options
         this.container.parentElement.style.zIndex = (this.options.zIndex + this.id).toString();
         if (this.options.dark) {
-            Outer.classList.add("macOSNotif_Dark");
+            this.dark();
         }
         if (this.options.imageSrc !== null) {
             if (this.options.imageLink !== null) {
@@ -372,8 +402,8 @@ class macOSNotifJS {
         } else {
             Img.parentElement.removeChild(Img);
         }
-        Title.textContent = this.options.title;
-        Subtitle.textContent = this.options.subtitle;
+        this.setTitle(this.options.title);
+        this.setSubtitle(this.options.subtitle);
         if (this.options.mainLink !== null) {
             Text.classList.add("macOSNotif_Clickable");
         }
@@ -435,10 +465,13 @@ class macOSNotifJS {
 
         // Save
         __macOSNotifJS_notifs[this.id] = this;
+        window[fullId] = this;
     }
 }
 
 window.macOSNotif = function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
-    return (new macOSNotifJS(options)).run();
+    let thisNotif = new macOSNotifJS(options);
+    thisNotif.run();
+    return thisNotif;
 };
