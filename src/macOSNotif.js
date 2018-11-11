@@ -146,10 +146,12 @@ class macOSNotifJS {
 
             btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
             btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
+            btn1Dismiss: true,                      // Dismiss notification after Button 1 pressed
             btn1NewTab: false,                      // Open Button 1 Link in New Tab (ignored if link is set to dismiss)
 
             btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
             btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
+            btn2Dismiss: true,                      // Dismiss notification after Button 2 pressed
             btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
         };
 
@@ -328,21 +330,27 @@ class macOSNotifJS {
         }, 800);
     }
 
-    __handleGo(link, newTab, nullNoDismiss) {
+    __handleGo(link, newTab, dismiss, nullNoDismiss) {
         if (typeof(nullNoDismiss) === "undefined") nullNoDismiss = false;
 
-        if (link === "#" || (link === null && !nullNoDismiss)) this.__dismiss();
+        if(dismiss) {
+            if (!(link === null && nullNoDismiss)) this.__dismiss();
+        }
+
         if (link === "#" || link === null) return;
 
         setTimeout(() => {
-            if (newTab) {
-                const win = window.open(link, "_blank");
-                win.focus();
+            if(typeof(link) === "function") {
+                link(this);
             } else {
-                window.location.href = link;
+                if (newTab) {
+                    const win = window.open(link, "_blank");
+                    win.focus();
+                } else {
+                    window.location.href = link;
+                }
             }
-        }, 800);
-        this.__dismiss();
+        }, (dismiss?800:0));
     }
 
     dark() {
@@ -431,16 +439,16 @@ class macOSNotifJS {
         // Set the actions
         const fullId = macOSNotifJS.__fullId(this.id);
         window[fullId + "_ButtonImg"] = () => {
-            this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true);
+            this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true, true);
         };
         window[fullId + "_ButtonMain"] = () => {
-            this.__handleGo(this.options.mainLink, this.options.mainLinkNewTab, true);
+            this.__handleGo(this.options.mainLink, this.options.mainLinkNewTab, true, true);
         };
         window[fullId + "_Button1"] = () => {
-            this.__handleGo(this.options.btn1Link, this.options.btn1NewTab);
+            this.__handleGo(this.options.btn1Link, this.options.btn1NewTab, this.options.btn1Dismiss);
         };
         window[fullId + "_Button2"] = () => {
-            this.__handleGo(this.options.btn2Link, this.options.btn2NewTab);
+            this.__handleGo(this.options.btn2Link, this.options.btn2NewTab, this.options.btn2Dismiss);
         };
 
         // Set autodismiss

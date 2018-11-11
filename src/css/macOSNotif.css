@@ -64,6 +64,7 @@
     text-align: left;
     font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont, "HelveticaNeue-Light",
     "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+    transition: all .8s ease-in-out;
 }
 
 .macOSNotif_Dark .macOSNotif_Container * {
@@ -168,7 +169,7 @@
     font-size: 13px;
     font-weight: 600;
     color: #666;
-    transition: background .1s, color .1s;
+    transition: all .8s ease-in-out, background .1s, color .1s;
 }
 
 .macOSNotif_Dark .macOSNotif_Button {

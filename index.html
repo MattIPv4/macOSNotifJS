@@ -340,13 +340,20 @@ options = {
 <hr/>
 
 <button data-demo-load
-        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', dark:true})">
+        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', dark:true, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.dark();}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.light();}})">
     Dark mode notification
 </button>
 <pre><code>macOSNotif({
     title:'Dark mode notification',
     subtitle:'Emulates the macOS dark mode styling',
-    dark:true
+    dark:true,
+    mainLink:'#',
+    btn1Text:'Dark',
+    btn1Dismiss:false,
+    btn1Link:function(n){n.dark();},
+    btn2Text:'Light',
+    btn2Dismiss:false,
+    btn2Link:function(n){n.light();}
 })</code></pre>
 
 <hr/>
