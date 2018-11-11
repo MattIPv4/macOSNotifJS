@@ -119,7 +119,7 @@ class __macOSNotifJS_Interact {
 
 const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJS_notifs = {};
-const __macOSNotifJS_fadeThreshold = 4;
+const __macOSNotifJS_fadeThreshold = 6;
 
 class macOSNotifJS {
 
@@ -238,12 +238,6 @@ class macOSNotifJS {
         return { Outer, Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2 };
     }
 
-    static __dismissAll() {
-        Object.values(__macOSNotifJS_notifs).forEach(
-            value => value.__dismiss(),
-        );
-    }
-
     static __doAfter(id, callback) {
         for (const key in __macOSNotifJS_notifs) {
             if (!__macOSNotifJS_notifs.hasOwnProperty(key)) continue;
@@ -252,53 +246,86 @@ class macOSNotifJS {
     }
 
     static __dismissAfter(id) {
-        macOSNotifJS.__doAfter(id, "__dismiss");
+        macOSNotifJS.__doAfter(id, "dismiss");
     }
 
-    static __shiftDownAfter(id) {
-        macOSNotifJS.__doAfter(id, "__shiftDown");
+    static __updatePosAll() {
+        for (const key in __macOSNotifJS_notifs) {
+            if (!__macOSNotifJS_notifs.hasOwnProperty(key)) continue;
+            __macOSNotifJS_notifs[key].__updatePos();
+        }
     }
 
-    static __shiftUpAfter(id) {
-        macOSNotifJS.__doAfter(id, "__shiftUp");
-    }
-
-    __shift(type) {
-        // Move up/down
-        this.position += type;
-        const outer = this.container.parentElement;
-        const newPos = (outer.offsetHeight * (this.position));
-        outer.style.top = newPos + "px";
-
-        // Calculate notifications above
-        const elmsAbove = Object.entries(__macOSNotifJS_notifs)
-            .reduce((elmsAboveSoFar, [key, { dismissing }]) => (
-                elmsAboveSoFar + Number(Number(key) > this.id && dismissing)
-            ), 0);
-
-        // Handle show/hide overflow
-        if (type === 1) {
-            // Down
-            if (elmsAbove >= __macOSNotifJS_fadeThreshold) {
-                this.container.style.opacity = "0";
+    __updatePos() {
+        // Calculate notifications above (that aren't dismissing)
+        const id = this.id;
+        let elmsAbove = 0;
+        Object.values(__macOSNotifJS_notifs).forEach(function (value) {
+            if (value.id > id) {
+                if (!value.dismissing) {
+                    elmsAbove += 1;
+                }
             }
+        });
+
+        const outer = this.container.parentElement;
+        let newPos = (outer.offsetHeight * (Math.min(elmsAbove, __macOSNotifJS_fadeThreshold - 1)));
+
+        // Within visible list
+        if (elmsAbove < __macOSNotifJS_fadeThreshold) {
+            this.container.style.opacity = 1;
+            this.container.style.pointerEvents = "auto";
+            outer.style.top = newPos + "px";
         } else {
-            // Up
-            if (elmsAbove < __macOSNotifJS_fadeThreshold) {
-                this.container.style.opacity = "1";
+
+            // Within stack (1st/2nd after threshold)
+            if (elmsAbove - __macOSNotifJS_fadeThreshold < 2) {
+                this.container.style.opacity = (3 - (elmsAbove - __macOSNotifJS_fadeThreshold)) / 4;
+                this.container.style.pointerEvents = "none";
+                newPos += outer.offsetHeight * (elmsAbove - __macOSNotifJS_fadeThreshold + 1) / 8;
+                outer.style.top = newPos + "px";
+            } else {
+
+                // Hidden
+                this.container.style.opacity = 0;
+                this.container.style.pointerEvents = "none";
             }
         }
     }
 
-    __shiftDown() {
-        this.__shift(1);
+    __handleGo(link, newTab, dismiss, nullNoDismiss) {
+        if (typeof(nullNoDismiss) === "undefined") nullNoDismiss = false;
+
+        if (dismiss) {
+            if (!(link === null && nullNoDismiss)) this.dismiss();
+        }
+
+        if (link === "#" || link === null) return;
+
+        setTimeout(() => {
+            if (typeof(link) === "function") {
+                link(this);
+            } else {
+                if (newTab) {
+                    const win = window.open(link, "_blank");
+                    win.focus();
+                } else {
+                    window.location.href = link;
+                }
+            }
+        }, (dismiss ? 800 : 0));
     }
 
-    __shiftUp() {
-        this.__shift(-1);
+    dismissAll() {
+        Object.values(__macOSNotifJS_notifs).forEach(
+            value => value.dismiss(),
+        );
     }
 
-    __dismiss() {
+    dismiss() {
+        // Only dismiss once
+        if (this.dismissing) return;
+
         // Let others know
         this.dismissing = true;
 
@@ -309,7 +336,7 @@ class macOSNotifJS {
         this.container.parentElement.style.pointerEvents = "none";
         this.container.style.right = -this.container.parentElement.offsetWidth + "px";
         this.container.style.opacity = "0.1";
-        macOSNotifJS.__shiftUpAfter(this.id);
+        macOSNotifJS.__updatePosAll();
 
         // Clear the autodismiss if applicable
         if (window[fullId + "_AutoDismiss"]) {
@@ -330,39 +357,16 @@ class macOSNotifJS {
         }, 800);
     }
 
-    __handleGo(link, newTab, dismiss, nullNoDismiss) {
-        if (typeof(nullNoDismiss) === "undefined") nullNoDismiss = false;
-
-        if(dismiss) {
-            if (!(link === null && nullNoDismiss)) this.__dismiss();
-        }
-
-        if (link === "#" || link === null) return;
-
-        setTimeout(() => {
-            if(typeof(link) === "function") {
-                link(this);
-            } else {
-                if (newTab) {
-                    const win = window.open(link, "_blank");
-                    win.focus();
-                } else {
-                    window.location.href = link;
-                }
-            }
-        }, (dismiss?800:0));
-    }
-
     dark() {
         // Set the notification to dark mode
         const { Outer } = macOSNotifJS.__getElements(this.id);
-        if (!Outer.classList.contains("macOSNotif_Dark")) Outer.classList.add("macOSNotif_Dark");
+        Outer.classList.add("macOSNotif_Dark");
     }
 
     light() {
         // Set the notification to light mode
         const { Outer } = macOSNotifJS.__getElements(this.id);
-        if (Outer.classList.contains("macOSNotif_Dark")) Outer.classList.remove("macOSNotif_Dark");
+        Outer.classList.remove("macOSNotif_Dark");
     }
 
     setTitle(text) {
@@ -432,7 +436,7 @@ class macOSNotifJS {
         if (this.options.interactDismiss) {
             this.interact = new __macOSNotifJS_Interact(this.container);
             this.interact.onDismiss(() => {
-                this.__dismiss();
+                this.dismiss();
             }).run();
         }
 
@@ -454,14 +458,14 @@ class macOSNotifJS {
         // Set autodismiss
         if (this.options.autoDismiss !== 0) {
             window[fullId + "_AutoDismiss"] = setTimeout(() => {
-                this.__dismiss();
+                this.dismiss();
             }, (this.options.autoDismiss * 1000) + (this.options.delay * 1000));
         }
 
         // Handle show
         setTimeout(() => {
             // Stop overlapping
-            macOSNotifJS.__shiftDownAfter(this.id);
+            macOSNotifJS.__updatePosAll();
 
             // Do sound
             if (this.options.sounds) macOSNotifJS.__generateAudio().play();

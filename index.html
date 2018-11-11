@@ -398,7 +398,7 @@ options = {
         }
     }
 
-    click(0);
+    //click(0);
 </script>
 
 <!-- Global site tag (gtag.js) - Google Analytics -->
