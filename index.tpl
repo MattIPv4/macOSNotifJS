@@ -245,6 +245,7 @@ options = {
     interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
     sounds: false,                          // Play sounds for notification
+    dark: false,                            // Use dark mode style for notification
     zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
     imageSrc: null,                         // Link of the icon to display (null to hide icon)
@@ -334,6 +335,18 @@ options = {
     imageSrc:'https://mattcowley.co.uk/me.png',
     imageLink:'https://mattcowley.co.uk/',
     imageLinkNewTab:true
+})</code></pre>
+
+<hr/>
+
+<button data-demo-load
+        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', dark:true})">
+    Dark mode notification
+</button>
+<pre><code>macOSNotif({
+    title:'Dark mode notification',
+    subtitle:'Emulates the macOS dark mode styling',
+    dark:true
 })</code></pre>
 
 <hr/>

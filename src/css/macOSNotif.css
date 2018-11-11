@@ -47,10 +47,15 @@
     top: 10px;
     opacity: 0.1;
     background: #f2f2f2;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    box-shadow: rgba(0, 0, 0, .2) 0 0 2px inset, rgba(0, 0, 0, .2) 0 0 10px;
     border-radius: 10px;
     border: none;
     transition: all .8s ease-in-out;
+}
+
+.macOSNotif_Dark .macOSNotif_Container {
+    box-shadow: rgba(255, 255, 255, .2) 0 0 2px inset, rgba(0, 0, 0, .2) 0 0 10px;
+    background: #333;
 }
 
 .macOSNotif_Container * {
@@ -59,6 +64,10 @@
     text-align: left;
     font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont, "HelveticaNeue-Light",
     "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+}
+
+.macOSNotif_Dark .macOSNotif_Container * {
+    color: #fefefe;
 }
 
 .macOSNotif_Clickable {
@@ -121,9 +130,8 @@
 }
 
 .macOSNotif_Subtitle {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 16px;
-    font-weight: 300;
 }
 
 .macOSNotif_Buttons {
@@ -135,6 +143,10 @@
     height: 100%;
     min-height: 100%;
     padding: 0;
+}
+
+.macOSNotif_Dark .macOSNotif_Buttons {
+    border-color: #111;
 }
 
 .macOSNotif_Button {
@@ -154,9 +166,13 @@
     white-space: nowrap;
     text-shadow: none;
     font-size: 13px;
-    font-weight: 400;
+    font-weight: 600;
     color: #666;
     transition: background .1s, color .1s;
+}
+
+.macOSNotif_Dark .macOSNotif_Button {
+    color: #fefefe;
 }
 
 .macOSNotif_Button:first-of-type {
@@ -170,8 +186,14 @@
 .macOSNotif_Button:active,
 .macOSNotif_Button:focus {
     outline: none;
-    background: #0a84ff;
     color: #fff;
+    background: hsl(211, 100%, 50%);
+    box-shadow: rgba(0, 0, 0, .2) 0 0 2px inset;
+}
+
+.macOSNotif_Dark .macOSNotif_Button:active,
+.macOSNotif_Dark .macOSNotif_Button:focus {
+    background: hsl(211, 100%, 40%);
 }
 
 .macOSNotif_ButtonFull {
@@ -182,4 +204,8 @@
 
 .macOSNotif_Button + .macOSNotif_Button {
     border-top: 1px #ddd solid;
+}
+
+.macOSNotif_Dark .macOSNotif_Button + .macOSNotif_Button {
+    border-color: #111;
 }

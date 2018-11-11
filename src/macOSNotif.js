@@ -130,6 +130,7 @@ class macOSNotifJS {
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
             sounds: false,                          // Play sounds for notification
+            dark: false,                            // Use dark mode style for notification
             zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
@@ -352,12 +353,15 @@ class macOSNotifJS {
         document.body.insertAdjacentHTML("beforeend", templateData.template);
 
         // Find the container
-        const { Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
+        const { Outer, Container, Img, Image, Text, Title, Subtitle, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
         this.container = Container;
         this.container.setAttribute("data-id", this.id);
 
         // Apply user defined options
         this.container.parentElement.style.zIndex = (this.options.zIndex + this.id).toString();
+        if (this.options.dark) {
+            Outer.classList.add("macOSNotif_Dark");
+        }
         if (this.options.imageSrc !== null) {
             if (this.options.imageLink !== null) {
                 Image.classList.add("macOSNotif_Clickable");
