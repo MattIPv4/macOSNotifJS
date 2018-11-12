@@ -6,16 +6,16 @@
 
 <p align="center">
     <a href="https://macosnotif.js.org/">
-        <img src="https://img.shields.io/github/package-json/v/MattIPv4/macOSNotifJS.svg?style=flat-square" alt="Package Version">
+        <img src="https://img.shields.io/github/package-json/v/MattIPv4/macOSNotifJS.svg?style=flat-square&colorB=007aff" alt="Package Version">
     </a>
     <a href="https://github.com/MattIPv4/macOSNotifJS/tree/master/LICENSE">
-        <img src="https://img.shields.io/github/license/MattIPv4/macOSNotifJS.svg?style=flat-square" alt="License">
+        <img src="https://img.shields.io/badge/license-AGPL--3.0-007aff.svg?style=flat-square" alt="License">
     </a>
     <a href="https://david-dm.org/MattIPv4/macOSNotifJS?type=dev">
-        <img src="https://img.shields.io/david/dev/MattIPv4/macOSNotifJS.svg?style=flat-square" alt="Dev Dependencies">
+        <img src="https://img.shields.io/david/dev/MattIPv4/macOSNotifJS.svg?style=flat-square&colorB=007aff" alt="Dev Dependencies">
     </a>
     <a href="https://github.com/MattIPv4/macOSNotifJS/blob/master/dist/macOSNotif.min.js">
-        <img src="https://img.shields.io/github/size/MattIPv4/macOSNotifJS/dist/macOSNotif.min.js.svg?style=flat-square" alt="JS Size">
+        <img src="https://img.shields.io/github/size/MattIPv4/macOSNotifJS/dist/macOSNotif.min.js.svg?style=flat-square&colorB=007aff" alt="JS Size">
   </a>
 </p>
 

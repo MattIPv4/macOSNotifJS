@@ -72,7 +72,8 @@ module.exports = {
         new webpack.BannerPlugin(`${versionInfo}${os.EOL}${copyrights}${os.EOL}`),
         new HtmlWebpackPlugin({
             meta: {
-                version: versionInfo,
+                version: `v${version}`,
+                versionInfo: versionInfo,
                 viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
             },
             minify: false,

@@ -222,6 +222,21 @@
         A simple Javascript plugin to create simulated macOS notifications on your website.
         <br/>macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
     </small>
+    <br/>
+    <small>
+        <a href="https://macosnotif.js.org/">
+            <img src="https://img.shields.io/badge/package-<%= htmlWebpackPlugin.options.meta.version %>-007aff.svg?style=flat-square" alt="Package Version">
+        </a>
+        <a href="https://github.com/MattIPv4/macOSNotifJS/tree/master/LICENSE">
+            <img src="https://img.shields.io/badge/license-AGPL--3.0-007aff.svg?style=flat-square" alt="License">
+        </a>
+        <a href="https://david-dm.org/MattIPv4/macOSNotifJS?type=dev">
+            <img src="https://img.shields.io/david/dev/MattIPv4/macOSNotifJS.svg?style=flat-square&colorB=007aff" alt="Dev Dependencies">
+        </a>
+        <a href="https://github.com/MattIPv4/macOSNotifJS/blob/master/dist/macOSNotif.min.js">
+            <img src="https://img.shields.io/github/size/MattIPv4/macOSNotifJS/dist/macOSNotif.min.js.svg?style=flat-square&colorB=007aff" alt="JS Size">
+        </a>
+    </small>
 </h1>
 
 <h3>Installation:</h3>
@@ -373,10 +388,9 @@ options = {
     macOSNotifJS
     <br/>
     <small>
-        A simple Javascript plugin to create simulated macOS notifications on your website.
-        <br/>macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
+        macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
         <br/>
-        <br/><i><%= htmlWebpackPlugin.options.meta.version %></i>
+        <br/><i><%= htmlWebpackPlugin.options.meta.versionInfo %></i>
     </small>
 </h2>
 
