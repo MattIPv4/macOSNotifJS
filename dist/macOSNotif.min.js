@@ -1,5 +1,5 @@
 /*!
- * macOSNotifJS - v0.0.4-dev - 2018-11-11
+ * macOSNotifJS - v0.0.4 - 2018-11-12
  * /**
  *  *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
  *  *  <https://github.com/MattIPv4/macOSNotifJS/>
