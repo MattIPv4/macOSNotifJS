@@ -1,5 +1,5 @@
 <!-- Provide a general summary of the issue in the title above -->
-<!-- Replace the rather silly content below with your acutal issue report -->
+<!-- Replace the rather silly content below with your actual issue report -->
 
 ## Expected Behavior
 It should work.
@@ -7,7 +7,7 @@ It should work.
 ## Current Behavior
 It broke.
 
-## Development Environemt
+## Development Environment
 Windows ME, IE 6.
 
 ## Steps to Reproduce
@@ -18,5 +18,5 @@ Windows ME, IE 6.
 ## Context
 My computer won't turn on now, I just wanted to use this.
 
-## Additonal Comments
+## Additional Comments
 I might upgrade to Windows 10.

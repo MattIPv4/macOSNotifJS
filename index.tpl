@@ -245,6 +245,7 @@ options = {
     interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
     sounds: false,                          // Play sounds for notification
+    dark: false,                            // Use dark mode style for notification
     zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
     imageSrc: null,                         // Link of the icon to display (null to hide icon)
@@ -260,10 +261,12 @@ options = {
 
     btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
     btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
+    btn1Dismiss: true,                      // Dismiss notification after Button 1 pressed (useful if link is function)
     btn1NewTab: false,                      // Open Button 1 Link in New Tab (ignored if link is set to dismiss)
 
     btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
     btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
+    btn2Dismiss: true,                      // Dismiss notification after Button 2 pressed (useful if link is function)
     btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
 }
 </pre>
@@ -334,6 +337,25 @@ options = {
     imageSrc:'https://mattcowley.co.uk/me.png',
     imageLink:'https://mattcowley.co.uk/',
     imageLinkNewTab:true
+})</code></pre>
+
+<hr/>
+
+<button data-demo-load
+        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', dark:true, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.dark();}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.light();}})">
+    Dark mode notification
+</button>
+<pre><code>macOSNotif({
+    title:'Dark mode notification',
+    subtitle:'Emulates the macOS dark mode styling',
+    dark:true,
+    mainLink:'#',
+    btn1Text:'Dark',
+    btn1Dismiss:false,
+    btn1Link:function(n){n.dark();},
+    btn2Text:'Light',
+    btn2Dismiss:false,
+    btn2Link:function(n){n.light();}
 })</code></pre>
 
 <hr/>
