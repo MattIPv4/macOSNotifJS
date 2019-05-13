@@ -21,7 +21,7 @@ require("./css/macOSNotif.css");
 class __macOSNotifJS_Interact {
 
     constructor(element) {
-        this.element = typeof(element) === "string" ? document.querySelector(element) : element;
+        this.element = typeof (element) === "string" ? document.querySelector(element) : element;
 
         this.drag_acting = false;
         this.drag_xOrg = null;
@@ -130,7 +130,8 @@ class macOSNotifJS {
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
             sounds: false,                          // Play sounds for notification
-            dark: false,                            // Use dark mode style for notification
+            themeDark: false,                       // Use dark mode style for notification
+            themeNative: false,                     // Attempt to detect light/dark from OS, fallback to themeDark
             zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
@@ -293,7 +294,7 @@ class macOSNotifJS {
     }
 
     __handleGo(link, newTab, dismiss, nullNoDismiss) {
-        if (typeof(nullNoDismiss) === "undefined") nullNoDismiss = false;
+        if (typeof (nullNoDismiss) === "undefined") nullNoDismiss = false;
 
         if (dismiss) {
             if (!(link === null && nullNoDismiss)) this.dismiss();
@@ -302,7 +303,7 @@ class macOSNotifJS {
         if (link === "#" || link === null) return;
 
         setTimeout(() => {
-            if (typeof(link) === "function") {
+            if (typeof (link) === "function") {
                 link(this);
             } else {
                 if (newTab) {
@@ -368,6 +369,32 @@ class macOSNotifJS {
         Outer.classList.remove("macOSNotif_Dark");
     }
 
+    checkNative() {
+        // Get current
+        const isDarkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const isMSDarkHighContrast = window.matchMedia("(-ms-high-contrast: white-on-black)").matches;
+        const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches;
+        const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches;
+        const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified;
+
+        // Fallback to themeDark if no support or not specified
+        if (hasNoSupport || isNotSpecified) {
+            if (this.options.themeDark) {
+                this.dark();
+            } else {
+                this.light();
+            }
+            return;
+        }
+
+        // Apply based on OS
+        if (isDarkMode || isMSDarkHighContrast) {
+            this.dark();
+        } else {
+            this.light();
+        }
+    }
+
     setTitle(text) {
         // Set the title for the notification
         this.options.title = text;
@@ -398,11 +425,18 @@ class macOSNotifJS {
         this.container = Container;
         this.container.setAttribute("data-id", this.id);
 
+        // Apply theme
+        /// If native, attempt to detect pref
+        if (this.options.themeNative) {
+            this.checkNative();
+        } else if (this.options.themeDark) {
+            this.dark();
+        } else {
+            this.light();
+        }
+
         // Apply user defined options
         this.container.parentElement.style.zIndex = (this.options.zIndex + this.id).toString();
-        if (this.options.dark) {
-            this.dark();
-        }
         if (this.options.imageSrc !== null) {
             if (this.options.imageLink !== null) {
                 Image.classList.add("macOSNotif_Clickable");

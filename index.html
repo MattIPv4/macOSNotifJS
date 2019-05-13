@@ -225,16 +225,19 @@
     <br/>
     <small>
         <a href="https://macosnotif.js.org/">
-            <img src="https://img.shields.io/badge/package-v0.0.4-007aff.svg?style=flat-square" alt="Package Version">
+            <img src="https://img.shields.io/badge/package-v0.0.5--beta1-007aff.svg?style=flat-square"
+                 alt="Package Version">
         </a>
         <a href="https://github.com/MattIPv4/macOSNotifJS/tree/master/LICENSE">
             <img src="https://img.shields.io/badge/license-AGPL--3.0-007aff.svg?style=flat-square" alt="License">
         </a>
         <a href="https://david-dm.org/MattIPv4/macOSNotifJS?type=dev">
-            <img src="https://img.shields.io/david/dev/MattIPv4/macOSNotifJS.svg?style=flat-square&colorB=007aff" alt="Dev Dependencies">
+            <img src="https://img.shields.io/david/dev/MattIPv4/macOSNotifJS.svg?style=flat-square&colorB=007aff"
+                 alt="Dev Dependencies">
         </a>
         <a href="https://github.com/MattIPv4/macOSNotifJS/blob/master/dist/macOSNotif.min.js">
-            <img src="https://img.shields.io/github/size/MattIPv4/macOSNotifJS/dist/macOSNotif.min.js.svg?style=flat-square&colorB=007aff" alt="JS Size">
+            <img src="https://img.shields.io/github/size/MattIPv4/macOSNotifJS/dist/macOSNotif.min.js.svg?style=flat-square&colorB=007aff"
+                 alt="JS Size">
         </a>
     </small>
 </h1>
@@ -260,7 +263,8 @@ options = {
     interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
     sounds: false,                          // Play sounds for notification
-    dark: false,                            // Use dark mode style for notification
+    themeDark: false,                       // Use dark mode style for notification
+    themeNative: false,                     // Attempt to detect light/dark from OS, fallback to themeDark
     zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
     imageSrc: null,                         // Link of the icon to display (null to hide icon)
@@ -357,13 +361,13 @@ options = {
 <hr/>
 
 <button data-demo-load
-        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', dark:true, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.dark();}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.light();}})">
+        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', themeDark:true, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.dark();}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.light();}})">
     Dark mode notification
 </button>
 <pre><code>macOSNotif({
     title:'Dark mode notification',
     subtitle:'Emulates the macOS dark mode styling',
-    dark:true,
+    themeDark:true,
     mainLink:'#',
     btn1Text:'Dark',
     btn1Dismiss:false,
@@ -384,13 +388,27 @@ options = {
     sounds:true
 })</code></pre>
 
+<button data-demo-load
+        onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the dark/light theme of the OS', themeNative:true, mainLink:'#', btn1Text:null})">
+    Native OS theme notification (macOS dark mode)
+</button>
+<pre><code>macOSNotif({
+    title:'Native theme notification',
+    subtitle:'Attempts to match the dark/light theme of the OS',
+    themeNative:true,
+    mainLink:'#',
+    btn1Text:null
+})</code></pre>
+
+<hr/>
+
 <h2>
     macOSNotifJS
     <br/>
     <small>
         macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
         <br/>
-        <br/><i>macOSNotifJS - v0.0.4 - 2018-11-12</i>
+        <br/><i>macOSNotifJS - v0.0.5-beta1 - 2019-05-13</i>
     </small>
 </h2>
 
