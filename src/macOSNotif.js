@@ -158,6 +158,8 @@ class macOSNotifJS {
 
         // Load our options
         this.options = { ...defaultOptions, ...options };
+        // Allow for old-style dark mode option
+        if ("dark" in options) this.options.themeDark = options.dark;
 
         // Other properties
         this.container = null;
@@ -428,7 +430,12 @@ class macOSNotifJS {
         // Apply theme
         /// If native, attempt to detect pref
         if (this.options.themeNative) {
+            // Check current
             this.checkNative();
+
+            // Attach listeners
+            window.matchMedia("(prefers-color-scheme: dark)").addListener(() => this.checkNative());
+            window.matchMedia("(prefers-color-scheme: light)").addListener(() => this.checkNative());
         } else if (this.options.themeDark) {
             this.dark();
         } else {
