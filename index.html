@@ -301,7 +301,7 @@ options = {
     subtitle:'Two buttons; dismiss and a link (opens in a new tab)',
     btn1Text:'Close',
     btn1Link:null,
-    btn2Link:'Author',
+    btn2Text:'Author',
     btn2Link:'https://mattcowley.co.uk/',
     btn2NewTab:true
 })</code></pre>
@@ -388,16 +388,21 @@ options = {
     sounds:true
 })</code></pre>
 
+<hr/>
+
 <button data-demo-load
-        onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the dark/light theme of the OS', themeNative:true, mainLink:'#', btn1Text:null})">
+        onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the theme preference of the OS', themeNative:true, mainLink:'#', btn1Text:'Close', btn1Link:null, btn2Text:'Support', btn2Link:'https://caniuse.com/prefers-color-scheme', btn2NewTab:true})">
     Native OS theme notification (macOS dark mode)
 </button>
 <pre><code>macOSNotif({
     title:'Native theme notification',
     subtitle:'Attempts to match the dark/light theme of the OS',
     themeNative:true,
-    mainLink:'#',
-    btn1Text:null
+    btn1Text:'Close',
+    btn1Link:null,
+    btn2Text:'Support',
+    btn2Link:'https://caniuse.com/prefers-color-scheme',
+    btn2NewTab:true
 })</code></pre>
 
 <hr/>
