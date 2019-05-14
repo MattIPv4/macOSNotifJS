@@ -170,6 +170,11 @@
             border-top: 1px solid #ddd;
             margin: 0.8rem 1.6rem;
         }
+
+        blockquote.warning h2 {
+            border-left: 4px solid #ff5667;
+            background: #faebec;
+        }
     </style>
 
     <% for (var css in htmlWebpackPlugin.files.css) { %>
@@ -241,6 +246,17 @@
         </a>
     </small>
 </h1>
+
+<blockquote class="warning">
+    <h2>
+        Breaking Change<br/>
+        <small>
+            From version <code>0.0.5-beta1</code> onwards, the option to trigger the dark mode theme was changed from
+            <code>dark</code> to <code>themeDark</code> to match the new native OS theme detection option,
+            <code>themeNative</code>.
+        </small>
+    </h2>
+</blockquote>
 
 <h3>Installation:</h3>
 <p>To use the plugin, copy the <code>dist</code> folder from the <a href="https://github.com/MattIPv4/macOSNotifJS">
