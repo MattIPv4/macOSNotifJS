@@ -266,9 +266,8 @@
     <h2>
         Breaking Change<br/>
         <small>
-            From version <code>0.0.5-beta1</code> onwards, the option to trigger the dark mode theme was changed from
-            <code>dark</code> to <code>themeDark</code> to match the new native OS theme detection option,
-            <code>themeNative</code>.
+            From version <code>0.0.5-beta2</code> onwards, the option to trigger the dark mode theme was changed from
+            <code>dark: true</code> to <code>theme: macOSNotifThemes.dark</code> as part of the theming overhaul.
         </small>
     </h2>
 </blockquote>
@@ -294,8 +293,8 @@ options = {
     interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
     sounds: false,                          // Play sounds for notification
-    themeDark: false,                       // Use dark mode style for notification
-    themeNative: false,                     // Attempt to detect light/dark from OS, fallback to themeDark
+    theme: macOSNotifThemes.light,          // Set the theme to be used by the notification (from window.macOSNotifThemes)
+    themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
     zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
     imageSrc: null,                         // Link of the icon to display (null to hide icon)
@@ -392,20 +391,20 @@ options = {
 <hr/>
 
 <button data-demo-load
-        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', themeDark:true, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.dark();}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.light();}})">
+        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.light);}})">
     Dark mode notification
 </button>
 <pre><code>macOSNotif({
     title:'Dark mode notification',
     subtitle:'Emulates the macOS dark mode styling',
-    themeDark:true,
+    theme:macOSNotifThemes.dark,
     mainLink:'#',
     btn1Text:'Dark',
     btn1Dismiss:false,
-    btn1Link:function(n){n.dark();},
+    btn1Link:function(n){n.applyTheme(macOSNotifThemes.dark);},
     btn2Text:'Light',
     btn2Dismiss:false,
-    btn2Link:function(n){n.light();}
+    btn2Link:function(n){n.applyTheme(macOSNotifThemes.light);}
 })</code></pre>
 
 <hr/>
