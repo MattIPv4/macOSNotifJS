@@ -119,7 +119,7 @@ class __macOSNotifJS_Interact {
 
 const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJS_notifs = {};
-const __macOSNotifJS_fadeThreshold = 6;
+let __macOSNotifJS_fadeThreshold = 6;
 const __maOSNotifJS_themes = {
     Light: { c: "light" },
     Dark: { c: "dark" },
@@ -178,6 +178,14 @@ class macOSNotifJS {
         this.id = null;
         this.interact = null;
         this.dismissing = false;
+    }
+
+    static get fadeThreshold() {
+        return __macOSNotifJS_fadeThreshold;
+    }
+
+    static set fadeThreshold(value) {
+        __macOSNotifJS_fadeThreshold = value;
     }
 
     static __fullId(id) {
@@ -520,6 +528,7 @@ class macOSNotifJS {
     }
 }
 
+window.macOSNotifJS = macOSNotifJS;
 window.macOSNotif = function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
     let thisNotif = new macOSNotifJS(options);
