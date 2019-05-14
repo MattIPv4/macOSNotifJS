@@ -124,6 +124,10 @@ const __maOSNotifJS_themes = {
     light: { c: "light" },
     dark: { c: "dark" },
 };
+// TODO: "info" theme
+// TODO: "warning" theme
+// TODO: "danger" theme
+// TODO: "success" theme
 
 window.macOSNotifThemes = Object.assign({}, __maOSNotifJS_themes); // Ensure copy
 
