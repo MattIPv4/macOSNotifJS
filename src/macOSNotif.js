@@ -338,10 +338,11 @@ class macOSNotifJS {
         }, (dismiss ? 800 : 0));
     }
 
-    dismissAll() {
-        Object.values(__macOSNotifJS_notifs).forEach(
-            value => value.dismiss(),
-        );
+    static dismissAll() {
+        const notifs = Object.values(__macOSNotifJS_notifs).reverse();
+        for (let i = 0; i < notifs.length; i++) {
+            setTimeout(function() { notifs[i].dismiss(); }, 100 * i);
+        }
     }
 
     dismiss() {
