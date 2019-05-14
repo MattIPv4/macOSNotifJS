@@ -120,6 +120,12 @@ class __macOSNotifJS_Interact {
 const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJS_notifs = {};
 const __macOSNotifJS_fadeThreshold = 6;
+const __maOSNotifJS_themes = {
+    light: { c: "light" },
+    dark: { c: "dark" },
+};
+
+window.macOSNotifThemes = Object.assign({}, __maOSNotifJS_themes); // Ensure copy
 
 class macOSNotifJS {
 
@@ -130,8 +136,8 @@ class macOSNotifJS {
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
             sounds: false,                          // Play sounds for notification
-            themeDark: false,                       // Use dark mode style for notification
-            themeNative: false,                     // Attempt to detect light/dark from OS, fallback to themeDark
+            theme: __maOSNotifJS_themes.light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
+            themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
             zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
@@ -159,7 +165,9 @@ class macOSNotifJS {
         // Load our options
         this.options = { ...defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if ("dark" in options) this.options.themeDark = options.dark;
+        if ("dark" in options) this.options.theme = (options.dark ? __maOSNotifJS_themes.dark : __maOSNotifJS_themes.light);
+        // Fix invalid theme option
+        if (!Object.values(__maOSNotifJS_themes).includes(this.options.theme)) this.options.theme = defaultOptions.theme;
 
         // Other properties
         this.container = null;
@@ -359,16 +367,9 @@ class macOSNotifJS {
         }, 800);
     }
 
-    dark() {
-        // Set the notification to dark mode
+    applyTheme(theme) {
         const { Outer } = macOSNotifJS.__getElements(this.id);
-        Outer.classList.add("macOSNotif_Dark");
-    }
-
-    light() {
-        // Set the notification to light mode
-        const { Outer } = macOSNotifJS.__getElements(this.id);
-        Outer.classList.remove("macOSNotif_Dark");
+        Outer.setAttribute("data-macOSNotifTheme", theme.c);
     }
 
     checkNative() {
@@ -381,19 +382,15 @@ class macOSNotifJS {
 
         // Fallback to themeDark if no support or not specified
         if (hasNoSupport || isNotSpecified) {
-            if (this.options.themeDark) {
-                this.dark();
-            } else {
-                this.light();
-            }
+            this.applyTheme(this.options.theme);
             return;
         }
 
         // Apply based on OS
         if (isDarkMode || isMSDarkHighContrast) {
-            this.dark();
+            this.applyTheme(window.macOSNotifThemes.dark);
         } else {
-            this.light();
+            this.applyTheme(window.macOSNotifThemes.light);
         }
     }
 
@@ -436,10 +433,8 @@ class macOSNotifJS {
             // Attach listeners
             window.matchMedia("(prefers-color-scheme: dark)").addListener(() => this.checkNative());
             window.matchMedia("(prefers-color-scheme: light)").addListener(() => this.checkNative());
-        } else if (this.options.themeDark) {
-            this.dark();
         } else {
-            this.light();
+            this.applyTheme(this.options.theme);
         }
 
         // Apply user defined options
