@@ -121,13 +121,13 @@ const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).repl
 const __macOSNotifJS_notifs = {};
 const __macOSNotifJS_fadeThreshold = 6;
 const __maOSNotifJS_themes = {
-    light: { c: "light" },
-    dark: { c: "dark" },
+    Light: { c: "light" },
+    Dark: { c: "dark" },
+    Info: { c: "info" },
+    Warning: { c: "warning" },
+    Danger: { c: "danger" },
+    Success: { c: "success" },
 };
-// TODO: "info" theme
-// TODO: "warning" theme
-// TODO: "danger" theme
-// TODO: "success" theme
 
 window.macOSNotifThemes = Object.assign({}, __maOSNotifJS_themes); // Ensure copy
 
@@ -140,7 +140,7 @@ class macOSNotifJS {
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
             sounds: false,                          // Play sounds for notification
-            theme: __maOSNotifJS_themes.light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
+            theme: __maOSNotifJS_themes.Light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
             themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
             zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
@@ -169,7 +169,7 @@ class macOSNotifJS {
         // Load our options
         this.options = { ...defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if ("dark" in options) this.options.theme = (options.dark ? __maOSNotifJS_themes.dark : __maOSNotifJS_themes.light);
+        if ("dark" in options) this.options.theme = (options.dark ? __maOSNotifJS_themes.Dark : __maOSNotifJS_themes.Light);
         // Fix invalid theme option
         if (!Object.values(__maOSNotifJS_themes).includes(this.options.theme)) this.options.theme = defaultOptions.theme;
 
@@ -392,9 +392,9 @@ class macOSNotifJS {
 
         // Apply based on OS
         if (isDarkMode || isMSDarkHighContrast) {
-            this.applyTheme(window.macOSNotifThemes.dark);
+            this.applyTheme(window.macOSNotifThemes.Dark);
         } else {
-            this.applyTheme(window.macOSNotifThemes.light);
+            this.applyTheme(window.macOSNotifThemes.Light);
         }
     }
 
