@@ -267,7 +267,7 @@
         Breaking Change<br/>
         <small>
             From version <code>0.0.5-beta2</code> onwards, the option to trigger the dark mode theme was changed from
-            <code>dark: true</code> to <code>theme: macOSNotifThemes.dark</code> as part of the theming overhaul.
+            <code>dark: true</code> to <code>theme: macOSNotifThemes.Dark</code> as part of the theming overhaul.
         </small>
     </h2>
 </blockquote>
@@ -293,7 +293,7 @@ options = {
     interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
     sounds: false,                          // Play sounds for notification
-    theme: macOSNotifThemes.light,          // Set the theme to be used by the notification (from window.macOSNotifThemes)
+    theme: macOSNotifThemes.Light,          // Set the theme to be used by the notification (from window.macOSNotifThemes)
     themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
     zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
@@ -391,20 +391,20 @@ options = {
 <hr/>
 
 <button data-demo-load
-        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.light);}})">
+        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.Dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}})">
     Dark mode notification
 </button>
 <pre><code>macOSNotif({
     title:'Dark mode notification',
     subtitle:'Emulates the macOS dark mode styling',
-    theme:macOSNotifThemes.dark,
+    theme:macOSNotifThemes.Dark,
     mainLink:'#',
     btn1Text:'Dark',
     btn1Dismiss:false,
-    btn1Link:function(n){n.applyTheme(macOSNotifThemes.dark);},
+    btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);},
     btn2Text:'Light',
     btn2Dismiss:false,
-    btn2Link:function(n){n.applyTheme(macOSNotifThemes.light);}
+    btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}
 })</code></pre>
 
 <hr/>
@@ -420,8 +420,7 @@ options = {
 
 <hr/>
 
-<button data-demo-load
-        onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the theme preference of the OS', themeNative:true, mainLink:'#', btn1Text:'Close', btn1Link:null, btn2Text:'Support', btn2Link:'https://caniuse.com/prefers-color-scheme', btn2NewTab:true})">
+<button onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the theme preference of the OS', themeNative:true, mainLink:'#', btn1Text:'Close', btn1Link:null, btn2Text:'Support', btn2Link:'https://caniuse.com/prefers-color-scheme', btn2NewTab:true})">
     Native OS theme notification (macOS dark mode)
 </button>
 <pre><code>macOSNotif({
@@ -433,6 +432,54 @@ options = {
     btn2Text:'Support',
     btn2Link:'https://caniuse.com/prefers-color-scheme',
     btn2NewTab:true
+})</code></pre>
+
+<hr/>
+
+<button onclick="macOSNotif({title:'Info themed notification', subtitle:'Non-macOS theme to convey information', theme:macOSNotifThemes.Info, btn2Text:null})">
+    Info themed notification
+</button>
+<pre><code>macOSNotif({
+    title:'Info themed notification',
+    subtitle:'Non-macOS theme to convey information',
+    theme:macOSNotifThemes.Info,
+    btn2Text:null
+})</code></pre>
+
+<hr/>
+
+<button onclick="macOSNotif({title:'Warning themed notification', subtitle:'Non-macOS theme to convey a warning message', theme:macOSNotifThemes.Warning, btn2Text:null})">
+    Warning themed notification
+</button>
+<pre><code>macOSNotif({
+    title:'Warning themed notification',
+    subtitle:'Non-macOS theme to convey a warning message',
+    theme:macOSNotifThemes.Warning,
+    btn2Text:null
+})</code></pre>
+
+<hr/>
+
+<button onclick="macOSNotif({title:'Danger themed notification', subtitle:'Non-macOS theme to convey an immediate danger', theme:macOSNotifThemes.Danger, btn2Text:null})">
+    Danger themed notification
+</button>
+<pre><code>macOSNotif({
+    title:'Danger themed notification',
+    subtitle:'Non-macOS theme to convey an immediate danger',
+    theme:macOSNotifThemes.Danger,
+    btn2Text:null
+})</code></pre>
+
+<hr/>
+
+<button onclick="macOSNotif({title:'Success themed notification', subtitle:'Non-macOS theme to convey success', theme:macOSNotifThemes.Success, btn2Text:null})">
+    Success themed notification
+</button>
+<pre><code>macOSNotif({
+    title:'Success themed notification',
+    subtitle:'Non-macOS theme to convey success',
+    theme:macOSNotifThemes.Success,
+    btn2Text:null
 })</code></pre>
 
 <hr/>
@@ -454,8 +501,9 @@ options = {
 <script>
     if (window.location.hostname === "macosnotifjs.mattcowley.co.uk") window.location.replace("https://macosnotif.js.org");
 
-    const buttons = document.querySelectorAll("button[data-demo-load]");
-    const delay = 750;
+    var buttons = document.querySelectorAll("button[data-demo-load]"),
+        delay = 750;
+    window.macOSNotifJS.fadeThreshold = buttons.length;
 
     function click(i) {
         if (i < buttons.length) {
