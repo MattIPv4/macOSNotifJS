@@ -110,12 +110,15 @@
             margin: 1rem -5rem 0;
             padding: .5rem 2.5rem;
             background: #f2f2f2;
-            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
             font-weight: 300;
             color: #444;
             text-align: center;
             font-family: SF Display, -apple-system, system-ui, BlinkMacSystemFont, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Segoe UI, Roboto, Ubuntu, Lucida Grande, sans-serif;
             line-height: 1;
+        }
+
+        h1, h2, pre.code {
+            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
         }
 
         h1 small {
@@ -133,12 +136,20 @@
             font-size: 70%;
         }
 
-        code, pre {
-            color: rgb(255, 59, 48);
+        pre, code {
+            color: rgb(0, 122, 255);
         }
 
-        pre {
+        pre.code {
             display: inline-block;
+            padding: 4px 4px 4px 8px;
+            border-left: 4px solid rgba(0, 0, 0, .3);
+            background: rgba(0, 0, 0, .15);
+        }
+
+        code {
+            padding: 0 2px;
+            background: rgba(0, 0, 0, .05);
         }
 
         button {
@@ -174,6 +185,10 @@
         blockquote.warning h2 {
             border-left: 4px solid #ff5667;
             background: #faebec;
+        }
+
+        blockquote.warning code {
+            color: #ff5667;
         }
     </style>
 
@@ -278,15 +293,15 @@
 
 <p>To then have the plugin available on a page, in your head tag have the following to load the notification
     styling:</p>
-<pre><code><% for (var css in htmlWebpackPlugin.files.css) { %>&lt;link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/&gt;<% } %></code></pre>
+<pre class="code"><% for (var css in htmlWebpackPlugin.files.css) { %>&lt;link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/&gt;<% } %></pre>
 
 <p>At the bottom of your body, you then need to have the following to load the notification script:</p>
-<pre><code><% for (var chunk in htmlWebpackPlugin.files.chunks) { %>&lt;script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"&gt;&lt;/script&gt;<% } %></code></pre>
+<pre class="code"><% for (var chunk in htmlWebpackPlugin.files.chunks) { %>&lt;script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"&gt;&lt;/script&gt;<% } %></pre>
 
 <h3>Usage:</h3>
 <p>To get started, simply call the function <code>macOSNotif</code>.
     <br/>To customise your notification, you can supply an object containing any of the options listed below:</p>
-<pre>
+<pre class="code">
 options = {
     delay: 0.5,                             // Delay before display (in seconds)
     autoDismiss: 0,                         // Delay till automatic dismiss (0 = Never, in seconds)
@@ -320,13 +335,17 @@ options = {
 }
 </pre>
 
-<h3>Example Usage:</h3>
+<hr/>
+
+<h3>Examples:</h3>
+
+<h4>Button Configuration:</h4>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Dual button notification', subtitle:'Two buttons; dismiss and a link (opens in a new tab)', btn1Text:'Close', btn1Link:null, btn2Text:'Author', btn2Link:'https://mattcowley.co.uk/', btn2NewTab:true})">
     Dual button notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Dual button notification',
     subtitle:'Two buttons; dismiss and a link (opens in a new tab)',
     btn1Text:'Close',
@@ -334,67 +353,82 @@ options = {
     btn2Text:'Author',
     btn2Link:'https://mattcowley.co.uk/',
     btn2NewTab:true
-})</code></pre>
+})</pre>
 
-<hr/>
+<br/>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Single button notification', subtitle:'A single button to dismiss the notification', btn2Text:null})">
     Single button notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Single button notification',
     subtitle:'A single button to dismiss the notification',
     btn2Text:null
-})</code></pre>
+})</pre>
 
-<hr/>
+<br/>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Main body link notification', subtitle:'The main notification body is a link (opens in a new tab)', mainLink:'https://mattcowley.co.uk/', mainLinkNewTab:true})">
     Main body link notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Main body link notification',
     subtitle:'The main notification body is a link (opens in a new tab)',
     mainLink:'https://mattcowley.co.uk/',
     mainLinkNewTab:true
-})</code></pre>
+})</pre>
 
-<hr/>
+<br/>
 
 <button data-demo-load
         onclick="macOSNotif({title:'No button notification', subtitle:'The main body link dismisses the notification', mainLink:'#', btn1Text:null})">
     No button notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'No button notification',
     subtitle:'The main body link dismisses the notification',
     mainLink:'#',
     btn1Text:null
-})</code></pre>
+})</pre>
 
 <hr/>
+
+<h4>Notification customisation:</h4>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Image (icon) notification with link', subtitle:'Has an icon which also has a link', imageSrc:'https://mattcowley.co.uk/me.png', imageLink:'https://mattcowley.co.uk/', imageLinkNewTab:true})">
     Image (icon) notification with link
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Image (icon) notification with link',
     subtitle:'Has an icon which also has a link',
     imageSrc:'https://mattcowley.co.uk/me.png',
     imageLink:'https://mattcowley.co.uk/',
     imageLinkNewTab:true
-})</code></pre>
+})</pre>
+
+<br/>
+
+<button onclick="macOSNotif({title:'Sound (alert) notification', subtitle:'Requires user interaction first on some browsers', sounds:true})">
+    Sound (alert) notification
+</button><br/>
+<pre class="code">macOSNotif({
+    title:'Sound (alert) notification',
+    subtitle:'Requires user interaction first on some browsers',
+    sounds:true
+})</pre>
 
 <hr/>
+
+<h4>Theming Support:</h4>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.Dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}})">
     Dark mode notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Dark mode notification',
     subtitle:'Emulates the macOS dark mode styling',
     theme:macOSNotifThemes.Dark,
@@ -405,25 +439,14 @@ options = {
     btn2Text:'Light',
     btn2Dismiss:false,
     btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}
-})</code></pre>
+})</pre>
 
-<hr/>
-
-<button onclick="macOSNotif({title:'Sound (alert) notification', subtitle:'Requires user interaction first on some browsers', sounds:true})">
-    Sound (alert) notification
-</button>
-<pre><code>macOSNotif({
-    title:'Sound (alert) notification',
-    subtitle:'Requires user interaction first on some browsers',
-    sounds:true
-})</code></pre>
-
-<hr/>
+<br/>
 
 <button onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the theme preference of the OS', themeNative:true, mainLink:'#', btn1Text:'Close', btn1Link:null, btn2Text:'Support', btn2Link:'https://caniuse.com/prefers-color-scheme', btn2NewTab:true})">
     Native OS theme notification (macOS dark mode)
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Native theme notification',
     subtitle:'Attempts to match the dark/light theme of the OS',
     themeNative:true,
@@ -432,55 +455,55 @@ options = {
     btn2Text:'Support',
     btn2Link:'https://caniuse.com/prefers-color-scheme',
     btn2NewTab:true
-})</code></pre>
+})</pre>
 
-<hr/>
+<br/>
 
 <button onclick="macOSNotif({title:'Info themed notification', subtitle:'Non-macOS theme to convey information', theme:macOSNotifThemes.Info, btn2Text:null})">
     Info themed notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Info themed notification',
     subtitle:'Non-macOS theme to convey information',
     theme:macOSNotifThemes.Info,
     btn2Text:null
-})</code></pre>
+})</pre>
 
-<hr/>
+<br/>
 
 <button onclick="macOSNotif({title:'Warning themed notification', subtitle:'Non-macOS theme to convey a warning message', theme:macOSNotifThemes.Warning, btn2Text:null})">
     Warning themed notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Warning themed notification',
     subtitle:'Non-macOS theme to convey a warning message',
     theme:macOSNotifThemes.Warning,
     btn2Text:null
-})</code></pre>
+})</pre>
 
-<hr/>
+<br/>
 
 <button onclick="macOSNotif({title:'Danger themed notification', subtitle:'Non-macOS theme to convey an immediate danger', theme:macOSNotifThemes.Danger, btn2Text:null})">
     Danger themed notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Danger themed notification',
     subtitle:'Non-macOS theme to convey an immediate danger',
     theme:macOSNotifThemes.Danger,
     btn2Text:null
-})</code></pre>
+})</pre>
 
-<hr/>
+<br/>
 
 <button onclick="macOSNotif({title:'Success themed notification', subtitle:'Non-macOS theme to convey success', theme:macOSNotifThemes.Success, btn2Text:null})">
     Success themed notification
-</button>
-<pre><code>macOSNotif({
+</button><br/>
+<pre class="code">macOSNotif({
     title:'Success themed notification',
     subtitle:'Non-macOS theme to convey success',
     theme:macOSNotifThemes.Success,
     btn2Text:null
-})</code></pre>
+})</pre>
 
 <hr/>
 
