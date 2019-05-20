@@ -268,6 +268,10 @@
             <img src="https://img.shields.io/github/size/MattIPv4/macOSNotifJS/dist/macOSNotif.min.js.svg?style=flat-square&colorB=007aff"
                  alt="JS Size">
         </a>
+        <a href="https://www.codacy.com/app/MattIPv4/macOSNotifJS">
+            <img src="https://img.shields.io/codacy/grade/30c279b64bca4edd89b78da704cd08f2.svg?style=flat-square&colorB=007aff"
+                 alt="Code Quality">
+        </a>
         <a href="http://patreon.mattcowley.co.uk/" target="_blank">
             <img src="https://img.shields.io/badge/patreon-IPv4-blue.svg?style=flat-square&colorB=007aff" alt="Patreon"/>
         </a>
