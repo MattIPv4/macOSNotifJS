@@ -15,8 +15,27 @@
  *   along with this program. If not, please see
  *   <https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or <http://www.gnu.org/licenses/>.
  */
-/* Bring in fonts */
-@import "macOSNotif.fonts.css";
+/* Define used fonts only (see macOSNotif.fonts.css for all) */
+/** Regular */
+@font-face {
+    font-family: "SF Display";
+    font-weight: 400;
+    src: url("../fonts/SF-UI-Display-Regular.otf");
+}
+
+/** Semibold */
+@font-face {
+    font-family: "SF Display";
+    font-weight: 600;
+    src: url("../fonts/SF-UI-Display-Semibold.otf");
+}
+
+/** Thin */
+@font-face {
+    font-family: "SF Display";
+    font-weight: 300;
+    src: url("../fonts/SF-UI-Display-Thin.otf");
+}
 
 /* Base notification (light) */
 .macOSNotif_Outer, .macOSNotif_Outer * {

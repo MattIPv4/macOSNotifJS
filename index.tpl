@@ -113,7 +113,8 @@
             font-weight: 300;
             color: #444;
             text-align: center;
-            font-family: SF Display, -apple-system, system-ui, BlinkMacSystemFont, HelveticaNeue-Light, Helvetica Neue Light, Helvetica Neue, Helvetica, Segoe UI, Roboto, Ubuntu, Lucida Grande, sans-serif;
+            font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont, "HelveticaNeue-Light",
+            "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
             line-height: 1;
         }
 
