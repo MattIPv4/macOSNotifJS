@@ -341,7 +341,9 @@ class macOSNotifJS {
     static dismissAll() {
         const notifs = Object.values(__macOSNotifJS_notifs).reverse();
         for (let i = 0; i < notifs.length; i++) {
-            setTimeout(function() { notifs[i].dismiss(); }, 100 * i);
+            setTimeout(function () {
+                notifs[i].dismiss();
+            }, 100 * i);
         }
     }
 
@@ -421,10 +423,7 @@ class macOSNotifJS {
         Subtitle.textContent = text;
     }
 
-    run() {
-        // Only ever run once
-        if (this.id !== null) return;
-
+    __run_initialContainer() {
         // Generate the base template
         const templateData = macOSNotifJS.__generateTemplate();
         this.id = templateData.id;
@@ -433,12 +432,12 @@ class macOSNotifJS {
         document.body.insertAdjacentHTML("beforeend", templateData.template);
 
         // Find the container
-        const { Container, Img, Image, Text, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
+        const { Container } = macOSNotifJS.__getElements(this.id);
         this.container = Container;
         this.container.setAttribute("data-id", this.id);
+    }
 
-        // Apply theme
-        /// If native, attempt to detect pref
+    __run_applyTheming() {
         if (this.options.themeNative) {
             // Check current
             this.checkNative();
@@ -449,9 +448,16 @@ class macOSNotifJS {
         } else {
             this.applyTheme(this.options.theme);
         }
+    }
 
-        // Apply user defined options
+    __run_applyOptions() {
+        // Get the elements
+        const { Img, Image, Text, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
+
+        // Set the z-index with offset based on id (stacking)
         this.container.parentElement.style.zIndex = (this.options.zIndex + this.id).toString();
+
+        // Set the icon (& link if needed)
         if (this.options.imageSrc !== null) {
             if (this.options.imageLink !== null) {
                 Image.classList.add("macOSNotif_Clickable");
@@ -462,11 +468,15 @@ class macOSNotifJS {
         } else {
             Img.parentElement.removeChild(Img);
         }
+
+        // Set the titles
         this.setTitle(this.options.title);
         this.setSubtitle(this.options.subtitle);
         if (this.options.mainLink !== null) {
             Text.classList.add("macOSNotif_Clickable");
         }
+
+        // Set the buttons
         if (this.options.btn1Text !== null) {
             Button1.textContent = this.options.btn1Text;
             if (this.options.btn2Text !== null) {
@@ -479,16 +489,18 @@ class macOSNotifJS {
             Text.classList.add("macOSNotif_TextFull");
             Buttons.parentElement.removeChild(Buttons);
         }
+    }
 
-        // Interact dismiss
+    __run_startInteract() {
         if (this.options.interactDismiss) {
             this.interact = new __macOSNotifJS_Interact(this.container);
             this.interact.onDismiss(() => {
                 this.dismiss();
             }).run();
         }
+    }
 
-        // Set the actions
+    __run_defineActions() {
         const fullId = macOSNotifJS.__fullId(this.id);
         window[fullId + "_ButtonImg"] = () => {
             this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true, true);
@@ -502,15 +514,17 @@ class macOSNotifJS {
         window[fullId + "_Button2"] = () => {
             this.__handleGo(this.options.btn2Link, this.options.btn2NewTab, this.options.btn2Dismiss);
         };
+    }
 
-        // Set autodismiss
+    __run_autoDismiss() {
         if (this.options.autoDismiss !== 0) {
             window[fullId + "_AutoDismiss"] = setTimeout(() => {
                 this.dismiss();
             }, (this.options.autoDismiss * 1000) + (this.options.delay * 1000));
         }
+    }
 
-        // Handle show
+    __run_showNotification() {
         setTimeout(() => {
             // Stop overlapping
             macOSNotifJS.__updatePosAll();
@@ -522,10 +536,40 @@ class macOSNotifJS {
             this.container.style.right = "15px";
             this.container.style.opacity = "1";
         }, this.options.delay * 1000);
+    }
 
-        // Save
+    __run_storeNotification() {
         __macOSNotifJS_notifs[this.id] = this;
-        window[fullId] = this;
+        window[macOSNotifJS.__fullId(this.id)] = this;
+    }
+
+    run() {
+        // Only ever run once
+        if (this.id !== null) return;
+
+        // Template into DOM with container ID
+        this.__run_initialContainer();
+
+        // Apply theme
+        this.__run_applyTheming();
+
+        // Apply user defined options
+        this.__run_applyOptions();
+
+        // Interact dismiss
+        this.__run_startInteract();
+
+        // Set the actions
+        this.__run_defineActions();
+
+        // Set autodismiss
+        this.__run_autoDismiss();
+
+        // Handle show
+        this.__run_showNotification();
+
+        // Store
+        this.__run_storeNotification();
     }
 }
 
