@@ -518,7 +518,7 @@ class macOSNotifJS {
 
     __run_autoDismiss() {
         if (this.options.autoDismiss !== 0) {
-            window[fullId + "_AutoDismiss"] = setTimeout(() => {
+            window[macOSNotifJS.__fullId(this.id) + "_AutoDismiss"] = setTimeout(() => {
                 this.dismiss();
             }, (this.options.autoDismiss * 1000) + (this.options.delay * 1000));
         }
