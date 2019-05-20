@@ -180,6 +180,15 @@
     <% for (var css in htmlWebpackPlugin.files.css) { %>
     <link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/>
     <% } %>
+
+    <!-- Google AdSense -->
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({
+            google_ad_client: "ca-pub-4266526051230566",
+            enable_page_level_ads: true
+        });
+    </script>
 </head>
 <body class="sf-ui-display">
 
@@ -243,6 +252,12 @@
         <a href="https://github.com/MattIPv4/macOSNotifJS/blob/master/dist/macOSNotif.min.js">
             <img src="https://img.shields.io/github/size/MattIPv4/macOSNotifJS/dist/macOSNotif.min.js.svg?style=flat-square&colorB=007aff"
                  alt="JS Size">
+        </a>
+        <a href="http://patreon.mattcowley.co.uk/" target="_blank">
+            <img src="https://img.shields.io/badge/patreon-IPv4-blue.svg?style=flat-square&colorB=007aff" alt="Patreon"/>
+        </a>
+        <a href="http://slack.mattcowley.co.uk/" target="_blank">
+            <img src="https://img.shields.io/badge/slack-MattIPv4-blue.svg?style=flat-square&colorB=007aff" alt="Slack"/>
         </a>
     </small>
 </h1>
