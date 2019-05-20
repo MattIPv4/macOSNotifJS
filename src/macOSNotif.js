@@ -576,7 +576,7 @@ class macOSNotifJS {
 window.macOSNotifJS = macOSNotifJS;
 window.macOSNotif = function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
-    let thisNotif = new macOSNotifJS(options);
+    const thisNotif = new macOSNotifJS(options);
     thisNotif.run();
     return thisNotif;
 };
