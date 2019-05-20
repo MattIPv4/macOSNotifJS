@@ -263,7 +263,7 @@ class macOSNotifJS {
     static __doAfter(id, callback) {
         for (const key in __macOSNotifJS_notifs) {
             if (!__macOSNotifJS_notifs.hasOwnProperty(key)) continue;
-            if (parseInt(key) < id) __macOSNotifJS_notifs[key][callback]();
+            if (parseInt(key, 10) < id) __macOSNotifJS_notifs[key][callback]();
         }
     }
 
