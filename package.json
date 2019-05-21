@@ -1,6 +1,6 @@
 {
   "name": "macOSNotifJS",
-  "version": "0.0.5-beta2",
+  "version": "0.0.5",
   "description": "A simple Javascript plugin to create simulated macOS notifications on your website.",
   "main": "src/macOSNotif.js",
   "scripts": {
