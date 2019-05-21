@@ -190,6 +190,15 @@
         blockquote.warning code {
             color: #ff5667;
         }
+
+        blockquote.info h2 {
+            border-left: 4px solid #579dff;
+            background: #f2f8ff;
+        }
+
+        blockquote.info code {
+            color: #579dff;
+        }
     </style>
 
     
@@ -338,6 +347,21 @@ options = {
     btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
 }
 </pre>
+
+<blockquote class="info">
+    <h2>
+        Native Theme Detection<br/>
+        <small>
+            This feature can be enabled by setting the option <code>themeNative</code> to true. It is designed to detect
+            the theme preference from the user's device (light or dark). This makes use of
+            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme" target="_blank">
+                <code>prefers-color-scheme</code></a>, which is currently
+            <a href="https://caniuse.com/prefers-color-scheme" target="_blank">only supported by Safari</a> at the time
+            of writing. Therefor, I suggest ensuring you set the correct fallback <code>theme</code> for your
+            notifications if you are to use <code>themeNative</code>.
+        </small>
+    </h2>
+</blockquote>
 
 <hr/>
 
@@ -517,7 +541,7 @@ options = {
     <small>
         macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
         <br/>
-        <br/><i>macOSNotifJS - v0.0.5-beta2 - 2019-05-20</i>
+        <br/><i>macOSNotifJS - v0.0.5-beta2 - 2019-05-21</i>
     </small>
 </h2>
 
