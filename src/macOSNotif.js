@@ -21,6 +21,7 @@ require("./css/macOSNotif.css");
 class __macOSNotifJS_Interact {
 
     constructor(element) {
+        // Get the actual element (supports selector passing)
         this.element = typeof (element) === "string" ? document.querySelector(element) : element;
 
         this.drag_acting = false;
@@ -29,11 +30,13 @@ class __macOSNotifJS_Interact {
     }
 
     onDismiss(callback) {
+        // Set the onDismiss action (overwrites this func, so can only be set once)
         this.onDismiss = callback;
         return this;
     }
 
     scroll_move(evt) {
+        // TODO: make this work, detect X scrolling as a swipe to dismiss
         if (!evt.deltaX) return;
         if (evt.deltaX < 0) this.onDismiss();
     }
@@ -43,18 +46,23 @@ class __macOSNotifJS_Interact {
     }
 
     drag_move(evt) {
+        // Don't run if currently doing drag stuff
         if (!this.drag_acting) return;
         evt.preventDefault();
         evt.stopPropagation();
 
+        // Get the position and adjust based on movement
         let position = this.drag_xOffset + this.drag_xOrg;
         if (evt.type === "mousemove") {
             position -= evt.clientX;
         } else if (evt.type === "touchmove") {
             position -= evt.targetTouches[0].clientX;
         }
+
+        // Only allow dragging to the right of the original notif position
         if (position > this.drag_xOrg) position = this.drag_xOrg;
 
+        // Move the element to match mouse drag
         this.element.style.transition = "unset";
         this.element.style.right = position + "px";
     }
@@ -318,9 +326,7 @@ class macOSNotifJS {
     __handleGo(link, newTab, dismiss, nullNoDismiss) {
         if (typeof (nullNoDismiss) === "undefined") nullNoDismiss = false;
 
-        if (dismiss) {
-            if (!(link === null && nullNoDismiss)) this.dismiss();
-        }
+        if (dismiss && !(link === null && nullNoDismiss)) this.dismiss();
 
         if (link === "#" || link === null) return;
 
@@ -502,6 +508,7 @@ class macOSNotifJS {
 
     __run_defineActions() {
         const fullId = macOSNotifJS.__fullId(this.id);
+        // Define these all in window as this is where the HTML template calls to (we don't bind events here)
         window[fullId + "_ButtonImg"] = () => {
             this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true, true);
         };
@@ -518,6 +525,7 @@ class macOSNotifJS {
 
     __run_autoDismiss() {
         if (this.options.autoDismiss !== 0) {
+            // Set the timeout (in window, so user can control if needed)
             window[macOSNotifJS.__fullId(this.id) + "_AutoDismiss"] = setTimeout(() => {
                 this.dismiss();
             }, (this.options.autoDismiss * 1000) + (this.options.delay * 1000));
