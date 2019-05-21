@@ -366,6 +366,20 @@ options = {
 
 <hr/>
 
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<!-- Banner 1 -->
+<ins class="adsbygoogle"
+     style="display:block"
+     data-ad-client="ca-pub-4266526051230566"
+     data-ad-slot="9114202102"
+     data-ad-format="auto"
+     data-full-width-responsive="true"></ins>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+</script>
+
+<hr/>
+
 <h3>Examples:</h3>
 
 <h4>Button Configuration:</h4>
