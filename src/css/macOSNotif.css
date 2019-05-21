@@ -212,8 +212,7 @@
     background: #333;
 }
 
-[data-macOSNotifTheme="dark"] .macOSNotif_Container *,
-[data-macOSNotifTheme="dark"] .macOSNotif_Button {
+[data-macOSNotifTheme="dark"] .macOSNotif_Container * {
     color: #fefefe;
 }
 
@@ -232,8 +231,7 @@
     background: #4A89DC;
 }
 
-[data-macOSNotifTheme="info"] .macOSNotif_Container *,
-[data-macOSNotifTheme="info"] .macOSNotif_Button {
+[data-macOSNotifTheme="info"] .macOSNotif_Container * {
     color: #fefefe;
 }
 
@@ -247,8 +245,7 @@
     background: #eba03f;
 }
 
-[data-macOSNotifTheme="warning"] .macOSNotif_Container *,
-[data-macOSNotifTheme="warning"] .macOSNotif_Button {
+[data-macOSNotifTheme="warning"] .macOSNotif_Container * {
     color: #fefefe;
 }
 
@@ -262,8 +259,7 @@
     background: #DA4453;
 }
 
-[data-macOSNotifTheme="danger"] .macOSNotif_Container *,
-[data-macOSNotifTheme="danger"] .macOSNotif_Button {
+[data-macOSNotifTheme="danger"] .macOSNotif_Container * {
     color: #fefefe;
 }
 
@@ -277,8 +273,7 @@
     background: #38ba8f;
 }
 
-[data-macOSNotifTheme="success"] .macOSNotif_Container *,
-[data-macOSNotifTheme="success"] .macOSNotif_Button {
+[data-macOSNotifTheme="success"] .macOSNotif_Container * {
     color: #fefefe;
 }
 
