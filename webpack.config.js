@@ -1,4 +1,4 @@
-const { name, version } = require("./package.json");
+const { version } = require("./package.json");
 const path = require("path").posix;
 const webpack = require("webpack");
 const os = require("os");
@@ -8,7 +8,7 @@ const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 // YYYY-MM-DD format
 const dateOfBuild = new Date().toISOString().slice(0, 10);
-const versionInfo = `${name} - v${version} - ${dateOfBuild}`;
+const versionInfo = `macOSNotifJS - v${version} - ${dateOfBuild}`;
 const copyrights = `macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
 <https://github.com/MattIPv4/macOSNotifJS/>
 Copyright (C) 2019 Matt Cowley (MattIPv4) (me@mattcowley.co.uk)`;
