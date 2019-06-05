@@ -203,9 +203,9 @@ class macOSNotifJS {
     static __generateTemplate() {
         // Get the template and insert the id
         let template = __macOSNotifJSTemplate;
-        const id = macOSNotifJS.__nextId();
+        const id = this.__nextId();
         __macOSNotifJSNotifs[id] = null;
-        template = template.replace(/macOSNotifJS_/g, macOSNotifJS.__fullId(id) + "_");
+        template = template.replace(/macOSNotifJS_/g, this.__fullId(id) + "_");
 
         // Return template and the ID of it
         return { template, id };
@@ -241,7 +241,7 @@ class macOSNotifJS {
 
     static __getElements(id) {
         // Get the full ID
-        const fullId = macOSNotifJS.__fullId(id) + "_";
+        const fullId = this.__fullId(id) + "_";
 
         // Get all the elements
         const Outer = document.getElementById(fullId + "Outer");
@@ -267,7 +267,7 @@ class macOSNotifJS {
     }
 
     static __dismissAfter(id) {
-        macOSNotifJS.__doAfter(id, "dismiss");
+        this.__doAfter(id, "dismiss");
     }
 
     static __updatePosAll() {
@@ -352,13 +352,13 @@ class macOSNotifJS {
         this.dismissing = true;
 
         // Get our ids
-        const fullId = macOSNotifJS.__fullId(this.id);
+        const fullId = this.constructor.__fullId(this.id);
 
         // Animate dismissal
         this.container.parentElement.style.pointerEvents = "none";
         this.container.style.right = -this.container.parentElement.offsetWidth + "px";
         this.container.style.opacity = "0.1";
-        macOSNotifJS.__updatePosAll();
+        this.constructor.__updatePosAll();
 
         // Clear the autodismiss if applicable
         if (window[fullId + "_AutoDismiss"]) {
@@ -380,7 +380,7 @@ class macOSNotifJS {
     }
 
     applyTheme(theme) {
-        const { Outer } = macOSNotifJS.__getElements(this.id);
+        const { Outer } = this.constructor.__getElements(this.id);
         Outer.setAttribute("data-macOSNotifTheme", theme.c);
     }
 
@@ -409,27 +409,27 @@ class macOSNotifJS {
     setTitle(text) {
         // Set the title for the notification
         this.options.title = text;
-        const { Title } = macOSNotifJS.__getElements(this.id);
+        const { Title } = this.constructor.__getElements(this.id);
         Title.textContent = text;
     }
 
     setSubtitle(text) {
         // Set the subtitle for the notification
         this.options.subtitle = text;
-        const { Subtitle } = macOSNotifJS.__getElements(this.id);
+        const { Subtitle } = this.constructor.__getElements(this.id);
         Subtitle.textContent = text;
     }
 
     __runInitialContainer() {
         // Generate the base template
-        const templateData = macOSNotifJS.__generateTemplate();
+        const templateData = this.constructor.__generateTemplate();
         this.id = templateData.id;
 
         // Add the notification to DOM
         document.body.insertAdjacentHTML("beforeend", templateData.template);
 
         // Find the container
-        const { Container } = macOSNotifJS.__getElements(this.id);
+        const { Container } = this.constructor.__getElements(this.id);
         this.container = Container;
         this.container.setAttribute("data-id", this.id);
     }
@@ -449,7 +449,7 @@ class macOSNotifJS {
 
     __runApplyOptions() {
         // Get the elements
-        const { Img, Image, Text, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
+        const { Img, Image, Text, Buttons, Button1, Button2 } = this.constructor.__getElements(this.id);
 
         // Set the z-index with offset based on id (stacking)
         this.container.parentElement.style.zIndex = (this.options.zIndex + this.id).toString();
@@ -498,7 +498,7 @@ class macOSNotifJS {
     }
 
     __runDefineActions() {
-        const fullId = macOSNotifJS.__fullId(this.id);
+        const fullId = this.constructor.__fullId(this.id);
         // Define these all in window as this is where the HTML template calls to (we don't bind events here)
         window[fullId + "_ButtonImg"] = () => {
             this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true, true);
@@ -517,7 +517,7 @@ class macOSNotifJS {
     __runAutoDismiss() {
         if (this.options.autoDismiss !== 0) {
             // Set the timeout (in window, so user can control if needed)
-            window[macOSNotifJS.__fullId(this.id) + "_AutoDismiss"] = setTimeout(() => {
+            window[this.constructor.__fullId(this.id) + "_AutoDismiss"] = setTimeout(() => {
                 this.dismiss();
             }, (this.options.autoDismiss * 1000) + (this.options.delay * 1000));
         }
@@ -526,10 +526,10 @@ class macOSNotifJS {
     __runShowNotification() {
         setTimeout(() => {
             // Stop overlapping
-            macOSNotifJS.__updatePosAll();
+            this.constructor.__updatePosAll();
 
             // Do sound
-            if (this.options.sounds) macOSNotifJS.__generateAudio().play();
+            if (this.options.sounds) this.constructor.__generateAudio().play();
 
             // Show
             this.container.style.right = "15px";
@@ -539,7 +539,7 @@ class macOSNotifJS {
 
     __runStoreNotification() {
         __macOSNotifJSNotifs[this.id] = this;
-        window[macOSNotifJS.__fullId(this.id)] = this;
+        window[this.constructor.__fullId(this.id)] = this;
     }
 
     run() {
