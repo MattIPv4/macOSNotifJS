@@ -1,4 +1,5 @@
 require("./css/macOSNotif.css");
+require("@babel/polyfill");
 
 /**
  *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
