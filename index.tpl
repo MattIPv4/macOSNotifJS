@@ -569,7 +569,7 @@ options = {
 
     var buttons = document.querySelectorAll("button[data-demo-load]"),
         delay = 750;
-    window.macOSNotifJS.fadeThreshold = buttons.length;
+    window.macOSNotifFadeThreshold = buttons.length;
 
     function click(i) {
         if (i < buttons.length) {
