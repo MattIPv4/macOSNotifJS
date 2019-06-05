@@ -294,21 +294,21 @@ class macOSNotifJS {
 
         // Within visible list
         if (elmsAbove < __macOSNotifJSFadeThreshold) {
-            this.container.style.opacity = 1;
+            this.container.style.opacity = "1";
             this.container.style.pointerEvents = "auto";
             outer.style.top = newPos + "px";
         } else {
 
             // Within stack (1st/2nd after threshold)
             if (elmsAbove - __macOSNotifJSFadeThreshold < 2) {
-                this.container.style.opacity = (3 - (elmsAbove - __macOSNotifJSFadeThreshold)) / 4;
+                this.container.style.opacity = ((3 - (elmsAbove - __macOSNotifJSFadeThreshold)) / 4).toString(10);
                 this.container.style.pointerEvents = "none";
                 newPos += outer.offsetHeight * (elmsAbove - __macOSNotifJSFadeThreshold + 1) / 8;
                 outer.style.top = newPos + "px";
             } else {
 
                 // Hidden
-                this.container.style.opacity = 0;
+                this.container.style.opacity = "0";
                 this.container.style.pointerEvents = "none";
             }
         }
