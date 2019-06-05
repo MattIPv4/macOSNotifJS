@@ -572,14 +572,17 @@ class macOSNotifJS {
     }
 }
 
-
 // Provide theme data to users through the window (ensure a copy, not reference)
 window.macOSNotifThemes = Object.assign({}, __maOSNotifJSThemes);
 
 // Allow setting & getting of FadeThreshold
 Object.defineProperty(window, "macOSNotifFadeThreshold", {
-    get: function() { return __macOSNotifJSFadeThreshold; },
-    set: function(x) { __macOSNotifJSFadeThreshold = x; }
+    get: function () {
+        return __macOSNotifJSFadeThreshold;
+    },
+    set: function (x) {
+        __macOSNotifJSFadeThreshold = x;
+    },
 });
 
 // Allow access to create new notif
