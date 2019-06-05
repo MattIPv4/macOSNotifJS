@@ -1,6 +1,3 @@
-require("./css/macOSNotif.css");
-require("@babel/polyfill");
-
 /**
  *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
  *  <https://github.com/MattIPv4/macOSNotifJS/>
@@ -19,15 +16,18 @@ require("@babel/polyfill");
  *   <https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or <http://www.gnu.org/licenses/>.
  */
 
-class __macOSNotifJS_Interact {
+require("./css/macOSNotif.css");  // Ensure the CSS gets included
+require("@babel/polyfill");  // Polyfill for older browsers
+
+class __macOSNotifJSInteract {
 
     constructor(element) {
         // Get the actual element (supports selector passing)
         this.element = typeof (element) === "string" ? document.querySelector(element) : element;
 
-        this.drag_acting = false;
-        this.drag_xOrg = null;
-        this.drag_xOffset = 0;
+        this.dragActing = false;
+        this.dragXOrg = null;
+        this.dragXOffset = 0;
     }
 
     onDismiss(callback) {
@@ -36,24 +36,24 @@ class __macOSNotifJS_Interact {
         return this;
     }
 
-    scroll_move(evt) {
+    scrollMove(evt) {
         // TODO: make this work, detect X scrolling as a swipe to dismiss
         if (!evt.deltaX) return;
         if (evt.deltaX < 0) this.onDismiss();
     }
 
-    scroll_run() {
-        this.element.addEventListener("wheel", (evt) => this.scroll_move(evt), true);
+    scrollRun() {
+        this.element.addEventListener("wheel", (evt) => this.scrollMove(evt), true);
     }
 
-    drag_move(evt) {
+    dragMove(evt) {
         // Don't run if currently doing drag stuff
-        if (!this.drag_acting) return;
+        if (!this.dragActing) return;
         evt.preventDefault();
         evt.stopPropagation();
 
         // Get the position and adjust based on movement
-        let position = this.drag_xOffset + this.drag_xOrg;
+        let position = this.dragXOffset + this.dragXOrg;
         if (evt.type === "mousemove") {
             position -= evt.clientX;
         } else if (evt.type === "touchmove") {
@@ -61,75 +61,75 @@ class __macOSNotifJS_Interact {
         }
 
         // Only allow dragging to the right of the original notif position
-        if (position > this.drag_xOrg) position = this.drag_xOrg;
+        if (position > this.dragXOrg) position = this.dragXOrg;
 
         // Move the element to match mouse drag
         this.element.style.transition = "unset";
         this.element.style.right = position + "px";
     }
 
-    drag_rightOffset() {
+    dragRightOffset() {
         const thisRect = this.element.getBoundingClientRect();
         const parentRect = this.element.parentElement.getBoundingClientRect();
         return parentRect.right - thisRect.right;
     }
 
-    drag_start(evt) {
+    dragStart(evt) {
         evt.preventDefault();
         evt.stopPropagation();
 
         if (evt.type === "mousedown") {
-            this.drag_xOffset = evt.clientX;
+            this.dragXOffset = evt.clientX;
         } else if (evt.type === "touchstart") {
-            this.drag_xOffset = evt.targetTouches[0].clientX;
+            this.dragXOffset = evt.targetTouches[0].clientX;
         }
 
-        if (this.drag_xOrg === null) this.drag_xOrg = this.drag_rightOffset();
-        this.drag_acting = true;
+        if (this.dragXOrg === null) this.dragXOrg = this.dragRightOffset();
+        this.dragActing = true;
     }
 
-    drag_stop(evt) {
-        if (!this.drag_acting) return;
+    dragStop(evt) {
+        if (!this.dragActing) return;
         evt.preventDefault();
         evt.stopPropagation();
 
         // Reset transition and stop dragging
         this.element.style.transition = "";
-        this.drag_acting = false;
+        this.dragActing = false;
 
         // Check if we should dismiss
-        const offset = Math.abs(this.drag_rightOffset());
+        const offset = Math.abs(this.dragRightOffset());
         const threshold = this.element.offsetWidth * 0.2;
         if (offset >= threshold) {
             this.onDismiss();
         } else {
-            this.element.style.right = this.drag_xOrg + "px";
+            this.element.style.right = this.dragXOrg + "px";
         }
     }
 
-    drag_run() {
-        this.element.addEventListener("mousedown", (evt) => this.drag_start(evt), true);
-        this.element.addEventListener("touchstart", (evt) => this.drag_start(evt), true);
+    dragRun() {
+        this.element.addEventListener("mousedown", (evt) => this.dragStart(evt), true);
+        this.element.addEventListener("touchstart", (evt) => this.dragStart(evt), true);
 
-        window.addEventListener("mousemove", (evt) => this.drag_move(evt), true);
-        window.addEventListener("touchmove", (evt) => this.drag_move(evt), true);
+        window.addEventListener("mousemove", (evt) => this.dragMove(evt), true);
+        window.addEventListener("touchmove", (evt) => this.dragMove(evt), true);
 
-        window.addEventListener("mouseup", (evt) => this.drag_stop(evt), true);
-        window.addEventListener("touchend", (evt) => this.drag_stop(evt), true);
+        window.addEventListener("mouseup", (evt) => this.dragStop(evt), true);
+        window.addEventListener("touchend", (evt) => this.dragStop(evt), true);
     }
 
     run() {
-        this.drag_run();
+        this.dragRun();
 
         // TODO: this
-        //this.scroll_run();
+        //this.scrollRun();
     }
 }
 
-const __macOSNotifJS_template = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
-const __macOSNotifJS_notifs = {};
-let __macOSNotifJS_fadeThreshold = 6;
-const __maOSNotifJS_themes = {
+const __macOSNotifJSTemplate = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
+const __macOSNotifJSNotifs = {};
+let __macOSNotifJSFadeThreshold = 6;
+const __maOSNotifJSThemes = {
     Light: { c: "light" },
     Dark: { c: "dark" },
     Info: { c: "info" },
@@ -137,8 +137,6 @@ const __maOSNotifJS_themes = {
     Danger: { c: "danger" },
     Success: { c: "success" },
 };
-
-window.macOSNotifThemes = Object.assign({}, __maOSNotifJS_themes); // Ensure copy
 
 class macOSNotifJS {
 
@@ -149,7 +147,7 @@ class macOSNotifJS {
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
             sounds: false,                          // Play sounds for notification
-            theme: __maOSNotifJS_themes.Light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
+            theme: __maOSNotifJSThemes.Light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
             themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
             zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
@@ -178,9 +176,9 @@ class macOSNotifJS {
         // Load our options
         this.options = { ...defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if ("dark" in options) this.options.theme = (options.dark ? __maOSNotifJS_themes.Dark : __maOSNotifJS_themes.Light);
+        if ("dark" in options) this.options.theme = (options.dark ? __maOSNotifJSThemes.Dark : __maOSNotifJSThemes.Light);
         // Fix invalid theme option
-        if (!Object.values(__maOSNotifJS_themes).includes(this.options.theme)) this.options.theme = defaultOptions.theme;
+        if (!Object.values(__maOSNotifJSThemes).includes(this.options.theme)) this.options.theme = defaultOptions.theme;
 
         // Other properties
         this.container = null;
@@ -189,32 +187,24 @@ class macOSNotifJS {
         this.dismissing = false;
     }
 
-    static get fadeThreshold() {
-        return __macOSNotifJS_fadeThreshold;
-    }
-
-    static set fadeThreshold(value) {
-        __macOSNotifJS_fadeThreshold = value;
-    }
-
     static __fullId(id) {
         return "macOSNotifJS_n" + id.toString();
     }
 
     static __nextId() {
         // Handle empty
-        if (!__macOSNotifJS_notifs || Object.keys(__macOSNotifJS_notifs).length === 0) return 0;
+        if (!__macOSNotifJSNotifs || Object.keys(__macOSNotifJSNotifs).length === 0) return 0;
 
         // Get max
-        const keys = Object.keys(__macOSNotifJS_notifs).map(Number);
+        const keys = Object.keys(__macOSNotifJSNotifs).map(Number);
         return Math.max(...keys) + 1;
     }
 
     static __generateTemplate() {
         // Get the template and insert the id
-        let template = __macOSNotifJS_template;
+        let template = __macOSNotifJSTemplate;
         const id = macOSNotifJS.__nextId();
-        __macOSNotifJS_notifs[id] = null;
+        __macOSNotifJSNotifs[id] = null;
         template = template.replace(/macOSNotifJS_/g, macOSNotifJS.__fullId(id) + "_");
 
         // Return template and the ID of it
@@ -270,9 +260,9 @@ class macOSNotifJS {
     }
 
     static __doAfter(id, callback) {
-        for (const key in __macOSNotifJS_notifs) {
-            if (!__macOSNotifJS_notifs.hasOwnProperty(key)) continue;
-            if (parseInt(key, 10) < id) __macOSNotifJS_notifs[key][callback]();
+        for (const key in __macOSNotifJSNotifs) {
+            if (!__macOSNotifJSNotifs.hasOwnProperty(key)) continue;
+            if (parseInt(key, 10) < id) __macOSNotifJSNotifs[key][callback]();
         }
     }
 
@@ -281,9 +271,9 @@ class macOSNotifJS {
     }
 
     static __updatePosAll() {
-        for (const key in __macOSNotifJS_notifs) {
-            if (!__macOSNotifJS_notifs.hasOwnProperty(key)) continue;
-            __macOSNotifJS_notifs[key].__updatePos();
+        for (const key in __macOSNotifJSNotifs) {
+            if (!__macOSNotifJSNotifs.hasOwnProperty(key)) continue;
+            __macOSNotifJSNotifs[key].__updatePos();
         }
     }
 
@@ -291,7 +281,7 @@ class macOSNotifJS {
         // Calculate notifications above (that aren't dismissing)
         const id = this.id;
         let elmsAbove = 0;
-        Object.values(__macOSNotifJS_notifs).forEach(function (value) {
+        Object.values(__macOSNotifJSNotifs).forEach(function (value) {
             if (value.id > id) {
                 if (!value.dismissing) {
                     elmsAbove += 1;
@@ -300,20 +290,20 @@ class macOSNotifJS {
         });
 
         const outer = this.container.parentElement;
-        let newPos = (outer.offsetHeight * (Math.min(elmsAbove, __macOSNotifJS_fadeThreshold - 1)));
+        let newPos = (outer.offsetHeight * (Math.min(elmsAbove, __macOSNotifJSFadeThreshold - 1)));
 
         // Within visible list
-        if (elmsAbove < __macOSNotifJS_fadeThreshold) {
+        if (elmsAbove < __macOSNotifJSFadeThreshold) {
             this.container.style.opacity = 1;
             this.container.style.pointerEvents = "auto";
             outer.style.top = newPos + "px";
         } else {
 
             // Within stack (1st/2nd after threshold)
-            if (elmsAbove - __macOSNotifJS_fadeThreshold < 2) {
-                this.container.style.opacity = (3 - (elmsAbove - __macOSNotifJS_fadeThreshold)) / 4;
+            if (elmsAbove - __macOSNotifJSFadeThreshold < 2) {
+                this.container.style.opacity = (3 - (elmsAbove - __macOSNotifJSFadeThreshold)) / 4;
                 this.container.style.pointerEvents = "none";
-                newPos += outer.offsetHeight * (elmsAbove - __macOSNotifJS_fadeThreshold + 1) / 8;
+                newPos += outer.offsetHeight * (elmsAbove - __macOSNotifJSFadeThreshold + 1) / 8;
                 outer.style.top = newPos + "px";
             } else {
 
@@ -346,7 +336,7 @@ class macOSNotifJS {
     }
 
     static dismissAll() {
-        const notifs = Object.values(__macOSNotifJS_notifs).reverse();
+        const notifs = Object.values(__macOSNotifJSNotifs).reverse();
         for (let i = 0; i < notifs.length; i++) {
             setTimeout(function () {
                 notifs[i].dismiss();
@@ -384,7 +374,7 @@ class macOSNotifJS {
         // Remove fully once animation completed
         setTimeout(() => {
             this.container.parentElement.parentElement.removeChild(this.container.parentElement);
-            delete __macOSNotifJS_notifs[this.id];
+            delete __macOSNotifJSNotifs[this.id];
             delete window[fullId];
         }, 800);
     }
@@ -430,7 +420,7 @@ class macOSNotifJS {
         Subtitle.textContent = text;
     }
 
-    __run_initialContainer() {
+    __runInitialContainer() {
         // Generate the base template
         const templateData = macOSNotifJS.__generateTemplate();
         this.id = templateData.id;
@@ -444,7 +434,7 @@ class macOSNotifJS {
         this.container.setAttribute("data-id", this.id);
     }
 
-    __run_applyTheming() {
+    __runApplyTheming() {
         if (this.options.themeNative) {
             // Check current
             this.checkNative();
@@ -457,7 +447,7 @@ class macOSNotifJS {
         }
     }
 
-    __run_applyOptions() {
+    __runApplyOptions() {
         // Get the elements
         const { Img, Image, Text, Buttons, Button1, Button2 } = macOSNotifJS.__getElements(this.id);
 
@@ -498,16 +488,16 @@ class macOSNotifJS {
         }
     }
 
-    __run_startInteract() {
+    __runStartInteract() {
         if (this.options.interactDismiss) {
-            this.interact = new __macOSNotifJS_Interact(this.container);
+            this.interact = new __macOSNotifJSInteract(this.container);
             this.interact.onDismiss(() => {
                 this.dismiss();
             }).run();
         }
     }
 
-    __run_defineActions() {
+    __runDefineActions() {
         const fullId = macOSNotifJS.__fullId(this.id);
         // Define these all in window as this is where the HTML template calls to (we don't bind events here)
         window[fullId + "_ButtonImg"] = () => {
@@ -524,7 +514,7 @@ class macOSNotifJS {
         };
     }
 
-    __run_autoDismiss() {
+    __runAutoDismiss() {
         if (this.options.autoDismiss !== 0) {
             // Set the timeout (in window, so user can control if needed)
             window[macOSNotifJS.__fullId(this.id) + "_AutoDismiss"] = setTimeout(() => {
@@ -533,7 +523,7 @@ class macOSNotifJS {
         }
     }
 
-    __run_showNotification() {
+    __runShowNotification() {
         setTimeout(() => {
             // Stop overlapping
             macOSNotifJS.__updatePosAll();
@@ -547,8 +537,8 @@ class macOSNotifJS {
         }, this.options.delay * 1000);
     }
 
-    __run_storeNotification() {
-        __macOSNotifJS_notifs[this.id] = this;
+    __runStoreNotification() {
+        __macOSNotifJSNotifs[this.id] = this;
         window[macOSNotifJS.__fullId(this.id)] = this;
     }
 
@@ -557,32 +547,42 @@ class macOSNotifJS {
         if (this.id !== null) return;
 
         // Template into DOM with container ID
-        this.__run_initialContainer();
+        this.__runInitialContainer();
 
         // Apply theme
-        this.__run_applyTheming();
+        this.__runApplyTheming();
 
         // Apply user defined options
-        this.__run_applyOptions();
+        this.__runApplyOptions();
 
         // Interact dismiss
-        this.__run_startInteract();
+        this.__runStartInteract();
 
         // Set the actions
-        this.__run_defineActions();
+        this.__runDefineActions();
 
         // Set autodismiss
-        this.__run_autoDismiss();
+        this.__runAutoDismiss();
 
         // Handle show
-        this.__run_showNotification();
+        this.__runShowNotification();
 
         // Store
-        this.__run_storeNotification();
+        this.__runStoreNotification();
     }
 }
 
-window.macOSNotifJS = macOSNotifJS;
+
+// Provide theme data to users through the window (ensure a copy, not reference)
+window.macOSNotifThemes = Object.assign({}, __maOSNotifJSThemes);
+
+// Allow setting & getting of FadeThreshold
+Object.defineProperty(window, "macOSNotifFadeThreshold", {
+    get: function() { return __macOSNotifJSFadeThreshold; },
+    set: function(x) { __macOSNotifJSFadeThreshold = x; }
+});
+
+// Allow access to create new notif
 window.macOSNotif = function macOSNotif(options) {
     // A quick method for generating a full instance of macOSNotifJS and running it
     const thisNotif = new macOSNotifJS(options);
