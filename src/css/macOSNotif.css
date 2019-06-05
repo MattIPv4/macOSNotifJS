@@ -20,21 +20,30 @@
 @font-face {
     font-family: "SF Display";
     font-weight: 400;
-    src: url("../fonts/SF-UI-Display-Regular.otf");
+    src: url("../fonts/build/SF-UI-Display-Regular.eot"); /* IE9 */
+    src: url("../fonts/build/SF-UI-Display-Regular.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/build/SF-UI-Display-Regular.woff") format("woff"), /* chrome, firefox */
+    url("../fonts/build/SF-UI-Display-Regular.ttf") format("truetype"); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
 }
 
 /** Semibold */
 @font-face {
     font-family: "SF Display";
     font-weight: 600;
-    src: url("../fonts/SF-UI-Display-Semibold.otf");
+    src: url("../fonts/build/SF-UI-Display-Semibold.eot"); /* IE9 */
+    src: url("../fonts/build/SF-UI-Display-Semibold.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/build/SF-UI-Display-Semibold.woff") format("woff"), /* chrome, firefox */
+    url("../fonts/build/SF-UI-Display-Semibold.ttf") format("truetype"); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
 }
 
 /** Thin */
 @font-face {
     font-family: "SF Display";
     font-weight: 300;
-    src: url("../fonts/SF-UI-Display-Thin.otf");
+    src: url("../fonts/build/SF-UI-Display-Thin.eot"); /* IE9 */
+    src: url("../fonts/build/SF-UI-Display-Thin.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("../fonts/build/SF-UI-Display-Thin.woff") format("woff"), /* chrome, firefox */
+    url("../fonts/build/SF-UI-Display-Thin.ttf") format("truetype"); /* chrome, firefox, opera, Safari, Android, iOS 4.2+ */
 }
 
 /* Base notification (light) */
