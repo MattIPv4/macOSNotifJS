@@ -48,7 +48,7 @@
       4
     ],
     "camelcase": [
-      "off"
+      "error"
     ],
     "quotes": [
       "error",
@@ -56,6 +56,23 @@
     ],
     "no-console": [
       "off"
+    ],
+    "no-extra-parens": [
+      "warn",
+      "all",
+      {
+        "nestedBinaryExpressions": false
+      }
+    ],
+    "arrow-parens": [
+      "error",
+      "as-needed"
+    ],
+    "prefer-arrow-callback": [
+      "error"
+    ],
+    "no-mixed-operators": [
+      "error"
     ]
   }
 }

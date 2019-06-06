@@ -23,7 +23,7 @@ class __macOSNotifJSInteract {
 
     constructor(element) {
         // Get the actual element (supports selector passing)
-        this.element = typeof (element) === "string" ? document.querySelector(element) : element;
+        this.element = typeof element === "string" ? document.querySelector(element) : element;
 
         this.dragActing = false;
         this.dragXOrg = null;
@@ -43,7 +43,7 @@ class __macOSNotifJSInteract {
     }
 
     scrollRun() {
-        this.element.addEventListener("wheel", (evt) => this.scrollMove(evt), true);
+        this.element.addEventListener("wheel", evt => this.scrollMove(evt), true);
     }
 
     dragMove(evt) {
@@ -108,14 +108,14 @@ class __macOSNotifJSInteract {
     }
 
     dragRun() {
-        this.element.addEventListener("mousedown", (evt) => this.dragStart(evt), true);
-        this.element.addEventListener("touchstart", (evt) => this.dragStart(evt), true);
+        this.element.addEventListener("mousedown", evt => this.dragStart(evt), true);
+        this.element.addEventListener("touchstart", evt => this.dragStart(evt), true);
 
-        window.addEventListener("mousemove", (evt) => this.dragMove(evt), true);
-        window.addEventListener("touchmove", (evt) => this.dragMove(evt), true);
+        window.addEventListener("mousemove", evt => this.dragMove(evt), true);
+        window.addEventListener("touchmove", evt => this.dragMove(evt), true);
 
-        window.addEventListener("mouseup", (evt) => this.dragStop(evt), true);
-        window.addEventListener("touchend", (evt) => this.dragStop(evt), true);
+        window.addEventListener("mouseup", evt => this.dragStop(evt), true);
+        window.addEventListener("touchend", evt => this.dragStop(evt), true);
     }
 
     run() {
@@ -126,7 +126,7 @@ class __macOSNotifJSInteract {
     }
 }
 
-const __macOSNotifJSTemplate = (require("./html/macOSNotif.html").default).replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
+const __macOSNotifJSTemplate = require("./html/macOSNotif.html").default.replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJSNotifs = {};
 let __macOSNotifJSFadeThreshold = 6;
 const __maOSNotifJSThemes = {
@@ -176,7 +176,7 @@ class macOSNotifJS {
         // Load our options
         this.options = { ...defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if ("dark" in options) this.options.theme = (options.dark ? __maOSNotifJSThemes.Dark : __maOSNotifJSThemes.Light);
+        if ("dark" in options) this.options.theme = options.dark ? __maOSNotifJSThemes.Dark : __maOSNotifJSThemes.Light;
         // Fix invalid theme option
         if (!Object.values(__maOSNotifJSThemes).includes(this.options.theme)) this.options.theme = defaultOptions.theme;
 
@@ -281,7 +281,7 @@ class macOSNotifJS {
         // Calculate notifications above (that aren't dismissing)
         const id = this.id;
         let elmsAbove = 0;
-        Object.values(__macOSNotifJSNotifs).forEach(function (value) {
+        Object.values(__macOSNotifJSNotifs).forEach(value => {
             if (value.id > id) {
                 if (!value.dismissing) {
                     elmsAbove += 1;
@@ -290,7 +290,7 @@ class macOSNotifJS {
         });
 
         const outer = this.container.parentElement;
-        let newPos = (outer.offsetHeight * (Math.min(elmsAbove, __macOSNotifJSFadeThreshold - 1)));
+        let newPos = outer.offsetHeight * Math.min(elmsAbove, __macOSNotifJSFadeThreshold - 1);
 
         // Within visible list
         if (elmsAbove < __macOSNotifJSFadeThreshold) {
@@ -315,14 +315,14 @@ class macOSNotifJS {
     }
 
     __handleGo(link, newTab, dismiss, nullNoDismiss) {
-        if (typeof (nullNoDismiss) === "undefined") nullNoDismiss = false;
+        if (typeof nullNoDismiss === "undefined") nullNoDismiss = false;
 
         if (dismiss && !(link === null && nullNoDismiss)) this.dismiss();
 
         if (link === "#" || link === null) return;
 
         setTimeout(() => {
-            if (typeof (link) === "function") {
+            if (typeof link === "function") {
                 link(this);
             } else {
                 if (newTab) {
@@ -332,13 +332,13 @@ class macOSNotifJS {
                     window.location.href = link;
                 }
             }
-        }, (dismiss ? 800 : 0));
+        }, dismiss ? 800 : 0);
     }
 
     static dismissAll() {
         const notifs = Object.values(__macOSNotifJSNotifs).reverse();
         for (let i = 0; i < notifs.length; i++) {
-            setTimeout(function () {
+            setTimeout(() => {
                 notifs[i].dismiss();
             }, 100 * i);
         }

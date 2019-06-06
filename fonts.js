@@ -7,7 +7,7 @@ const fonts = new Fontmin()
     .use(Fontmin.ttf2woff({ deflate: true }))
     .dest("src/fonts/build");
 
-fonts.run(function (err, files) {
+fonts.run((err, files) => {
     if (err) throw err;
     files.forEach(file => {
         console.info("\n" + file.history.join("\n"));
