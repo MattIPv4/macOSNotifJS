@@ -301,7 +301,7 @@ class macOSNotifJS {
 
             // Within stack (1st/2nd after threshold)
             if (elmsAbove - __macOSNotifJSFadeThreshold < 2) {
-                this.container.style.opacity = ((3 - (elmsAbove - __macOSNotifJSFadeThreshold)) / 4).toString(10);
+                this.container.style.opacity = ((3 - (elmsAbove - __macOSNotifJSFadeThreshold)) / 4).toString();
                 this.container.style.pointerEvents = "none";
                 newPos += outer.offsetHeight * (elmsAbove - __macOSNotifJSFadeThreshold + 1) / 8;
                 outer.style.top = newPos + "px";
@@ -337,11 +337,9 @@ class macOSNotifJS {
 
     static dismissAll() {
         const notifs = Object.values(__macOSNotifJSNotifs).reverse();
-        for (let i = 0; i < notifs.length; i++) {
-            setTimeout(() => {
-                notifs[i].dismiss();
-            }, 100 * i);
-        }
+        notifs.forEach((notif, i) => {
+            setTimeout(notif.dismiss(), 100 * i);
+        });
     }
 
     dismiss() {

@@ -73,6 +73,10 @@
     ],
     "no-mixed-operators": [
       "error"
+    ],
+    "radix": [
+      "error",
+      "always"
     ]
   }
 }
