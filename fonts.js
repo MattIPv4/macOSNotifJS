@@ -10,8 +10,8 @@ const fonts = new Fontmin()
 fonts.run((err, files) => {
     if (err) throw err;
     files.forEach(file => {
-        console.info("\n" + file.history.join("\n"));
+        console.info("\x1b[36m%s\x1b[0m", "\n" + file.history.slice(-1)[0]);
         console.log("\t" + file.history.slice(-1)[0].replace(/^.*[\\/]/, ""));
     });
-    console.log("\nSuccessfully build " + files.length.toString(10) + " font files.");
+    console.log("\x1b[32m%s\x1b[0m", "\nSuccessfully built " + files.length.toString() + " font files.");
 });
