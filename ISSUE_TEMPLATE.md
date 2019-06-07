@@ -1,10 +1,10 @@
 <!-- Provide a general summary of the issue in the title above -->
 <!-- Replace the rather silly content below with your actual issue report -->
 
-## Expected Behavior
+## Expected Behaviour
 It should work.
 
-## Current Behavior
+## Current Behaviour
 It broke.
 
 ## Development Environment
