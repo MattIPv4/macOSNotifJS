@@ -5,6 +5,7 @@
   "main": "src/macOSNotif.js",
   "browser": "dist/macOSNotif.min.js",
   "browserslist": [
+    "last 1 version",
     "> 0.25%, not dead"
   ],
   "scripts": {

@@ -211,7 +211,7 @@
     <script>
         (adsbygoogle = window.adsbygoogle || []).push({
             google_ad_client: "ca-pub-4266526051230566",
-            enable_page_level_ads: true
+            enable_page_level_ads: true,
         });
     </script>
 </head>
@@ -283,10 +283,12 @@
                  alt="Code Quality">
         </a>
         <a href="http://patreon.mattcowley.co.uk/" target="_blank">
-            <img src="https://img.shields.io/badge/patreon-IPv4-blue.svg?style=flat-square&colorB=007aff" alt="Patreon"/>
+            <img src="https://img.shields.io/badge/patreon-IPv4-blue.svg?style=flat-square&colorB=007aff"
+                 alt="Patreon"/>
         </a>
         <a href="http://slack.mattcowley.co.uk/" target="_blank">
-            <img src="https://img.shields.io/badge/slack-MattIPv4-blue.svg?style=flat-square&colorB=007aff" alt="Slack"/>
+            <img src="https://img.shields.io/badge/slack-MattIPv4-blue.svg?style=flat-square&colorB=007aff"
+                 alt="Slack"/>
         </a>
     </small>
 </h1>
@@ -364,6 +366,20 @@ options = {
     </h2>
 </blockquote>
 
+<h3>Browser Support:</h3>
+<p>
+    macOSNotifJS is built to have support for the following browser definitions.
+    <br/><i>You can click on each one to view a full breakdown of every browser the definition covers.</i>
+</p>
+
+<ul>
+    <li><a href="https://browserl.ist/?q=last%201%20version" target="_blank">
+        last 1 version</a></li>
+
+    <li><a href="https://browserl.ist/?q=%3E%200.25%25%2C%20not%20dead" target="_blank">
+        &gt; 0.25%, not dead</a></li>
+</ul>
+
 <hr/>
 
 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
@@ -387,7 +403,8 @@ options = {
 <button data-demo-load
         onclick="macOSNotif({title:'Dual button notification', subtitle:'Two buttons; dismiss and a link (opens in a new tab)', btn1Text:'Close', btn1Link:null, btn2Text:'Author', btn2Link:'https://mattcowley.co.uk/', btn2NewTab:true})">
     Dual button notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Dual button notification',
     subtitle:'Two buttons; dismiss and a link (opens in a new tab)',
@@ -403,7 +420,8 @@ options = {
 <button data-demo-load
         onclick="macOSNotif({title:'Single button notification', subtitle:'A single button to dismiss the notification', btn2Text:null})">
     Single button notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Single button notification',
     subtitle:'A single button to dismiss the notification',
@@ -415,7 +433,8 @@ options = {
 <button data-demo-load
         onclick="macOSNotif({title:'Main body link notification', subtitle:'The main notification body is a link (opens in a new tab)', mainLink:'https://mattcowley.co.uk/', mainLinkNewTab:true})">
     Main body link notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Main body link notification',
     subtitle:'The main notification body is a link (opens in a new tab)',
@@ -428,7 +447,8 @@ options = {
 <button data-demo-load
         onclick="macOSNotif({title:'No button notification', subtitle:'The main body link dismisses the notification', mainLink:'#', btn1Text:null})">
     No button notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'No button notification',
     subtitle:'The main body link dismisses the notification',
@@ -443,7 +463,8 @@ options = {
 <button data-demo-load
         onclick="macOSNotif({title:'Image (icon) notification with link', subtitle:'Has an icon which also has a link', imageSrc:'https://mattcowley.co.uk/me.png', imageLink:'https://mattcowley.co.uk/', imageLinkNewTab:true})">
     Image (icon) notification with link
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Image (icon) notification with link',
     subtitle:'Has an icon which also has a link',
@@ -456,7 +477,8 @@ options = {
 
 <button onclick="macOSNotif({title:'Sound (alert) notification', subtitle:'Requires user interaction first on some browsers', sounds:true})">
     Sound (alert) notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Sound (alert) notification',
     subtitle:'Requires user interaction first on some browsers',
@@ -470,7 +492,8 @@ options = {
 <button data-demo-load
         onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.Dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}})">
     Dark mode notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Dark mode notification',
     subtitle:'Emulates the macOS dark mode styling',
@@ -488,7 +511,8 @@ options = {
 
 <button onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the theme preference of the OS', themeNative:true, mainLink:'#', btn1Text:'Close', btn1Link:null, btn2Text:'Support', btn2Link:'https://caniuse.com/prefers-color-scheme', btn2NewTab:true})">
     Native OS theme notification (macOS dark mode)
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Native theme notification',
     subtitle:'Attempts to match the dark/light theme of the OS',
@@ -504,7 +528,8 @@ options = {
 
 <button onclick="macOSNotif({title:'Info themed notification', subtitle:'Non-macOS theme to convey information', theme:macOSNotifThemes.Info, btn2Text:null})">
     Info themed notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Info themed notification',
     subtitle:'Non-macOS theme to convey information',
@@ -516,7 +541,8 @@ options = {
 
 <button onclick="macOSNotif({title:'Warning themed notification', subtitle:'Non-macOS theme to convey a warning message', theme:macOSNotifThemes.Warning, btn2Text:null})">
     Warning themed notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Warning themed notification',
     subtitle:'Non-macOS theme to convey a warning message',
@@ -528,7 +554,8 @@ options = {
 
 <button onclick="macOSNotif({title:'Danger themed notification', subtitle:'Non-macOS theme to convey an immediate danger', theme:macOSNotifThemes.Danger, btn2Text:null})">
     Danger themed notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Danger themed notification',
     subtitle:'Non-macOS theme to convey an immediate danger',
@@ -540,7 +567,8 @@ options = {
 
 <button onclick="macOSNotif({title:'Success themed notification', subtitle:'Non-macOS theme to convey success', theme:macOSNotifThemes.Success, btn2Text:null})">
     Success themed notification
-</button><br/>
+</button>
+<br/>
 <pre class="code">macOSNotif({
     title:'Success themed notification',
     subtitle:'Non-macOS theme to convey success',
