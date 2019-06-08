@@ -1,4 +1,4 @@
-const { version } = require("./package.json");
+const { version, browserslist } = require("./package.json");
 const path = require("path").posix;
 const webpack = require("webpack");
 const os = require("os");
@@ -71,6 +71,12 @@ module.exports = {
         new HtmlWebpackPlugin({
             meta: {
                 version: `v${version}`,
+                browsers: browserslist.map(x => {
+                    return [
+                        "https://browserl.ist/?q=" + encodeURIComponent(x),
+                        x.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
+                    ];
+                }),
                 versionInfo: versionInfo,
                 viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
             },
