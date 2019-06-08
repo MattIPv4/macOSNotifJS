@@ -5,9 +5,6 @@
         "corejs": "2.x",
         "forceAllTransforms": true,
         "useBuiltIns": "entry",
-        "targets": {
-          "browsers": "> 0.25%, not dead"
-        },
         "exclude": ["transform-regenerator", "transform-async-to-generator"],
         "debug": true,
         "loose": true
