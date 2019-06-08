@@ -3,26 +3,36 @@
   "version": "0.1.0-beta2",
   "description": "A simple Javascript plugin to create simulated macOS notifications on your website.",
   "main": "src/macOSNotif.js",
+  "filename": "dist/macOSNotif.min.js",
   "browser": "dist/macOSNotif.min.js",
+  "style": "dist/macOSNotif.min.css",
+  "files": [
+    "dist/macOSNotif.min.js",
+    "dist/macOSNotif.min.css",
+    "dist/fonts/*"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MattIPv4/macOSNotifJS.git"
+  },
+  "bugs": {
+    "url": "https://github.com/MattIPv4/macOSNotifJS/issues"
+  },
+  "homepage": "https://macosnotif.js.org/",
+  "keywords": [],
+  "author": {
+    "name": "Matt (IPv4) Cowley",
+    "email": "me@mattcowley.co.uk",
+    "url": "https://mattcowley.co.uk/"
+  },
+  "license": "AGPL-3.0-only",
   "browserslist": [
     "last 1 version",
     "> 0.25%, not dead"
   ],
   "scripts": {
-    "build": "webpack",
-    "buildfonts": "node fonts.js"
+    "build": "node preflight.js && webpack"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/MattIPv4/macOSNotifJS.git"
-  },
-  "keywords": [],
-  "author": "MattIPv4",
-  "license": "AGPL-3.0-only",
-  "bugs": {
-    "url": "https://github.com/MattIPv4/macOSNotifJS/issues"
-  },
-  "homepage": "https://macosnotif.js.org",
   "devDependencies": {
     "@babel/core": "^7.4.5",
     "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
@@ -34,6 +44,7 @@
     "babel-plugin-async-to-promises": "^1.0.5",
     "babel-plugin-transform-es3-member-expression-literals": "^6.22.0",
     "babel-plugin-transform-es3-property-literals": "^6.22.0",
+    "chalk": "^2.4.2",
     "core-js": "2.x",
     "css-loader": "^2.1.1",
     "file-loader": "^4.0.0",

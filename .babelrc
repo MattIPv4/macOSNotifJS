@@ -6,7 +6,7 @@
         "forceAllTransforms": true,
         "useBuiltIns": "entry",
         "exclude": ["transform-regenerator", "transform-async-to-generator"],
-        "debug": true,
+        "debug": false,
         "loose": true
       }
     ]
