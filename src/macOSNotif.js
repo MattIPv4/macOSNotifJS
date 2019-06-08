@@ -40,30 +40,39 @@ class macOSNotifJS {
 
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
             imageName: "",                          // Alt/Title text of the icon
-            imageLink: null,                        // Link for icon click (null for no link, '#' for dismiss)
+            imageLink: null,                        // Link for icon click (see link functionality below)
+            imageLinkDismiss: true,                 // Dismiss notification after Image Link pressed (useful if link is function)
             imageLinkNewTab: false,                 // Open Image Link in New Tab (ignored if link is set to dismiss)
 
             title: "macOSNotifJS",                  // Main Notif Title
             subtitle: "Default notification text",  // Main Notif Sub Title
 
-            mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
+            mainLink: null,                         // Link for the main text body (see link functionality below)
+            mainLinkDismiss: true,                  // Dismiss notification after Main Link pressed (useful if link is function)
             mainLinkNewTab: false,                  // Open Main Link in New Tab (ignored if link is set to dismiss)
 
             btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
-            btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
+            btn1Link: null,                         // Link for Button 1 (see link functionality below)
             btn1Dismiss: true,                      // Dismiss notification after Button 1 pressed (useful if link is function)
             btn1NewTab: false,                      // Open Button 1 Link in New Tab (ignored if link is set to dismiss)
 
             btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
-            btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
+            btn2Link: null,                         // Link for Button 2 (see link functionality below)
             btn2Dismiss: true,                      // Dismiss notification after Button 2 pressed (useful if link is function)
             btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
         };
 
+        // Link functionality:
+        //  - Use null for no link (this will act as dismiss on btn1Link & btn2Link)
+        //  - Use "#" to make the element act as dismiss with no further action
+        //  - Use any string as a URL which will open when element is clicked
+        //  - Use a Javascript function to be called when element is clicked
+        //     (Note: The notification object is passed as the 1st parameter if required)
+
         // Load our options
         this.options = { ...defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if ("dark" in options) this.options.theme = options.dark ? __macOSNotifJSThemes.Dark : __macOSNotifJSThemes.Light;
+        if (options && "dark" in options) this.options.theme = options.dark ? __macOSNotifJSThemes.Dark : __macOSNotifJSThemes.Light;
         // Fix invalid theme option
         if (!(this.options.theme instanceof __macOSNotifJSTheme)) this.options.theme = defaultOptions.theme;
 
@@ -400,10 +409,10 @@ class macOSNotifJS {
         const fullId = this.constructor.__fullId(this.id);
         // Define these all in window as this is where the HTML template calls to (we don't bind events here)
         window[fullId + "_ButtonImg"] = () => {
-            this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true, true);
+            this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, this.options.imageLinkDismiss, true);
         };
         window[fullId + "_ButtonMain"] = () => {
-            this.__handleGo(this.options.mainLink, this.options.mainLinkNewTab, true, true);
+            this.__handleGo(this.options.mainLink, this.options.mainLinkNewTab, this.options.mainLinkDismiss, true);
         };
         window[fullId + "_Button1"] = () => {
             this.__handleGo(this.options.btn1Link, this.options.btn1NewTab, this.options.btn1Dismiss);
@@ -483,6 +492,9 @@ Object.defineProperty(window, "macOSNotifFadeThreshold", {
         __macOSNotifJSFadeThreshold = x;
     },
 });
+
+// Expose raw class to window for static method access
+window.macOSNotifJS = macOSNotifJS;
 
 // Allow access to create new notif
 window.macOSNotif = options => {
