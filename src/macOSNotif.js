@@ -20,17 +20,10 @@ require("./css/macOSNotif.css");  // Ensure the CSS gets included
 require("@babel/polyfill");  // Polyfill for older browsers
 
 const __macOSNotifJSInteract = require("./interact.js");
+const { __macOSNotifJSTheme, __macOSNotifJSThemes } = require("./themes.js");
 const __macOSNotifJSTemplate = require("./html/macOSNotif.html").default.replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJSNotifs = {};
 let __macOSNotifJSFadeThreshold = 6;
-const __maOSNotifJSThemes = {
-    Light: { c: "light" },
-    Dark: { c: "dark" },
-    Info: { c: "info" },
-    Warning: { c: "warning" },
-    Danger: { c: "danger" },
-    Success: { c: "success" },
-};
 
 class macOSNotifJS {
 
@@ -41,7 +34,7 @@ class macOSNotifJS {
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
             sounds: false,                          // Play sounds for notification
-            theme: __maOSNotifJSThemes.Light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
+            theme: __macOSNotifJSThemes.Light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
             themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
             zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
@@ -70,9 +63,9 @@ class macOSNotifJS {
         // Load our options
         this.options = { ...defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if ("dark" in options) this.options.theme = options.dark ? __maOSNotifJSThemes.Dark : __maOSNotifJSThemes.Light;
+        if ("dark" in options) this.options.theme = options.dark ? __macOSNotifJSThemes.Dark : __macOSNotifJSThemes.Light;
         // Fix invalid theme option
-        if (!Object.values(__maOSNotifJSThemes).includes(this.options.theme)) this.options.theme = defaultOptions.theme;
+        if (!(this.options.theme instanceof __macOSNotifJSTheme)) this.options.theme = defaultOptions.theme;
 
         // Other properties
         this.container = null;
@@ -265,15 +258,28 @@ class macOSNotifJS {
 
         // Remove fully once animation completed
         setTimeout(() => {
+            // Delete outer
             this.container.parentElement.parentElement.removeChild(this.container.parentElement);
+
+            // Remove styles if applicable
+            this.clearTheme();
+
+            // Remove window data
             delete __macOSNotifJSNotifs[this.id];
             delete window[fullId];
         }, 800);
     }
 
+    clearTheme() {
+        const styleElement = document.getElementById(this.constructor.__fullId(this.id) + "_Styles");
+        if (styleElement) styleElement.parentElement.removeChild(styleElement);
+    }
+
     applyTheme(theme) {
+        this.clearTheme();
         const { Outer } = this.constructor.__getElements(this.id);
-        Outer.setAttribute("data-macOSNotifTheme", theme.c);
+        const styles = theme.generateStyle(this.constructor.__fullId(this.id));
+        if (styles) document.body.insertBefore(styles, Outer);
     }
 
     checkNative() {
@@ -465,7 +471,7 @@ class macOSNotifJS {
 }
 
 // Provide theme data to users through the window (ensure a copy, not reference)
-window.macOSNotifThemes = Object.assign({}, __maOSNotifJSThemes);
+window.macOSNotifThemes = Object.assign({}, __macOSNotifJSThemes);
 
 // Allow setting & getting of FadeThreshold
 Object.defineProperty(window, "macOSNotifFadeThreshold", {
