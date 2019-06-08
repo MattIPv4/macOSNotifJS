@@ -19,124 +19,11 @@
 require("./css/macOSNotif.css");  // Ensure the CSS gets included
 require("@babel/polyfill");  // Polyfill for older browsers
 
-class __macOSNotifJSInteract {
-
-    constructor(element) {
-        // Get the actual element (supports selector passing)
-        this.element = typeof element === "string" ? document.querySelector(element) : element;
-
-        this.dragActing = false;
-        this.dragXOrg = null;
-        this.dragXOffset = 0;
-    }
-
-    onDismiss(callback) {
-        // Set the onDismiss action (overwrites this func, so can only be set once)
-        this.onDismiss = callback;
-        return this;
-    }
-
-    scrollMove(evt) {
-        // TODO: make this work, detect X scrolling as a swipe to dismiss
-        if (!evt.deltaX) return;
-        if (evt.deltaX < 0) this.onDismiss();
-    }
-
-    scrollRun() {
-        this.element.addEventListener("wheel", evt => this.scrollMove(evt), true);
-    }
-
-    dragMove(evt) {
-        // Don't run if currently doing drag stuff
-        if (!this.dragActing) return;
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        // Get the position and adjust based on movement
-        let position = this.dragXOffset + this.dragXOrg;
-        if (evt.type === "mousemove") {
-            position -= evt.clientX;
-        } else if (evt.type === "touchmove") {
-            position -= evt.targetTouches[0].clientX;
-        }
-
-        // Only allow dragging to the right of the original notif position
-        if (position > this.dragXOrg) position = this.dragXOrg;
-
-        // Move the element to match mouse drag
-        this.element.style.transition = "unset";
-        this.element.style.right = position + "px";
-    }
-
-    dragRightOffset() {
-        const thisRect = this.element.getBoundingClientRect();
-        const parentRect = this.element.parentElement.getBoundingClientRect();
-        return parentRect.right - thisRect.right;
-    }
-
-    dragStart(evt) {
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        if (evt.type === "mousedown") {
-            this.dragXOffset = evt.clientX;
-        } else if (evt.type === "touchstart") {
-            this.dragXOffset = evt.targetTouches[0].clientX;
-        }
-
-        if (this.dragXOrg === null) this.dragXOrg = this.dragRightOffset();
-        this.dragActing = true;
-    }
-
-    dragStop(evt) {
-        if (!this.dragActing) return;
-        evt.preventDefault();
-        evt.stopPropagation();
-
-        // Reset transition and stop dragging
-        this.element.style.transition = "";
-        this.dragActing = false;
-
-        // Check if we should dismiss
-        const offset = Math.abs(this.dragRightOffset());
-        const threshold = this.element.offsetWidth * 0.2;
-        if (offset >= threshold) {
-            this.onDismiss();
-        } else {
-            this.element.style.right = this.dragXOrg + "px";
-        }
-    }
-
-    dragRun() {
-        this.element.addEventListener("mousedown", evt => this.dragStart(evt), true);
-        this.element.addEventListener("touchstart", evt => this.dragStart(evt), true);
-
-        window.addEventListener("mousemove", evt => this.dragMove(evt), true);
-        window.addEventListener("touchmove", evt => this.dragMove(evt), true);
-
-        window.addEventListener("mouseup", evt => this.dragStop(evt), true);
-        window.addEventListener("touchend", evt => this.dragStop(evt), true);
-    }
-
-    run() {
-        this.dragRun();
-
-        // TODO: this
-        //this.scrollRun();
-    }
-}
-
+const __macOSNotifJSInteract = require("./interact.js");
+const { __macOSNotifJSTheme, __macOSNotifJSThemes } = require("./themes.js");
 const __macOSNotifJSTemplate = require("./html/macOSNotif.html").default.replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJSNotifs = {};
 let __macOSNotifJSFadeThreshold = 6;
-const __maOSNotifJSThemes = {
-    Light: { c: "light" },
-    Dark: { c: "dark" },
-    Info: { c: "info" },
-    Warning: { c: "warning" },
-    Danger: { c: "danger" },
-    Success: { c: "success" },
-};
 
 class macOSNotifJS {
 
@@ -147,38 +34,47 @@ class macOSNotifJS {
             interactDismiss: true,                  // Toggle swipe/drag to dismiss
 
             sounds: false,                          // Play sounds for notification
-            theme: __maOSNotifJSThemes.Light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
+            theme: __macOSNotifJSThemes.Light,      // Set the theme to be used by the notification (from window.macOSNotifThemes)
             themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
             zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
 
             imageSrc: null,                         // Link of the icon to display (null to hide icon)
             imageName: "",                          // Alt/Title text of the icon
-            imageLink: null,                        // Link for icon click (null for no link, '#' for dismiss)
+            imageLink: null,                        // Link for icon click (see link functionality below)
+            imageLinkDismiss: true,                 // Dismiss notification after Image Link pressed (useful if link is function)
             imageLinkNewTab: false,                 // Open Image Link in New Tab (ignored if link is set to dismiss)
 
             title: "macOSNotifJS",                  // Main Notif Title
             subtitle: "Default notification text",  // Main Notif Sub Title
 
-            mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
+            mainLink: null,                         // Link for the main text body (see link functionality below)
+            mainLinkDismiss: true,                  // Dismiss notification after Main Link pressed (useful if link is function)
             mainLinkNewTab: false,                  // Open Main Link in New Tab (ignored if link is set to dismiss)
 
             btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
-            btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
+            btn1Link: null,                         // Link for Button 1 (see link functionality below)
             btn1Dismiss: true,                      // Dismiss notification after Button 1 pressed (useful if link is function)
             btn1NewTab: false,                      // Open Button 1 Link in New Tab (ignored if link is set to dismiss)
 
             btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
-            btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
+            btn2Link: null,                         // Link for Button 2 (see link functionality below)
             btn2Dismiss: true,                      // Dismiss notification after Button 2 pressed (useful if link is function)
             btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
         };
 
+        // Link functionality:
+        //  - Use null for no link (this will act as dismiss on btn1Link & btn2Link)
+        //  - Use "#" to make the element act as dismiss with no further action
+        //  - Use any string as a URL which will open when element is clicked
+        //  - Use a Javascript function to be called when element is clicked
+        //     (Note: The notification object is passed as the 1st parameter if required)
+
         // Load our options
         this.options = { ...defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if ("dark" in options) this.options.theme = options.dark ? __maOSNotifJSThemes.Dark : __maOSNotifJSThemes.Light;
+        if (options && "dark" in options) this.options.theme = options.dark ? __macOSNotifJSThemes.Dark : __macOSNotifJSThemes.Light;
         // Fix invalid theme option
-        if (!Object.values(__maOSNotifJSThemes).includes(this.options.theme)) this.options.theme = defaultOptions.theme;
+        if (!(this.options.theme instanceof __macOSNotifJSTheme)) this.options.theme = defaultOptions.theme;
 
         // Other properties
         this.container = null;
@@ -348,6 +244,7 @@ class macOSNotifJS {
 
         // Let others know
         this.dismissing = true;
+        if (this.interact) this.interact.disable();
 
         // Get our ids
         const fullId = this.constructor.__fullId(this.id);
@@ -371,15 +268,28 @@ class macOSNotifJS {
 
         // Remove fully once animation completed
         setTimeout(() => {
+            // Delete outer
             this.container.parentElement.parentElement.removeChild(this.container.parentElement);
+
+            // Remove styles if applicable
+            this.clearTheme();
+
+            // Remove window data
             delete __macOSNotifJSNotifs[this.id];
             delete window[fullId];
         }, 800);
     }
 
+    clearTheme() {
+        const styleElement = document.getElementById(this.constructor.__fullId(this.id) + "_Styles");
+        if (styleElement) styleElement.parentElement.removeChild(styleElement);
+    }
+
     applyTheme(theme) {
+        this.clearTheme();
         const { Outer } = this.constructor.__getElements(this.id);
-        Outer.setAttribute("data-macOSNotifTheme", theme.c);
+        const styles = theme.generateStyle(this.constructor.__fullId(this.id));
+        if (styles) document.body.insertBefore(styles, Outer);
     }
 
     checkNative() {
@@ -499,10 +409,10 @@ class macOSNotifJS {
         const fullId = this.constructor.__fullId(this.id);
         // Define these all in window as this is where the HTML template calls to (we don't bind events here)
         window[fullId + "_ButtonImg"] = () => {
-            this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, true, true);
+            this.__handleGo(this.options.imageLink, this.options.imageLinkNewTab, this.options.imageLinkDismiss, true);
         };
         window[fullId + "_ButtonMain"] = () => {
-            this.__handleGo(this.options.mainLink, this.options.mainLinkNewTab, true, true);
+            this.__handleGo(this.options.mainLink, this.options.mainLinkNewTab, this.options.mainLinkDismiss, true);
         };
         window[fullId + "_Button1"] = () => {
             this.__handleGo(this.options.btn1Link, this.options.btn1NewTab, this.options.btn1Dismiss);
@@ -571,7 +481,7 @@ class macOSNotifJS {
 }
 
 // Provide theme data to users through the window (ensure a copy, not reference)
-window.macOSNotifThemes = Object.assign({}, __maOSNotifJSThemes);
+window.macOSNotifThemes = Object.assign({}, __macOSNotifJSThemes);
 
 // Allow setting & getting of FadeThreshold
 Object.defineProperty(window, "macOSNotifFadeThreshold", {
@@ -582,6 +492,9 @@ Object.defineProperty(window, "macOSNotifFadeThreshold", {
         __macOSNotifJSFadeThreshold = x;
     },
 });
+
+// Expose raw class to window for static method access
+window.macOSNotifJS = macOSNotifJS;
 
 // Allow access to create new notif
 window.macOSNotif = options => {

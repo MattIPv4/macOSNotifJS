@@ -200,6 +200,28 @@
         blockquote.info code {
             color: #579dff;
         }
+
+        .has-section-link .section-link {
+            float: left;
+            line-height: 1;
+            margin-left: -25px;
+            padding-right: 5px;
+            text-decoration: none;
+            outline: none;
+        }
+
+        .has-section-link .section-link span {
+            text-decoration: none;
+            outline: none;
+            vertical-align: middle;
+            visibility: hidden;
+            font-size: 13px;
+        }
+
+        .has-section-link:hover .section-link span,
+        .has-section-link .section-link:hover span {
+            visibility: visible;
+        }
     </style>
 
     <% for (var css in htmlWebpackPlugin.files.css) { %>
@@ -295,7 +317,7 @@
 
 <blockquote class="warning">
     <h2>
-        Breaking Change<br/>
+        <a id="breaking-change" data-section-link></a> Breaking Change<br/>
         <small>
             From version <code>0.0.5-beta2</code> onwards, the option to trigger the dark mode theme was changed from
             <code>dark: true</code> to <code>theme: macOSNotifThemes.Dark</code> as part of the theming overhaul.
@@ -303,7 +325,7 @@
     </h2>
 </blockquote>
 
-<h3>Installation:</h3>
+<h3><a id="installation" data-section-link></a> Installation:</h3>
 <p>To use the plugin, copy the <code>dist</code> folder from the <a href="https://github.com/MattIPv4/macOSNotifJS">
     macOSNotifJS GitHub repository</a> to your website.</p>
 
@@ -314,7 +336,7 @@
 <p>At the bottom of your body, you then need to have the following to load the notification script:</p>
 <pre class="code"><% for (var chunk in htmlWebpackPlugin.files.chunks) { %>&lt;script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"&gt;&lt;/script&gt;<% } %></pre>
 
-<h3>Usage:</h3>
+<h3><a id="usage" data-section-link></a> Usage:</h3>
 <p>To get started, simply call the function <code>macOSNotif</code>.
     <br/>To customise your notification, you can supply an object containing any of the options listed below:</p>
 <pre class="code">
@@ -330,30 +352,39 @@ options = {
 
     imageSrc: null,                         // Link of the icon to display (null to hide icon)
     imageName: "",                          // Alt/Title text of the icon
-    imageLink: null,                        // Link for icon click (null for no link, '#' for dismiss)
+    imageLink: null,                        // Link for icon click (see link functionality below)
+    imageLinkDismiss: true,                 // Dismiss notification after Image Link pressed (useful if link is function)
     imageLinkNewTab: false,                 // Open Image Link in New Tab (ignored if link is set to dismiss)
 
     title: "macOSNotifJS",                  // Main Notif Title
     subtitle: "Default notification text",  // Main Notif Sub Title
 
-    mainLink: null,                         // Link for the main text body (null for no link, '#' for dismiss)
+    mainLink: null,                         // Link for the main text body (see link functionality below)
+    mainLinkDismiss: true,                  // Dismiss notification after Main Link pressed (useful if link is function)
     mainLinkNewTab: false,                  // Open Main Link in New Tab (ignored if link is set to dismiss)
 
     btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
-    btn1Link: null,                         // Link for Button 1 (null or '#' for dismiss only)
+    btn1Link: null,                         // Link for Button 1 (see link functionality below)
     btn1Dismiss: true,                      // Dismiss notification after Button 1 pressed (useful if link is function)
     btn1NewTab: false,                      // Open Button 1 Link in New Tab (ignored if link is set to dismiss)
 
     btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
-    btn2Link: null,                         // Link for Button 2 (null or '#' for dismiss only)
+    btn2Link: null,                         // Link for Button 2 (see link functionality below)
     btn2Dismiss: true,                      // Dismiss notification after Button 2 pressed (useful if link is function)
     btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
-}
+};
+
+// Link functionality:
+//  - Use null for no link (this will act as dismiss on btn1Link & btn2Link)
+//  - Use "#" to make the element act as dismiss with no further action
+//  - Use any string as a URL which will open when element is clicked
+//  - Use a Javascript function to be called when element is clicked
+//     (Note: The notification object is passed as the 1st parameter if required)
 </pre>
 
 <blockquote class="info">
     <h2>
-        Native Theme Detection<br/>
+        <a id="native-theme-detection" data-section-link></a> Native Theme Detection<br/>
         <small>
             This feature can be enabled by setting the option <code>themeNative</code> to true. It is designed to detect
             the theme preference from the user's device (light or dark). This makes use of
@@ -366,7 +397,7 @@ options = {
     </h2>
 </blockquote>
 
-<h3>Browser Support:</h3>
+<h3><a id="browser-support" data-section-link></a> Browser Support:</h3>
 <p>
     macOSNotifJS is built to have support for the following browser definitions.
     <br/><i>You can click on each one to view a full breakdown of every browser the definition covers.</i>
@@ -393,9 +424,9 @@ options = {
 
 <hr/>
 
-<h3>Examples:</h3>
+<h3><a id="examples" data-section-link></a> Examples:</h3>
 
-<h4>Button Configuration:</h4>
+<h4><a id="button-configuration" data-section-link></a> Button Configuration:</h4>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Dual button notification', subtitle:'Two buttons; dismiss and a link (opens in a new tab)', btn1Text:'Close', btn1Link:null, btn2Text:'Author', btn2Link:'https://mattcowley.co.uk/', btn2NewTab:true})">
@@ -453,9 +484,26 @@ options = {
     btn1Text:null
 })</pre>
 
+<br/>
+
+<button data-demo-load
+        onclick="macOSNotif({title:'Javascript callback button', subtitle:'Any link can be set to call a Javascript function', mainLink:'#', btn1Text:'Ping!', btn1Link:function(){alert('Pong!');}, btn1Dismiss:false, btn2Text:null})">
+    Javascript callback button
+</button>
+<br/>
+<pre class="code">macOSNotif({
+    title:'Javascript callback button',
+    subtitle:'Any link can be set to call a Javascript function',
+    mainLink:'#',
+    btn1Text:'Ping!',
+    btn1Link:function(){alert('Pong!');},
+    btn1Dismiss:false,
+    btn2Text:null
+})</pre>
+
 <hr/>
 
-<h4>Notification customisation:</h4>
+<h4><a id="notification-customisation" data-section-link></a> Notification customisation:</h4>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Image (icon) notification with link', subtitle:'Has an icon which also has a link', imageSrc:'https://mattcowley.co.uk/me.png', imageLink:'https://mattcowley.co.uk/', imageLinkNewTab:true})">
@@ -484,7 +532,7 @@ options = {
 
 <hr/>
 
-<h4>Theming Support:</h4>
+<h4><a id="theming-support" data-section-link></a> Theming Support:</h4>
 
 <button data-demo-load
         onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.Dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}})">
@@ -590,8 +638,19 @@ options = {
 <% } %>
 
 <script>
+    // Generate section links
+    var elms = document.querySelectorAll("a[data-section-link]");
+    for (var i = 0; i < elms.length; i++) {
+        elms[i].innerHTML = "<span>&#x1f517;</span>";
+        elms[i].href = "#" + elms[i].id;
+        elms[i].classList.add("section-link");
+        elms[i].parentElement.classList.add("has-section-link");
+    }
+
+    // Redirect from old domain
     if (window.location.hostname === "macosnotifjs.mattcowley.co.uk") window.location.replace("https://macosnotif.js.org");
 
+    // Show demo notifications
     var buttons = document.querySelectorAll("button[data-demo-load]"),
         delay = 750;
     window.macOSNotifFadeThreshold = buttons.length;
