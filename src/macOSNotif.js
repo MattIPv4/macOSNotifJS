@@ -235,6 +235,7 @@ class macOSNotifJS {
 
         // Let others know
         this.dismissing = true;
+        if (this.interact) this.interact.disable();
 
         // Get our ids
         const fullId = this.constructor.__fullId(this.id);

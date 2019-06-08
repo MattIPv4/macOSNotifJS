@@ -22,9 +22,18 @@ class Interact {
         // Get the actual element (supports selector passing)
         this.element = typeof element === "string" ? document.querySelector(element) : element;
 
+        this.disabled = false;
         this.dragActing = false;
         this.dragXOrg = null;
         this.dragXOffset = 0;
+    }
+
+    disable() {
+        this.disabled = true;
+    }
+
+    enable() {
+        this.disabled = false;
     }
 
     onDismiss(callback) {
@@ -44,8 +53,8 @@ class Interact {
     }
 
     dragMove(evt) {
-        // Don't run if currently doing drag stuff
-        if (!this.dragActing) return;
+        // Don't run if currently doing drag stuff or disabled
+        if (!this.dragActing || this.disabled) return;
         evt.preventDefault();
         evt.stopPropagation();
 
@@ -72,9 +81,14 @@ class Interact {
     }
 
     dragStart(evt) {
+        // Don't run if disabled
+        if (this.disabled) return;
+
+        // Stop drag passing through
         evt.preventDefault();
         evt.stopPropagation();
 
+        // Mouse or touch start
         if (evt.type === "mousedown") {
             this.dragXOffset = evt.clientX;
         } else if (evt.type === "touchstart") {
