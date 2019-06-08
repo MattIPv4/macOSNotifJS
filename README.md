@@ -12,8 +12,8 @@
 
 <!-- Badges -->
 <p align="center">
-    <a href="https://macosnotif.js.org/">
-        <img src="https://img.shields.io/github/package-json/v/MattIPv4/macOSNotifJS.svg?style=flat-square&colorB=007aff" alt="Package Version">
+    <a href="https://npmjs.com/package/macosnotif">
+        <img src="https://img.shields.io/npm/v/macosnotif.svg?style=flat-square&colorB=007aff" alt="NPM Package Version">
     </a>
     <a href="https://github.com/MattIPv4/macOSNotifJS/tree/master/LICENSE">
         <img src="https://img.shields.io/badge/license-AGPL--3.0-007aff.svg?style=flat-square" alt="License">
@@ -40,7 +40,8 @@
 <!-- Content -->
 ## Installation, Usage and About
 
-Please see the full information about how to use the plugin and what it does on the website: **[macosnotif.js.org](https://macosnotif.js.org/).**
+**Please use [the macOSNotifJS website](https://macosnotif.js.org/) for information on installation & usage:\
+    [macosnotif.js.org](https://macosnotif.js.org/)**
 
 Huge thanks to [@Spring3](https://github.com/Spring3) for refactoring this whole project from my original mess into a functional, distributable plugin.
 
@@ -75,6 +76,7 @@ Need support with this project, have found an issue or want to chat with others 
 Not found what you need here?
 * If you have an issue, please create a GitHub issue here to report the situation, include as much detail as you can!
 * _or,_ You can join our Slack workspace to discuss any issue, to get support for the project or to chat with contributors and myself:
+
 <a href="http://slack.mattcowley.co.uk/" target="_blank">
     <img src="https://img.shields.io/badge/slack-MattIPv4-blue.svg?logo=slack&logoWidth=30&logoColor=blue&style=popout-square" alt="Slack" height="60">
 </a>

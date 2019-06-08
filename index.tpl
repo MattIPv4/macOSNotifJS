@@ -285,9 +285,9 @@
     </small>
     <br/>
     <small>
-        <a href="https://macosnotif.js.org/">
-            <img src="https://img.shields.io/badge/package-<%= htmlWebpackPlugin.options.meta.version.replace(/-/g, '--') %>-007aff.svg?style=flat-square"
-                 alt="Package Version">
+        <a href="https://npmjs.com/package/macosnotif">
+            <img src="https://img.shields.io/npm/v/macosnotif.svg?style=flat-square&colorB=007aff"
+                 alt="NPM Package Version">
         </a>
         <a href="https://github.com/MattIPv4/macOSNotifJS/tree/master/LICENSE">
             <img src="https://img.shields.io/badge/license-AGPL--3.0-007aff.svg?style=flat-square" alt="License">
@@ -326,15 +326,19 @@
 </blockquote>
 
 <h3><a id="installation" data-section-link></a> Installation:</h3>
-<p>To use the plugin, copy the <code>dist</code> folder from the <a href="https://github.com/MattIPv4/macOSNotifJS">
-    macOSNotifJS GitHub repository</a> to your website.</p>
+
+<p>For the easiest use, you can simply install the plugin through NPM:</p>
+<pre class="code">npm i macosnotif</pre>
+
+<p>Or, you can manually install by copying the <code>dist</code> folder from the
+    <a href="https://github.com/MattIPv4/macOSNotifJS">macOSNotifJS GitHub repository</a> to your website.</p>
 
 <p>To then have the plugin available on a page, in your head tag have the following to load the notification
     styling:</p>
-<pre class="code"><% for (var css in htmlWebpackPlugin.files.css) { %>&lt;link href="<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/&gt;<% } %></pre>
+<pre class="code"><% for (var css in htmlWebpackPlugin.files.css) { %>&lt;link href="path/to/<%= htmlWebpackPlugin.files.css[css] %>" rel="stylesheet"/&gt;<% } %></pre>
 
 <p>At the bottom of your body, you then need to have the following to load the notification script:</p>
-<pre class="code"><% for (var chunk in htmlWebpackPlugin.files.chunks) { %>&lt;script src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"&gt;&lt;/script&gt;<% } %></pre>
+<pre class="code"><% for (var chunk in htmlWebpackPlugin.files.chunks) { %>&lt;script src="path/to/<%= htmlWebpackPlugin.files.chunks[chunk].entry %>"&gt;&lt;/script&gt;<% } %></pre>
 
 <h3><a id="usage" data-section-link></a> Usage:</h3>
 <p>To get started, simply call the function <code>macOSNotif</code>.
