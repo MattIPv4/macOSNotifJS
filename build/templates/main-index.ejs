@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<% include includes/head %>
+<% include includes/style %>
+</html>
+<body>
+<% include includes/title %>
+<blockquote class="info">
+    <h2 class="title">
+        <a href="<%= `/docs/${packageName}/${version}/`%>">Redirecting to the latest docs...</a>
+    </h2>
+</blockquote>
+<script>
+    window.location.replace("<%= `/docs/${packageName}/${version}/`%>");
+</script>
+</body>

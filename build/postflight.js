@@ -22,6 +22,20 @@ const fs = require("fs");
 const jsdoc = require("jsdoc-api");
 const ejs = require("ejs");
 
+const templateOptions = {
+    name: "macOSNotifJS",
+    packageName: name,
+    version: version,
+    dateOfBuild: new Date().toISOString().slice(0, 10),
+    description: description,
+    browsers: browserslist.map(x => {
+        return [
+            "https://browserl.ist/?q=" + encodeURIComponent(x),
+            x,
+        ];
+    }),
+};
+
 const buildJSDoc = async position => {
     // Remove previous docs contents
     try {
@@ -44,29 +58,14 @@ const buildJSDoc = async position => {
 };
 
 const injectDocsHome = async position => {
-    // Create the template variables
-    const dateOfBuild = new Date().toISOString().slice(0, 10);
-    const projectName = "macOSNotifJS";
-    const browsers = browserslist.map(x => {
-        return [
-            "https://browserl.ist/?q=" + encodeURIComponent(x),
-            x,
-        ];
-    });
-
     // Render the template
     let html;
     try {
         const templateFile = "build/templates/docs-home.ejs";
         const template = fs.readFileSync(templateFile, "utf8");
         html = ejs.render(template, {
+            ...templateOptions,
             filename: templateFile,
-
-            name: projectName,
-            version: version,
-            dateOfBuild: dateOfBuild,
-            description: description,
-            browsers: browsers,
         });
     } catch (err) {
         console.error(chalk.red.bold(`\n${position} Failed to render custom homepage.`));
@@ -77,7 +76,9 @@ const injectDocsHome = async position => {
     try {
         const filePath = `docs/${name}/${version}/index.html`;
         let file = fs.readFileSync(filePath, "utf8");
-        file = file.replace(`<h3>${name} ${version}</h3>`, html);
+        file = file
+            .replace(`<h3>${name} ${version}</h3>`, html)
+            .replace("<title>", `<title>${name} - v${version} - `);
         fs.writeFileSync(filePath, file);
     } catch (err) {
         console.error(chalk.red.bold(`\n${position} Failed to inject custom homepage.`));
@@ -88,9 +89,29 @@ const injectDocsHome = async position => {
     console.log(chalk.greenBright.bold(`\n${position} Custom JSDoc homepage successfully rendered & injected.`));
 };
 
+const createMainIndex = async position => {
+    // Render the template
+    try {
+        const templateFile = "build/templates/main-index.ejs";
+        const template = fs.readFileSync(templateFile, "utf8");
+        const html = ejs.render(template, {
+            ...templateOptions,
+            filename: templateFile,
+        });
+        fs.writeFileSync("index.html", html);
+    } catch (err) {
+        console.error(chalk.red.bold(`\n${position} Failed to render main index.`));
+        throw err;
+    }
+
+    // Done
+    console.log(chalk.greenBright.bold(`\n${position} Successfully rendered main index file.`));
+};
+
 const processes = [
     buildJSDoc,
     injectDocsHome,
+    createMainIndex,
 ];
 
 const postFlight = async () => {
