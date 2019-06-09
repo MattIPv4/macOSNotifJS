@@ -16,8 +16,15 @@
  *   <https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or <http://www.gnu.org/licenses/>.
  */
 
+/**
+ * The internal interaction handler for a notification
+ */
 class Interact {
 
+    /**
+     * Creates a new instance of the interact handler based on the element provided
+     * @param {HTMLElement|string} element - The direct element or a HTML selector for the element to use
+     */
     constructor(element) {
         // Get the actual element (supports selector passing)
         this.element = typeof element === "string" ? document.querySelector(element) : element;
@@ -28,30 +35,51 @@ class Interact {
         this.dragXOffset = 0;
     }
 
+    /**
+     * Disable interaction for the notification
+     */
     disable() {
         this.disabled = true;
     }
 
+    /**
+     * Enable interaction for the notification
+     */
     enable() {
         this.disabled = false;
     }
 
+    /**
+     * Set the onDismiss action (overwrites this func, so can only be set once)
+     * @param {function} callback - The callback for when the notification is dismissed through interaction
+     * @returns {Interact} - The interact instance
+     */
     onDismiss(callback) {
-        // Set the onDismiss action (overwrites this func, so can only be set once)
         this.onDismiss = callback;
         return this;
     }
 
+    /**
+     * Handles the scroll movement event
+     * @param {WheelEvent} evt - The event from the listener
+     */
     scrollMove(evt) {
         // TODO: make this work, detect X scrolling as a swipe to dismiss
         if (!evt.deltaX) return;
         if (evt.deltaX < 0) this.onDismiss();
     }
 
+    /**
+     * Begins the interaction through scrolling (mac two finger swipe, horizontal scrolling)
+     */
     scrollRun() {
         this.element.addEventListener("wheel", evt => this.scrollMove(evt), true);
     }
 
+    /**
+     * Handles the drag movement event
+     * @param {MouseEvent|TouchEvent} evt - The event from the listener
+     */
     dragMove(evt) {
         // Don't run if currently doing drag stuff or disabled
         if (!this.dragActing || this.disabled) return;
@@ -74,12 +102,20 @@ class Interact {
         this.element.style.right = position + "px";
     }
 
+    /**
+     * Gets how far right the notification element is relative to its parent container
+     * @returns {number} - The element's right offset
+     */
     dragRightOffset() {
         const thisRect = this.element.getBoundingClientRect();
         const parentRect = this.element.parentElement.getBoundingClientRect();
         return parentRect.right - thisRect.right;
     }
 
+    /**
+     * Handles the drag starting event
+     * @param {MouseEvent|TouchEvent} evt - The event from the listener
+     */
     dragStart(evt) {
         // Don't run if disabled
         if (this.disabled) return;
@@ -99,6 +135,10 @@ class Interact {
         this.dragActing = true;
     }
 
+    /**
+     * Handles the drag stopping event
+     * @param {MouseEvent|TouchEvent} evt - The event from the listener
+     */
     dragStop(evt) {
         if (!this.dragActing) return;
         evt.preventDefault();
@@ -118,6 +158,9 @@ class Interact {
         }
     }
 
+    /**
+     * Begins the interaction through dragging (mouse & touch)
+     */
     dragRun() {
         this.element.addEventListener("mousedown", evt => this.dragStart(evt), true);
         this.element.addEventListener("touchstart", evt => this.dragStart(evt), true);
@@ -129,6 +172,9 @@ class Interact {
         window.addEventListener("touchend", evt => this.dragStop(evt), true);
     }
 
+    /**
+     * Begins the interaction of the element
+     */
     run() {
         this.dragRun();
 
