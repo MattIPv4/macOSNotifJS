@@ -539,7 +539,7 @@ options = {
 <h4><a id="theming-support" data-section-link></a> Theming Support:</h4>
 
 <button data-demo-load
-        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.Dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}})">
+        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.Dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.theme = macOSNotifThemes.Dark;}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.theme = macOSNotifThemes.Light;}})">
     Dark mode notification
 </button>
 <br/>
@@ -550,10 +550,10 @@ options = {
     mainLink:'#',
     btn1Text:'Dark',
     btn1Dismiss:false,
-    btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);},
+    btn1Link:function(n){n.theme = macOSNotifThemes.Dark;},
     btn2Text:'Light',
     btn2Dismiss:false,
-    btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}
+    btn2Link:function(n){n.theme = macOSNotifThemes.Light;}
 })</pre>
 
 <br/>
