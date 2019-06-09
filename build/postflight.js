@@ -42,8 +42,6 @@ const buildJSDoc = async position => {
         jsdoc.renderSync({
             files: [
                 "src/macOSNotif.js",
-                "src/themes.js",
-                "src/interact.js",
             ],
             package: "package.json",
             destination: "docs",
