@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: themes.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: themes.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
+ *  &lt;https://github.com/MattIPv4/macOSNotifJS/>
+ *  Copyright (C) 2019 Matt Cowley (MattIPv4) (me@mattcowley.co.uk)
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *   it under the terms of the GNU Affero General Public License as published
+ *   by the Free Software Foundation, either version 3 of the License, or
+ *   (at your option) any later version.
+ *  This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *   GNU General Public License for more details.
+ *  You should have received a copy of the GNU Affero General Public License
+ *   along with this program. If not, please see
+ *   &lt;https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or &lt;http://www.gnu.org/licenses/>.
+ */
+
+const { lighten } = require("@wessberg/color");  // Color manipulation
+
+/**
+ * A theme for a notification
+ */
+class Theme {
+
+    /**
+     * Creates the default theme instance
+     * @returns {Theme} - The default theme, which has no styles
+     */
+    static defaultTheme() {
+        return new Theme(null, null, null, null, false);
+    }
+
+    /**
+     * Creates a new theme instance, using the style data provided
+     * @param {string} backgroundColor - The background color for the notification
+     * @param {boolean} lightText - Whether the text should be a light color or dark
+     * @param {string} [buttonPressedColor] - (Optional) The color of the buttons when pressed down (focus, active)
+     * @param {string} [customCss] - (Optional) Any additional custom css (use `#{id}` for the ID of the notification outer container)
+     * @param {boolean} [hasStyles=true] - (Optional) Whether the theme has custom styles (only used for the default theme)
+     */
+    constructor(backgroundColor, lightText, buttonPressedColor, customCss, hasStyles) {
+        this.hasStyles = hasStyles !== false;
+
+        // Only define style data if has styles
+        if (this.hasStyles) {
+            this.backgroundColor = backgroundColor;
+            this.buttonBorderColor = lighten(backgroundColor, lightText ? 15 : -15);
+            this.buttonPressedColor = buttonPressedColor || lighten(backgroundColor, -30);
+            this.textColor = lightText ? "#fefefe" : "#444";
+            this.customCss = customCss;
+        }
+    }
+
+    /**
+     * Generates the style element for the notification, given a full notification ID string
+     * @param {string} notificationId - The full string ID of the notification
+     * @returns {null|HTMLElement} - The style element for the notification (or null if doesn't have styles)
+     */
+    generateStyle(notificationId) {
+        // Return null if no styles
+        if (!this.hasStyles) return null;
+
+        // Generate the raw CSS
+        let rawStyle = `/* Notification theme */
+#{id} .macOSNotif_Container {
+    background: ${this.backgroundColor};
+}
+
+#{id} .macOSNotif_Container * {
+    color: ${this.textColor};
+}
+
+#{id} .macOSNotif_Buttons,
+#{id} .macOSNotif_Button + .macOSNotif_Button {
+    border-color: ${this.buttonBorderColor};
+}
+
+#{id} .macOSNotif_Button:active,
+#{id} .macOSNotif_Button:focus {
+    background: ${this.buttonPressedColor};
+}`;
+
+        // Inject custom extra css
+        if (this.customCss) rawStyle += "\n\n/* Notification custom styles */\n" + this.customCss;
+
+        // Set id
+        rawStyle = rawStyle.replace(/{id}/g, notificationId + "_Outer");
+
+        // Create a style elm and return it
+        const styleElement = document.createElement("style");
+        styleElement.innerHTML = rawStyle;
+        styleElement.id = notificationId + "_Styles";
+        return styleElement;
+    }
+}
+
+module.exports = {
+    __macOSNotifJSTheme: Theme,
+    __macOSNotifJSThemes: {
+        Light: Theme.defaultTheme(),
+        Dark: new Theme("#333", true, "hsl(211, 100%, 40%)",
+            "#{id} .macOSNotif_Container { box-shadow: rgba(255, 255, 255, .2) 0 0 2px inset, rgba(0, 0, 0, .2) 0 0 10px; }"),
+
+        Info: new Theme("#4A89DC", true),
+        Warning: new Theme("#eba03f", true),
+        Danger: new Theme("#DA4453", true),
+        Success: new Theme("#38ba8f", true),
+    },
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Interact.html">Interact</a></li><li><a href="macOSNotifJS.html">macOSNotifJS</a></li><li><a href="Theme.html">Theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Sun Jun 09 2019 14:34:07 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,6 +1,34 @@
-/**
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: macOSNotif.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: macOSNotif.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
  *  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
- *  <https://github.com/MattIPv4/macOSNotifJS/>
+ *  &lt;https://github.com/MattIPv4/macOSNotifJS/>
  *  Copyright (C) 2019 Matt Cowley (MattIPv4) (me@mattcowley.co.uk)
  *
  *  This program is free software: you can redistribute it and/or modify
@@ -13,7 +41,7 @@
  *   GNU General Public License for more details.
  *  You should have received a copy of the GNU Affero General Public License
  *   along with this program. If not, please see
- *   <https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or <http://www.gnu.org/licenses/>.
+ *   &lt;https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or &lt;http://www.gnu.org/licenses/>.
  */
 
 require("./css/macOSNotif.css");  // Ensure the CSS gets included
@@ -21,7 +49,7 @@ require("@babel/polyfill");  // Polyfill for older browsers
 
 const __macOSNotifJSInteract = require("./interact.js");
 const { __macOSNotifJSTheme, __macOSNotifJSThemes } = require("./themes.js");
-const __macOSNotifJSTemplate = require("./html/macOSNotif.html").default.replace(/<!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
+const __macOSNotifJSTemplate = require("./html/macOSNotif.html").default.replace(/&lt;!--(?!>)[\S\s]*?-->/g, ""); // Strip HTML comments
 const __macOSNotifJSNotifs = {};
 let __macOSNotifJSFadeThreshold = 6;
 
@@ -70,7 +98,7 @@ class macOSNotifJS {
         };
 
         // Link functionality:
-        //  - Use null for no link (this will act as dismiss on btn1Link & btn2Link)
+        //  - Use null for no link (this will act as dismiss on btn1Link &amp; btn2Link)
         //  - Use "#" to make the element act as dismiss with no further action
         //  - Use any string as a URL which will open when element is clicked
         //  - Use a Javascript function to be called when element is clicked
@@ -79,7 +107,7 @@ class macOSNotifJS {
         // Load our options
         this.__options = { ...this.__defaultOptions, ...options };
         // Allow for old-style dark mode option
-        if (options && "dark" in options) this.__options.theme = options.dark ? __macOSNotifJSThemes.Dark : __macOSNotifJSThemes.Light;
+        if (options &amp;&amp; "dark" in options) this.__options.theme = options.dark ? __macOSNotifJSThemes.Dark : __macOSNotifJSThemes.Light;
         // Fix invalid theme option
         if (!(this.__options.theme instanceof __macOSNotifJSTheme)) this.__options.theme = this.__defaultOptions.theme;
 
@@ -115,7 +143,7 @@ class macOSNotifJS {
     }
 
     /**
-     * Generates the HTML template for the next notification, fetching the template & next ID
+     * Generates the HTML template for the next notification, fetching the template &amp; next ID
      * @returns {{template: string, id: number}} - The HTML template for the notification with ID injected and the raw integer ID
      * @private
      */
@@ -200,7 +228,7 @@ class macOSNotifJS {
     static __doAfter(id, callback) {
         for (const key in __macOSNotifJSNotifs) {
             if (!__macOSNotifJSNotifs.hasOwnProperty(key)) continue;
-            if (parseInt(key, 10) < id) __macOSNotifJSNotifs[key][callback]();
+            if (parseInt(key, 10) &lt; id) __macOSNotifJSNotifs[key][callback]();
         }
     }
 
@@ -244,14 +272,14 @@ class macOSNotifJS {
         let newPos = outer.offsetHeight * Math.min(elmsAbove, __macOSNotifJSFadeThreshold - 1);
 
         // Within visible list
-        if (elmsAbove < __macOSNotifJSFadeThreshold) {
+        if (elmsAbove &lt; __macOSNotifJSFadeThreshold) {
             this.__container.style.opacity = "1";
             this.__container.style.pointerEvents = "auto";
             outer.style.top = newPos + "px";
         } else {
 
             // Within stack (1st/2nd after threshold)
-            if (elmsAbove - __macOSNotifJSFadeThreshold < 2) {
+            if (elmsAbove - __macOSNotifJSFadeThreshold &lt; 2) {
                 this.__container.style.opacity = ((3 - (elmsAbove - __macOSNotifJSFadeThreshold)) / 4).toString();
                 this.__container.style.pointerEvents = "none";
                 newPos += outer.offsetHeight * (elmsAbove - __macOSNotifJSFadeThreshold + 1) / 8;
@@ -276,7 +304,7 @@ class macOSNotifJS {
     __handleGo(link, newTab, dismiss, nullNoDismiss) {
         if (typeof nullNoDismiss === "undefined") nullNoDismiss = false;
 
-        if (dismiss && !(link === null && nullNoDismiss)) this.dismiss();
+        if (dismiss &amp;&amp; !(link === null &amp;&amp; nullNoDismiss)) this.dismiss();
 
         if (link === "#" || link === null) return;
 
@@ -380,7 +408,7 @@ class macOSNotifJS {
         const isMSDarkHighContrast = window.matchMedia("(-ms-high-contrast: white-on-black)").matches;
         const isLightMode = window.matchMedia("(prefers-color-scheme: light)").matches;
         const isNotSpecified = window.matchMedia("(prefers-color-scheme: no-preference)").matches;
-        const hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified;
+        const hasNoSupport = !isDarkMode &amp;&amp; !isLightMode &amp;&amp; !isNotSpecified;
 
         // Fallback to theme specific in options if no native support or not natively specified
         if (hasNoSupport || isNotSpecified) {
@@ -502,7 +530,7 @@ class macOSNotifJS {
         // Set the z-index with offset based on id (stacking)
         this.__container.parentElement.style.zIndex = (this.__options.zIndex + this.__id).toString();
 
-        // Set the icon (& link if needed)
+        // Set the icon (&amp; link if needed)
         if (this.__options.imageSrc !== null) {
             if (this.__options.imageLink !== null) {
                 Image.classList.add("macOSNotif_Clickable");
@@ -646,7 +674,7 @@ class macOSNotifJS {
 // Provide theme data to users through the window (ensure a copy, not reference)
 window.macOSNotifThemes = Object.assign({}, __macOSNotifJSThemes);
 
-// Allow setting & getting of FadeThreshold
+// Allow setting &amp; getting of FadeThreshold
 Object.defineProperty(window, "macOSNotifFadeThreshold", {
     get: () => {
         return __macOSNotifJSFadeThreshold;
@@ -666,3 +694,26 @@ window.macOSNotif = options => {
     thisNotif.run();
     return thisNotif;
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Interact.html">Interact</a></li><li><a href="macOSNotifJS.html">macOSNotifJS</a></li><li><a href="Theme.html">Theme</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Sun Jun 09 2019 14:34:07 GMT+0100 (British Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
