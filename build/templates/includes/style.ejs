@@ -1,0 +1,144 @@
+<style>
+    html, body {
+        margin: 0;
+        background: #fff;
+        color: #000;
+    }
+
+    html {
+        padding: 0;
+    }
+
+    body {
+        padding: 3em 5em;
+    }
+
+    html body * {
+        font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont, "HelveticaNeue-Light",
+        "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+        letter-spacing: normal;
+    }
+
+    h1.title, h2.title {
+        padding: .5rem 2.5rem;
+        background: #f2f2f2;
+        font-weight: 300;
+        color: #444;
+        text-align: center;
+        line-height: 1;
+    }
+
+    h1.title, h2.title, pre.code {
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    }
+
+    h1.title {
+        margin: 1rem 1rem 0 -2rem;
+    }
+
+    h1.title small {
+        font-weight: inherit;
+        font-size: 50%;
+    }
+
+    h2.title {
+        margin: 1rem -2rem 0 -5rem;
+        font-size: 1.6em;
+        text-align: left;
+    }
+
+    h2.title small {
+        font-weight: inherit;
+        font-size: 70%;
+    }
+
+    pre, code {
+        color: rgb(0, 122, 255);
+    }
+
+    pre.code {
+        display: inline-block;
+        padding: 4px 4px 4px 8px;
+        border-left: 4px solid rgba(0, 0, 0, .3);
+        background: rgba(0, 0, 0, .15);
+        font-family: monospace;
+    }
+
+    code {
+        padding: 0 2px;
+        background: rgba(0, 0, 0, .05);
+        font-family: monospace;
+    }
+
+    button {
+        background: rgb(0, 122, 255);
+        border: none;
+        border-radius: 10px;
+        font-weight: normal;
+        color: #fff;
+        font-size: 1.2em;
+        line-height: 1.5em;
+        vertical-align: top;
+        margin-top: 0.8em;
+    }
+
+    button:hover {
+        background: rgb(0, 111, 230);
+    }
+
+    button:active {
+        background: rgb(0, 99, 204);
+    }
+
+    button + pre {
+        margin-left: 0.8em;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 0.8rem 1.6rem;
+    }
+
+    blockquote.warning h2 {
+        border-left: 4px solid #ff5667;
+        background: #faebec;
+    }
+
+    blockquote.warning code {
+        color: #ff5667;
+    }
+
+    blockquote.info h2 {
+        border-left: 4px solid #579dff;
+        background: #f2f8ff;
+    }
+
+    blockquote.info code {
+        color: #579dff;
+    }
+
+    .has-section-link .section-link {
+        float: left;
+        line-height: 1;
+        margin-left: -25px;
+        padding-right: 5px;
+        text-decoration: none;
+        outline: none;
+    }
+
+    .has-section-link .section-link span {
+        text-decoration: none;
+        outline: none;
+        vertical-align: middle;
+        visibility: hidden;
+        font-size: 13px;
+    }
+
+    .has-section-link:hover .section-link span,
+    .has-section-link .section-link:hover span {
+        visibility: visible;
+    }
+</style>
+
+<link href="/dist/macOSNotif.min.css" rel="stylesheet"/>

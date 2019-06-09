@@ -19,7 +19,6 @@
 const chalk = require("chalk");
 const fs = require("fs");
 const { fork } = require("child_process");
-const jsdoc = require("jsdoc-api");
 
 const runFonts = () => {
     return new Promise(resolve => {
@@ -52,7 +51,7 @@ const validateFonts = async position => {
     // Validate fonts built
     if (fs.existsSync("src/fonts/build")) {
         console.log(chalk.green("\nFonts build directory present, assuming already built."));
-        console.info(chalk.cyan("  Run ") + chalk.cyanBright.italic("`node fonts.js`") + chalk.cyan(" to re-build fonts."));
+        console.info(chalk.cyan("  Run ") + chalk.cyanBright.italic("`node build/fonts.js`") + chalk.cyan(" to re-build fonts."));
     } else {
         console.error(chalk.redBright("\nFonts build not found, building now..."));
         await runFonts();
@@ -75,32 +74,9 @@ const clearPreviousBuild = async position => {
     console.log(chalk.greenBright.bold(`\n${position} Successfully emptied dist directory.`));
 };
 
-const buildJSDoc = async position => {
-    // Remove previous docs contents
-    try {
-        jsdoc.renderSync({
-            files: [
-                "src/macOSNotif.js",
-                "src/themes.js",
-                "src/interact.js",
-            ],
-            package: "package.json",
-            readme: "README.md",
-            destination: "docs",
-        });
-    } catch (err) {
-        console.error(chalk.red.bold(`\n${position} Failed to build JSDoc.`));
-        throw err;
-    }
-
-    // Done
-    console.log(chalk.greenBright.bold(`\n${position} Successfully built new JSDoc documentation.`));
-};
-
 const processes = [
     validateFonts,
     clearPreviousBuild,
-    buildJSDoc,
 ];
 
 const preFlight = async () => {
