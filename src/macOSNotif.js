@@ -233,8 +233,8 @@ class macOSNotifJS {
         const id = this.__id;
         let elmsAbove = 0;
         Object.values(__macOSNotifJSNotifs).forEach(value => {
-            if (value.id > id) {
-                if (!value.dismissing) {
+            if (value.__id > id) {
+                if (!value.__dismissing) {
                     elmsAbove += 1;
                 }
             }
