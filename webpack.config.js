@@ -1,15 +1,15 @@
-const { version, browserslist } = require("./package.json");
+const { version, description } = require("./package.json");
 const path = require("path").posix;
 const webpack = require("webpack");
 const os = require("os");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 // YYYY-MM-DD format
 const dateOfBuild = new Date().toISOString().slice(0, 10);
-const versionInfo = `macOSNotifJS - v${version} - ${dateOfBuild}`;
-const copyrights = `macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
+const name = "macOSNotifJS";
+const versionInfo = `${name} - v${version} - ${dateOfBuild}`;
+const copyrights = `${name}: ${description}
 <https://github.com/MattIPv4/macOSNotifJS/>
 Copyright (C) 2019 Matt Cowley (MattIPv4) (me@mattcowley.co.uk)`;
 
@@ -68,23 +68,5 @@ module.exports = {
         }),
         new OptimizeCssAssetsPlugin({}),
         new webpack.BannerPlugin(`${versionInfo}${os.EOL}${os.EOL}${copyrights}${os.EOL}`),
-        new HtmlWebpackPlugin({
-            meta: {
-                version: `v${version}`,
-                browsers: browserslist.map(x => {
-                    return [
-                        "https://browserl.ist/?q=" + encodeURIComponent(x),
-                        x.replace(/</g, "&lt;").replace(/>/g, "&gt;"),
-                    ];
-                }),
-                versionInfo: versionInfo,
-                viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
-            },
-            minify: false,
-            inject: false,
-            xhtml: true,
-            filename: path.join(__dirname, "index.html"),
-            template: "index.tpl",
-        }),
     ],
 };

@@ -89,7 +89,13 @@
     text-align: left;
     font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont, "HelveticaNeue-Light",
     "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+    letter-spacing: normal;
     transition: all .8s ease-in-out;
+}
+
+.macOSNotif_Container a,
+.macOSNotif_Container a:hover {
+    text-decoration: none;
 }
 
 .macOSNotif_Clickable {

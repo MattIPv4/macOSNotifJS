@@ -1,244 +1,231 @@
-<!--
-*  macOSNotifJS: A simple Javascript plugin to create simulated macOS notifications on your website.
-*  <https://github.com/MattIPv4/macOSNotifJS/>
-*  Copyright (C) 2019 Matt Cowley (MattIPv4) (me@mattcowley.co.uk)
-*
-*  This program is free software: you can redistribute it and/or modify
-*   it under the terms of the GNU Affero General Public License as published
-*   by the Free Software Foundation, either version 3 of the License, or
-*   (at your option) any later version.
-*  This program is distributed in the hope that it will be useful,
-*   but WITHOUT ANY WARRANTY; without even the implied warranty of
-*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*   GNU General Public License for more details.
-*  You should have received a copy of the GNU Affero General Public License
-*   along with this program. If not, please see
-*   <https://github.com/MattIPv4/macOSNotifJS/blob/master/LICENSE> or <http://www.gnu.org/licenses/>.
--->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8"/>
+<meta charset="UTF-8"/>
 
-    <title>macOSNotifJS</title>
+<title>macOSNotifJS - v0.1.1-beta1</title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+<meta name="title"
+      content="macOSNotifJS - v0.1.1-beta1"/>
 
-    <meta name="title"
-          content="macOSNotifJS"/>
+<meta name="description"
+      content="macOSNotifJS - v0.1.1-beta1 - A simple Javascript plugin to create simulated macOS notifications on your website."/>
 
-    <meta name="description"
-          content="macOSNotifJS - A simple Javascript plugin to create simulated macOS notifications on your website."/>
+<meta name="keywords"
+      content="javascript, javascript-plugin, notifications, notification, macos, javascript-tools, javascript-utility, javascript-audio, notification-system, simulated-macos-notifications, macosx, osx, osx-notifications, javascript-library, javascript-framework, notification-service, notification-api"/>
 
-    <meta name="keywords"
-          content="javascript, javascript-plugin, notifications, notification, macos, javascript-tools, javascript-utility, javascript-audio, notification-system, simulated-macos-notifications, macosx, osx, osx-notifications, javascript-library, javascript-framework, notification-service, notification-api"/>
+<meta name="viewport"
+      content="width=device-width, initial-scale=1"/>
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1"/>
+<link rel="image_src"
+      content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
 
-    <link rel="image_src"
-          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+<link rel="canonical"
+      href="https://macosnotif.js.org/"/>
 
-    <link rel="canonical"
-          href="https://macosnotif.js.org/"/>
+<meta name="canonicalURL"
+      content="https://macosnotif.js.org/"/>
 
-    <meta name="canonicalURL"
-          content="https://macosnotif.js.org/"/>
+<meta name="twitter:card"
+      content="summary_large_image">
 
-    <meta name="twitter:card"
-          content="summary_large_image">
+<meta name="twitter:site"
+      content="https://macosnotif.js.org/"/>
 
-    <meta name="twitter:site"
-          content="https://macosnotif.js.org/"/>
+<meta name="twitter:creator"
+      content="@MattIPv4"/>
 
-    <meta name="twitter:creator"
-          content="@MattIPv4"/>
+<meta name="twitter:title"
+      content="macOSNotifJS - v0.1.1-beta1"/>
 
-    <meta name="twitter:title"
-          content="macOSNotifJS"/>
+<meta name="twitter:description"
+      content="macOSNotifJS - v0.1.1-beta1 - A simple Javascript plugin to create simulated macOS notifications on your website."/>
 
-    <meta name="twitter:description"
-          content="macOSNotifJS - A simple Javascript plugin to create simulated macOS notifications on your website."/>
+<meta name="twitter:image"
+      content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
 
-    <meta name="twitter:image"
-          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+<meta name="twitter:url"
+      content="https://macosnotif.js.org/"/>
 
-    <meta name="twitter:url"
-          content="https://macosnotif.js.org/"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:title"
+      content="macOSNotifJS - v0.1.1-beta1"/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:title"
-          content="macOSNotifJS"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:type"
+      content="website"/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:type"
-          content="website"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:locale"
+      content="en_GB"/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:locale"
-          content="en_GB"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:site_name"
+      content="macOSNotifJS"/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:site_name"
-          content="macOSNotifJS"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:description"
+      content="macOSNotifJS - v0.1.1-beta1 - A simple Javascript plugin to create simulated macOS notifications on your website."/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:description"
-          content="macOSNotifJS - A simple Javascript plugin to create simulated macOS notifications on your website."/>
+<meta prefix="og: http://ogp.me/ns#" property="og:url"
+      content="https://macosnotif.js.org/"/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:url"
-          content="https://macosnotif.js.org/"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image"
+      content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:image"
-          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+<meta prefix="og: http://ogp.me/ns#" property="og:image:url"
+      content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
 
-    <meta prefix="og: http://ogp.me/ns#" property="og:image:url"
-          content="https://macosnotif.js.org/brand/macOSNotifJS-818x162.png"/>
+<!-- Google AdSense -->
+<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+<script>
+    (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-4266526051230566",
+        enable_page_level_ads: true,
+    });
+</script>
 
-    <style>
-        html, body {
-            margin: 0;
-            background: #fff;
-            color: #000;
-            font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont, "HelveticaNeue-Light",
-            "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
-        }
+<style>
+    html, body {
+        margin: 0;
+        background: #fff;
+        color: #000;
+    }
 
-        html {
-            padding: 0;
-        }
+    html {
+        padding: 0;
+    }
 
-        body {
-            padding: 3em 5em;
-        }
+    body {
+        padding: 3em 5em;
+    }
 
-        h1, h2 {
-            margin: 1rem -5rem 0;
-            padding: .5rem 2.5rem;
-            background: #f2f2f2;
-            font-weight: 300;
-            color: #444;
-            text-align: center;
-            line-height: 1;
-        }
+    html body * {
+        font-family: "SF Display", -apple-system, system-ui, BlinkMacSystemFont, "HelveticaNeue-Light",
+        "Helvetica Neue Light", "Helvetica Neue", Helvetica, "Segoe UI", Roboto, Ubuntu, "Lucida Grande", sans-serif;
+        letter-spacing: normal;
+    }
 
-        h1, h2, pre.code {
-            box-shadow: 0 0 10px rgba(0, 0, 0, .2);
-        }
+    h1.title, h2.title {
+        padding: .5rem 2.5rem;
+        background: #f2f2f2;
+        font-weight: 300;
+        color: #444;
+        text-align: center;
+        line-height: 1;
+    }
 
-        h1 small {
-            font-weight: inherit;
-            font-size: 50%;
-        }
+    h1.title, h2.title, pre.code {
+        box-shadow: 0 0 10px rgba(0, 0, 0, .2);
+    }
 
-        h2 {
-            font-size: 1.6em;
-            text-align: left;
-        }
+    h1.title {
+        margin: 1rem 1rem 0 -2rem;
+    }
 
-        h2 small {
-            font-weight: inherit;
-            font-size: 70%;
-        }
+    h1.title small {
+        font-weight: inherit;
+        font-size: 50%;
+    }
 
-        pre, code {
-            color: rgb(0, 122, 255);
-        }
+    h2.title {
+        margin: 1rem -2rem 0 -5rem;
+        font-size: 1.6em;
+        text-align: left;
+    }
 
-        pre.code {
-            display: inline-block;
-            padding: 4px 4px 4px 8px;
-            border-left: 4px solid rgba(0, 0, 0, .3);
-            background: rgba(0, 0, 0, .15);
-        }
+    h2.title small {
+        font-weight: inherit;
+        font-size: 70%;
+    }
 
-        code {
-            padding: 0 2px;
-            background: rgba(0, 0, 0, .05);
-        }
+    pre, code {
+        color: rgb(0, 122, 255);
+    }
 
-        button {
-            background: rgb(0, 122, 255);
-            border: none;
-            border-radius: 10px;
-            font-weight: normal;
-            color: #fff;
-            font-size: 1.2em;
-            line-height: 1.5em;
-            vertical-align: top;
-            margin-top: 0.8em;
-        }
+    pre.code {
+        display: inline-block;
+        padding: 4px 4px 4px 8px;
+        border-left: 4px solid rgba(0, 0, 0, .3);
+        background: rgba(0, 0, 0, .15);
+        font-family: monospace;
+    }
 
-        button:hover {
-            background: rgb(0, 111, 230);
-        }
+    code {
+        padding: 0 2px;
+        background: rgba(0, 0, 0, .05);
+        font-family: monospace;
+    }
 
-        button:active {
-            background: rgb(0, 99, 204);
-        }
+    button {
+        background: rgb(0, 122, 255);
+        border: none;
+        border-radius: 10px;
+        font-weight: normal;
+        color: #fff;
+        font-size: 1.2em;
+        line-height: 1.5em;
+        vertical-align: top;
+        margin-top: 0.8em;
+    }
 
-        button + pre {
-            margin-left: 0.8em;
-        }
+    button:hover {
+        background: rgb(0, 111, 230);
+    }
 
-        hr {
-            border: none;
-            border-top: 1px solid #ddd;
-            margin: 0.8rem 1.6rem;
-        }
+    button:active {
+        background: rgb(0, 99, 204);
+    }
 
-        blockquote.warning h2 {
-            border-left: 4px solid #ff5667;
-            background: #faebec;
-        }
+    button + pre {
+        margin-left: 0.8em;
+    }
 
-        blockquote.warning code {
-            color: #ff5667;
-        }
+    hr {
+        border: none;
+        border-top: 1px solid #ddd;
+        margin: 0.8rem 1.6rem;
+    }
 
-        blockquote.info h2 {
-            border-left: 4px solid #579dff;
-            background: #f2f8ff;
-        }
+    blockquote.warning h2 {
+        border-left: 4px solid #ff5667;
+        background: #faebec;
+    }
 
-        blockquote.info code {
-            color: #579dff;
-        }
+    blockquote.warning code {
+        color: #ff5667;
+    }
 
-        .has-section-link .section-link {
-            float: left;
-            line-height: 1;
-            margin-left: -25px;
-            padding-right: 5px;
-            text-decoration: none;
-            outline: none;
-        }
+    blockquote.info h2 {
+        border-left: 4px solid #579dff;
+        background: #f2f8ff;
+    }
 
-        .has-section-link .section-link span {
-            text-decoration: none;
-            outline: none;
-            vertical-align: middle;
-            visibility: hidden;
-            font-size: 13px;
-        }
+    blockquote.info code {
+        color: #579dff;
+    }
 
-        .has-section-link:hover .section-link span,
-        .has-section-link .section-link:hover span {
-            visibility: visible;
-        }
-    </style>
+    .has-section-link .section-link {
+        float: left;
+        line-height: 1;
+        margin-left: -25px;
+        padding-right: 5px;
+        text-decoration: none;
+        outline: none;
+    }
 
-    
-    <link href="dist/macOSNotif.min.css" rel="stylesheet"/>
-    
+    .has-section-link .section-link span {
+        text-decoration: none;
+        outline: none;
+        vertical-align: middle;
+        visibility: hidden;
+        font-size: 13px;
+    }
 
-    <!-- Google AdSense -->
-    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-    <script>
-        (adsbygoogle = window.adsbygoogle || []).push({
-            google_ad_client: "ca-pub-4266526051230566",
-            enable_page_level_ads: true,
-        });
-    </script>
-</head>
-<body class="sf-ui-display">
+    .has-section-link:hover .section-link span,
+    .has-section-link .section-link:hover span {
+        visibility: visible;
+    }
+</style>
 
+<link href="/dist/macOSNotif.min.css" rel="stylesheet"/>
+
+</html>
+<body>
 <a href="https://github.com/MattIPv4/macOSNotifJS" class="github-corner" aria-label="View source on GitHub">
     <svg width="80" height="80" viewBox="0 0 250 250"
          style="fill:#151513; color:#fff; position: absolute; top: 0; border: 0; left: 0; transform: scale(-1, 1);"
@@ -250,34 +237,34 @@
               fill="currentColor" class="octo-body"></path>
     </svg>
     <style>.github-corner:hover .octo-arm {
-        animation: octocat-wave 560ms ease-in-out
-    }
-
-    @keyframes octocat-wave {
-        0%, 100% {
-            transform: rotate(0)
-        }
-        20%, 60% {
-            transform: rotate(-25deg)
-        }
-        40%, 80% {
-            transform: rotate(10deg)
-        }
-    }
-
-    @media (max-width: 500px) {
-        .github-corner:hover .octo-arm {
-            animation: none
-        }
-
-        .github-corner .octo-arm {
             animation: octocat-wave 560ms ease-in-out
         }
-    }</style>
+
+        @keyframes octocat-wave {
+            0%, 100% {
+                transform: rotate(0)
+            }
+            20%, 60% {
+                transform: rotate(-25deg)
+            }
+            40%, 80% {
+                transform: rotate(10deg)
+            }
+        }
+
+        @media (max-width: 500px) {
+            .github-corner:hover .octo-arm {
+                animation: none
+            }
+
+            .github-corner .octo-arm {
+                animation: octocat-wave 560ms ease-in-out
+            }
+        }</style>
 </a>
 
-<h1>
-    macOSNotifJS
+<h1 class="title">
+    <a data-section-link id="macosnotifjs"></a> macOSNotifJS <small>(v0.1.1-beta1)</small>
     <br/>
     <small>
         A simple Javascript plugin to create simulated macOS notifications on your website.
@@ -315,379 +302,12 @@
     </small>
 </h1>
 
-<blockquote class="warning">
-    <h2>
-        <a id="breaking-change" data-section-link></a> Breaking Change<br/>
-        <small>
-            From version <code>0.0.5-beta2</code> onwards, the option to trigger the dark mode theme was changed from
-            <code>dark: true</code> to <code>theme: macOSNotifThemes.Dark</code> as part of the theming overhaul.
-        </small>
-    </h2>
-</blockquote>
-
-<h3><a id="installation" data-section-link></a> Installation:</h3>
-
-<p>For the easiest use, you can simply install the plugin through NPM:</p>
-<pre class="code">npm i macosnotif</pre>
-
-<p>Or, you can manually install by copying the <code>dist</code> folder from the
-    <a href="https://github.com/MattIPv4/macOSNotifJS">macOSNotifJS GitHub repository</a> to your website.</p>
-
-<p>To then have the plugin available on a page, in your head tag have the following to load the notification
-    styling:</p>
-<pre class="code">&lt;link href="path/to/dist/macOSNotif.min.css" rel="stylesheet"/&gt;</pre>
-
-<p>At the bottom of your body, you then need to have the following to load the notification script:</p>
-<pre class="code">&lt;script src="path/to/dist/macOSNotif.min.js"&gt;&lt;/script&gt;</pre>
-
-<h3><a id="usage" data-section-link></a> Usage:</h3>
-<p>To get started, simply call the function <code>macOSNotif</code>.
-    <br/>To customise your notification, you can supply an object containing any of the options listed below:</p>
-<pre class="code">
-options = {
-    delay: 0.5,                             // Delay before display (in seconds)
-    autoDismiss: 0,                         // Delay till automatic dismiss (0 = Never, in seconds)
-    interactDismiss: true,                  // Toggle swipe/drag to dismiss
-
-    sounds: false,                          // Play sounds for notification
-    theme: macOSNotifThemes.Light,          // Set the theme to be used by the notification (from window.macOSNotifThemes)
-    themeNative: false,                     // Attempt to detect light/dark from OS, fallback to theme
-    zIndex: 5000,                           // CSS z-index value of the notification (will be adjusted for stacked notifications)
-
-    imageSrc: null,                         // Link of the icon to display (null to hide icon)
-    imageName: "",                          // Alt/Title text of the icon
-    imageLink: null,                        // Link for icon click (see link functionality below)
-    imageLinkDismiss: true,                 // Dismiss notification after Image Link pressed (useful if link is function)
-    imageLinkNewTab: false,                 // Open Image Link in New Tab (ignored if link is set to dismiss)
-
-    title: "macOSNotifJS",                  // Main Notif Title
-    subtitle: "Default notification text",  // Main Notif Sub Title
-
-    mainLink: null,                         // Link for the main text body (see link functionality below)
-    mainLinkDismiss: true,                  // Dismiss notification after Main Link pressed (useful if link is function)
-    mainLinkNewTab: false,                  // Open Main Link in New Tab (ignored if link is set to dismiss)
-
-    btn1Text: "Close",                      // Text for Button 1 (null to hide all buttons)
-    btn1Link: null,                         // Link for Button 1 (see link functionality below)
-    btn1Dismiss: true,                      // Dismiss notification after Button 1 pressed (useful if link is function)
-    btn1NewTab: false,                      // Open Button 1 Link in New Tab (ignored if link is set to dismiss)
-
-    btn2Text: "Go",                         // Text for Button 2 (null to hide second button)
-    btn2Link: null,                         // Link for Button 2 (see link functionality below)
-    btn2Dismiss: true,                      // Dismiss notification after Button 2 pressed (useful if link is function)
-    btn2NewTab: false,                      // Open Button 2 Link in New Tab (ignored if link is set to dismiss)
-};
-
-// Link functionality:
-//  - Use null for no link (this will act as dismiss on btn1Link & btn2Link)
-//  - Use "#" to make the element act as dismiss with no further action
-//  - Use any string as a URL which will open when element is clicked
-//  - Use a Javascript function to be called when element is clicked
-//     (Note: The notification object is passed as the 1st parameter if required)
-</pre>
-
 <blockquote class="info">
-    <h2>
-        <a id="native-theme-detection" data-section-link></a> Native Theme Detection<br/>
-        <small>
-            This feature can be enabled by setting the option <code>themeNative</code> to true. It is designed to detect
-            the theme preference from the user's device (light or dark). This makes use of
-            <a href="https://developer.mozilla.org/en-US/docs/Web/CSS/@media/prefers-color-scheme" target="_blank">
-                <code>prefers-color-scheme</code></a>, which is currently
-            <a href="https://caniuse.com/prefers-color-scheme" target="_blank">only supported by Safari</a> at the time
-            of writing. Therefor, I suggest ensuring you set the correct fallback <code>theme</code> for your
-            notifications if you are to use <code>themeNative</code>.
-        </small>
+    <h2 class="title">
+        <a href="/docs/macosnotif/0.1.1-beta1/">Redirecting to the latest docs...</a>
     </h2>
 </blockquote>
-
-<h3><a id="browser-support" data-section-link></a> Browser Support:</h3>
-<p>
-    macOSNotifJS is built to have support for the following browser definitions.
-    <br/><i>You can click on each one to view a full breakdown of every browser the definition covers.</i>
-</p>
-
-<ul>
-    <li><a href="https://browserl.ist/?q=last%201%20version" target="_blank">
-        last 1 version</a></li>
-
-    <li><a href="https://browserl.ist/?q=%3E%200.25%25%2C%20not%20dead" target="_blank">
-        &gt; 0.25%, not dead</a></li>
-</ul>
-
-<hr/>
-
-<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-<!-- Banner 1 -->
-<ins class="adsbygoogle"
-     style="display:block"
-     data-ad-client="ca-pub-4266526051230566"
-     data-ad-slot="9114202102"
-     data-ad-format="auto"
-     data-full-width-responsive="true"></ins>
 <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
+    window.location.replace("/docs/macosnotif/0.1.1-beta1/");
 </script>
-
-<hr/>
-
-<h3><a id="examples" data-section-link></a> Examples:</h3>
-
-<h4><a id="button-configuration" data-section-link></a> Button Configuration:</h4>
-
-<button data-demo-load
-        onclick="macOSNotif({title:'Dual button notification', subtitle:'Two buttons; dismiss and a link (opens in a new tab)', btn1Text:'Close', btn1Link:null, btn2Text:'Author', btn2Link:'https://mattcowley.co.uk/', btn2NewTab:true})">
-    Dual button notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Dual button notification',
-    subtitle:'Two buttons; dismiss and a link (opens in a new tab)',
-    btn1Text:'Close',
-    btn1Link:null,
-    btn2Text:'Author',
-    btn2Link:'https://mattcowley.co.uk/',
-    btn2NewTab:true
-})</pre>
-
-<br/>
-
-<button data-demo-load
-        onclick="macOSNotif({title:'Single button notification', subtitle:'A single button to dismiss the notification', btn2Text:null})">
-    Single button notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Single button notification',
-    subtitle:'A single button to dismiss the notification',
-    btn2Text:null
-})</pre>
-
-<br/>
-
-<button data-demo-load
-        onclick="macOSNotif({title:'Main body link notification', subtitle:'The main notification body is a link (opens in a new tab)', mainLink:'https://mattcowley.co.uk/', mainLinkNewTab:true})">
-    Main body link notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Main body link notification',
-    subtitle:'The main notification body is a link (opens in a new tab)',
-    mainLink:'https://mattcowley.co.uk/',
-    mainLinkNewTab:true
-})</pre>
-
-<br/>
-
-<button data-demo-load
-        onclick="macOSNotif({title:'No button notification', subtitle:'The main body link dismisses the notification', mainLink:'#', btn1Text:null})">
-    No button notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'No button notification',
-    subtitle:'The main body link dismisses the notification',
-    mainLink:'#',
-    btn1Text:null
-})</pre>
-
-<br/>
-
-<button data-demo-load
-        onclick="macOSNotif({title:'Javascript callback button', subtitle:'Any link can be set to call a Javascript function', mainLink:'#', btn1Text:'Ping!', btn1Link:function(){alert('Pong!');}, btn1Dismiss:false, btn2Text:null})">
-    Javascript callback button
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Javascript callback button',
-    subtitle:'Any link can be set to call a Javascript function',
-    mainLink:'#',
-    btn1Text:'Ping!',
-    btn1Link:function(){alert('Pong!');},
-    btn1Dismiss:false,
-    btn2Text:null
-})</pre>
-
-<hr/>
-
-<h4><a id="notification-customisation" data-section-link></a> Notification customisation:</h4>
-
-<button data-demo-load
-        onclick="macOSNotif({title:'Image (icon) notification with link', subtitle:'Has an icon which also has a link', imageSrc:'https://mattcowley.co.uk/me.png', imageLink:'https://mattcowley.co.uk/', imageLinkNewTab:true})">
-    Image (icon) notification with link
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Image (icon) notification with link',
-    subtitle:'Has an icon which also has a link',
-    imageSrc:'https://mattcowley.co.uk/me.png',
-    imageLink:'https://mattcowley.co.uk/',
-    imageLinkNewTab:true
-})</pre>
-
-<br/>
-
-<button onclick="macOSNotif({title:'Sound (alert) notification', subtitle:'Requires user interaction first on some browsers', sounds:true})">
-    Sound (alert) notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Sound (alert) notification',
-    subtitle:'Requires user interaction first on some browsers',
-    sounds:true
-})</pre>
-
-<hr/>
-
-<h4><a id="theming-support" data-section-link></a> Theming Support:</h4>
-
-<button data-demo-load
-        onclick="macOSNotif({title:'Dark mode notification', subtitle:'Emulates the macOS dark mode styling', theme:macOSNotifThemes.Dark, mainLink:'#', btn1Text:'Dark', btn1Dismiss:false, btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);}, btn2Text:'Light', btn2Dismiss:false, btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}})">
-    Dark mode notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Dark mode notification',
-    subtitle:'Emulates the macOS dark mode styling',
-    theme:macOSNotifThemes.Dark,
-    mainLink:'#',
-    btn1Text:'Dark',
-    btn1Dismiss:false,
-    btn1Link:function(n){n.applyTheme(macOSNotifThemes.Dark);},
-    btn2Text:'Light',
-    btn2Dismiss:false,
-    btn2Link:function(n){n.applyTheme(macOSNotifThemes.Light);}
-})</pre>
-
-<br/>
-
-<button onclick="macOSNotif({title:'Native theme notification', subtitle:'Attempts to match the theme preference of the OS', themeNative:true, mainLink:'#', btn1Text:'Close', btn1Link:null, btn2Text:'Support', btn2Link:'https://caniuse.com/prefers-color-scheme', btn2NewTab:true})">
-    Native OS theme notification (macOS dark mode)
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Native theme notification',
-    subtitle:'Attempts to match the dark/light theme of the OS',
-    themeNative:true,
-    btn1Text:'Close',
-    btn1Link:null,
-    btn2Text:'Support',
-    btn2Link:'https://caniuse.com/prefers-color-scheme',
-    btn2NewTab:true
-})</pre>
-
-<br/>
-
-<button onclick="macOSNotif({title:'Info themed notification', subtitle:'Non-macOS theme to convey information', theme:macOSNotifThemes.Info, btn2Text:null})">
-    Info themed notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Info themed notification',
-    subtitle:'Non-macOS theme to convey information',
-    theme:macOSNotifThemes.Info,
-    btn2Text:null
-})</pre>
-
-<br/>
-
-<button onclick="macOSNotif({title:'Warning themed notification', subtitle:'Non-macOS theme to convey a warning message', theme:macOSNotifThemes.Warning, btn2Text:null})">
-    Warning themed notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Warning themed notification',
-    subtitle:'Non-macOS theme to convey a warning message',
-    theme:macOSNotifThemes.Warning,
-    btn2Text:null
-})</pre>
-
-<br/>
-
-<button onclick="macOSNotif({title:'Danger themed notification', subtitle:'Non-macOS theme to convey an immediate danger', theme:macOSNotifThemes.Danger, btn2Text:null})">
-    Danger themed notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Danger themed notification',
-    subtitle:'Non-macOS theme to convey an immediate danger',
-    theme:macOSNotifThemes.Danger,
-    btn2Text:null
-})</pre>
-
-<br/>
-
-<button onclick="macOSNotif({title:'Success themed notification', subtitle:'Non-macOS theme to convey success', theme:macOSNotifThemes.Success, btn2Text:null})">
-    Success themed notification
-</button>
-<br/>
-<pre class="code">macOSNotif({
-    title:'Success themed notification',
-    subtitle:'Non-macOS theme to convey success',
-    theme:macOSNotifThemes.Success,
-    btn2Text:null
-})</pre>
-
-<hr/>
-
-<h2>
-    macOSNotifJS
-    <br/>
-    <small>
-        macOSNotifJS is a plugin created by <a href="https://mattcowley.co.uk/" target="_blank">Matt Cowley</a>.
-        <br/>
-        <br/><i>macOSNotifJS - v0.1.0 - 2019-06-08</i>
-    </small>
-</h2>
-
-
-<script src="dist/macOSNotif.min.js"></script>
-
-
-<script>
-    // Generate section links
-    var elms = document.querySelectorAll("a[data-section-link]");
-    for (var i = 0; i < elms.length; i++) {
-        elms[i].innerHTML = "<span>&#x1f517;</span>";
-        elms[i].href = "#" + elms[i].id;
-        elms[i].classList.add("section-link");
-        elms[i].parentElement.classList.add("has-section-link");
-    }
-
-    // Redirect from old domain
-    if (window.location.hostname === "macosnotifjs.mattcowley.co.uk") window.location.replace("https://macosnotif.js.org");
-
-    // Show demo notifications
-    var buttons = document.querySelectorAll("button[data-demo-load]"),
-        delay = 750;
-    window.macOSNotifFadeThreshold = buttons.length;
-
-    function click(i) {
-        if (i < buttons.length) {
-            buttons[i].click();
-            i++;
-            setTimeout(function () {
-                click(i);
-            }, delay);
-        }
-    }
-
-    click(0);
-</script>
-
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-113826252-5"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-        dataLayer.push(arguments);
-    }
-
-    gtag("js", new Date());
-
-    gtag("config", "UA-113826252-5");
-</script>
-
 </body>
-</html>

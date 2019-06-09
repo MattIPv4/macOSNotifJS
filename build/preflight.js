@@ -31,7 +31,7 @@ const runFonts = () => {
     });
 };
 
-const emptyDir = dirPath => {
+const emptyDir = (dirPath, deleteDir) => {
     // Loop over every item in the directory
     const files = fs.readdirSync(dirPath);
     for (let i = 0; i < files.length; i++) {
@@ -41,35 +41,55 @@ const emptyDir = dirPath => {
             fs.unlinkSync(filePath);
         } else {
             // If not, recurse as it is a directory
-            emptyDir(filePath);
+            emptyDir(filePath, true);
         }
     }
+    if (deleteDir) fs.rmdirSync(dirPath);
 };
 
-const preFlight = async () => {
-    // Hello!
-    console.info(chalk.cyan.bold("Hello! Beginning the pre-flight checks for the macOSNotifJS build process!"));
-
+const validateFonts = async position => {
     // Validate fonts built
     if (fs.existsSync("src/fonts/build")) {
-        console.log(chalk.green("\n(1/2) Fonts build directory present, assuming already built."));
-        console.info(chalk.cyan("  Run ") + chalk.cyanBright.italic("`node fonts.js`") + chalk.cyan(" to re-build fonts."));
+        console.log(chalk.green("\nFonts build directory present, assuming already built."));
+        console.info(chalk.cyan("  Run ") + chalk.cyanBright.italic("`node build/fonts.js`") + chalk.cyan(" to re-build fonts."));
     } else {
         console.error(chalk.redBright("\nFonts build not found, building now..."));
         await runFonts();
     }
 
+    // Done
+    console.log(chalk.greenBright.bold(`\n${position} Fonts validation completed successfully.`));
+};
+
+const clearPreviousBuild = async position => {
     // Remove previous plugin build
     try {
         emptyDir("dist");
     } catch (err) {
-        console.error(chalk.red.bold("\n(2/2) Failed to empty dist directory"));
+        console.error(chalk.red.bold(`\n${position} Failed to empty dist directory.`));
         throw err;
     }
-    console.log(chalk.green("\n(2/2) Successfully emptied dist directory."));
+
+    // Done
+    console.log(chalk.greenBright.bold(`\n${position} Successfully emptied dist directory.`));
+};
+
+const processes = [
+    validateFonts,
+    clearPreviousBuild,
+];
+
+const preFlight = async () => {
+    // Hello!
+    console.info(chalk.cyan.bold("Hello! Beginning the pre-flight checks for the macOSNotifJS build process!"));
+
+    // Run
+    processes.forEach(async (item, i) => {
+        await item("(" + (i + 1) + "/" + processes.length + ")");
+    });
 
     // Done!
-    console.log(chalk.greenBright.bold("\nReady to begin webpack build!\n"));
+    console.log(chalk.green.bold("\nReady to begin webpack build!\n"));
 };
 
 // Run
