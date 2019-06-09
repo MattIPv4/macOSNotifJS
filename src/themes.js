@@ -18,13 +18,28 @@
 
 const { lighten } = require("@wessberg/color");  // Color manipulation
 
+/**
+ * A theme for a notification
+ */
 class Theme {
 
+    /**
+     * Creates the default theme instance
+     * @returns {Theme} - The default theme, which has no styles
+     */
     static defaultTheme() {
         return new Theme(null, null, null, null, false);
     }
 
-    constructor(backgroundColor, buttonPressedColor, lightText, customCss, hasStyles) {
+    /**
+     * Creates a new theme instance, using the style data provided
+     * @param {string} backgroundColor - The background color for the notification
+     * @param {boolean} lightText - Whether the text should be a light color or dark
+     * @param {string} [buttonPressedColor] - (Optional) The color of the buttons when pressed down (focus, active)
+     * @param {string} [customCss] - (Optional) Any additional custom css (use `#{id}` for the ID of the notification outer container)
+     * @param {boolean} [hasStyles=true] - (Optional) Whether the theme has custom styles (only used for the default theme)
+     */
+    constructor(backgroundColor, lightText, buttonPressedColor, customCss, hasStyles) {
         this.hasStyles = hasStyles !== false;
 
         // Only define style data if has styles
@@ -37,6 +52,11 @@ class Theme {
         }
     }
 
+    /**
+     * Generates the style element for the notification, given a full notification ID string
+     * @param {string} notificationId - The full string ID of the notification
+     * @returns {null|HTMLElement} - The style element for the notification (or null if doesn't have styles)
+     */
     generateStyle(notificationId) {
         // Return null if no styles
         if (!this.hasStyles) return null;
@@ -79,12 +99,12 @@ module.exports = {
     __macOSNotifJSTheme: Theme,
     __macOSNotifJSThemes: {
         Light: Theme.defaultTheme(),
-        Dark: new Theme("#333", "hsl(211, 100%, 40%)", true,
+        Dark: new Theme("#333", true, "hsl(211, 100%, 40%)",
             "#{id} .macOSNotif_Container { box-shadow: rgba(255, 255, 255, .2) 0 0 2px inset, rgba(0, 0, 0, .2) 0 0 10px; }"),
 
-        Info: new Theme("#4A89DC", null, true),
-        Warning: new Theme("#eba03f", null, true),
-        Danger: new Theme("#DA4453", null, true),
-        Success: new Theme("#38ba8f", null, true),
+        Info: new Theme("#4A89DC", true),
+        Warning: new Theme("#eba03f", true),
+        Danger: new Theme("#DA4453", true),
+        Success: new Theme("#38ba8f", true),
     },
 };
