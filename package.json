@@ -46,7 +46,7 @@
     "chalk": "^2.4.2",
     "core-js": "2.x",
     "css-loader": "^2.1.1",
-    "ejs": "^2.6.1",
+    "ejs": "^3.1.7",
     "file-loader": "^4.0.0",
     "fontmin": "^0.9.7-beta",
     "html-loader": "^1.0.0-alpha.0",
